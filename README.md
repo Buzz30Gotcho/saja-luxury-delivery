@@ -136,13 +136,49 @@ Capture d'ecrans Interface Utilisateur :
 ---
 
 ## 7. Évolutions possibles
-* Important - Mettre une Maps(avec l'API Google Maps) pour localiser les clients en fonction de leur emplacement (voir la stratégie)
-Quand l'app grandira, je pourrais :
-Ajouter latitude / longitude au moment de créer un shop
-Calculer les distances
-Débloquer plusieurs villes
-Utiliser Google Maps intelligemment
-------------
-* Système de paiement sécurisé (Stripe).  
-* Application mobile avec React Native.  
 
+### Court terme – Phase de prototypage
+
+- Intégration de **Google Maps** pour la localisation des commerces et le calcul des distances  
+- Ajout des champs **latitude / longitude** pour chaque commerce  
+- Mise en place d’un **filtrage géographique intelligent**  
+- Intégration de **Stripe** pour les paiements sécurisés  
+- Interface marchand enrichie :  
+  - analytics  
+  - gestion des stocks  
+  - suivi des commandes  
+
+---
+
+### Moyen terme – Phase d’expansion
+
+- Déploiement **multi-villes**  
+- Mise en place de **contrats avec les commerçants**  
+- Développement d’une **application mobile** avec React Native (iOS / Android)  
+- Système de livraison avancé avec **suivi en temps réel**
+
+---
+
+### Long terme – Phase de scale
+
+- Création d’une **marketplace complète** dédiée au commerce local  
+- Mise à disposition d’une **API publique** pour des intégrations externes  
+- **Internationalisation** de la plateforme  
+- Utilisation de l’**intelligence artificielle** :
+  - recommandations personnalisées  
+  - prévisions de ventes  
+
+---
+
+### Note sur la géolocalisation
+
+La stratégie d’implémentation de Google Maps sera progressive :
+
+1. Ajout des coordonnées géographiques lors de la création d’un commerce  
+2. Calcul des distances entre utilisateurs et commerces  
+3. Visualisation cartographique  
+4. Optimisation des zones de livraison et expansion multi-villes  
+
+---
+
+Ce projet, initié dans le cadre des **Ydays Ynov**, a pour vocation de poser les bases d’une **plateforme de référence pour le commerce local**, combinant **innovation technologique** et **impact social positif**.
