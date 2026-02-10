@@ -9,11 +9,8 @@
 - [Architecture du projet](#architecture-du-projet)
 - [5. Lancement du projet](#5-lancement-du-projet)
 - [6. Illustration](#6-illustration)
-- [Évolutions possibles](#évolutions-possibles)
-  - [Court terme – Phase de prototypage](#court-terme--phase-de-prototypage)
-  - [Moyen terme – Phase d’expansion](#moyen-terme--phase-dexpansion)
-  - [Long terme – Phase de scale](#long-terme--phase-de-scale)
-  - [Note sur la géolocalisation](#note-sur-la-géolocalisation)
+- [7. Évolutions possibles](#7-évolutions-possibles)
+- [Utiliser Google Maps intelligemment](#utiliser-google-maps-intelligemment)
 
 ---
 
@@ -136,11 +133,6 @@ npm start
 ## 6. Illustration
 
 *(Ajouter ici vos captures d’écran ou diagrammes du projet)*
-
-Capture d'ecrans Interface Utilisateur :
-![frontend_page_1](captures_ecran/frontend1.png)
-![frontend_page_2](captures_ecran/frontend2.png)
-
 
 ---
 
