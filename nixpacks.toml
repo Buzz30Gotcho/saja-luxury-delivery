@@ -9,5 +9,5 @@ cmds = [
   "npm run build --prefix frontend"
 ]
 
-[[start]]
+[start]
 cmd = "cd backend && npm start"
