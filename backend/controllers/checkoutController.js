@@ -97,7 +97,11 @@ export const processPayment = async (req, res) => {
         if (insertError) {
             console.error('Error saving order:', insertError);
             return res.status(500).json({
-                error: 'Paiement validé, mais impossible d’enregistrer la commande. Vérifiez la table orders (colonnes user_id, transaction_id, total_price, status, shipping_details, items, created_at) et les politiques RLS.'
+                error: 'Paiement validé, mais impossible d’enregistrer la commande.',
+                details: insertError.message || null,
+                hint: insertError.hint || null,
+                code: insertError.code || null,
+                expectedColumns: ['user_id', 'transaction_id', 'total_price', 'status', 'shipping_details', 'items', 'created_at']
             });
         }
 
