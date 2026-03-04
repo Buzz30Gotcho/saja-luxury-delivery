@@ -20,7 +20,7 @@ const Footer = () => {
               </p>
               <p className="text-[10px] text-text-light/60 font-medium leading-relaxed uppercase tracking-[0.2em]">
                 Ce projet est une œuvre étudiante préliminaire, <br /> 
-                le premier souffle d'une vision destinée à <br /> 
+                le premier souffle d'une vision destinée à 
                 s'épanouir et prendre vie prochainement.
               </p>
             </div>
