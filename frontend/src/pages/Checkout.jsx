@@ -274,9 +274,6 @@ const Checkout = () => {
                       className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
                       required
                     />
-                    {paymentDetails.expiry && !expiryValidation.valid && (
-                      <p className="text-danger text-[10px] mt-2">{expiryValidation.message}</p>
-                    )}
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">CVC</label>
