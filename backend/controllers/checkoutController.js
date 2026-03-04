@@ -1,14 +1,14 @@
-// Backend payment validation controller
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_KEY
-)
+import supabase from '../supabaseClient.js'
 
 export const processPayment = async (req, res) => {
     try {
         const { paymentDetails, shippingDetails, userId, cartItems, totalPrice } = req.body;
+
+        if (!userId) {
+            return res.status(401).json({
+                error: 'Utilisateur non authentifié. Veuillez vous reconnecter pour finaliser la commande.'
+            });
+        }
 
         // Validation du titulaire
         if (!paymentDetails.cardHolder || paymentDetails.cardHolder.trim().length < 3) {
@@ -70,26 +70,35 @@ export const processPayment = async (req, res) => {
         // Succès de la simulation du paiement
         const transactionId = `SIM-${Date.now().toString().slice(-8)}`;
 
-        // Sauvegarder la commande dans Supabase si userId est fourni
-        if (userId) {
-            const orderData = {
-                user_id: userId,
-                transaction_id: transactionId,
-                total_price: totalPrice,
-                status: 'confirmed',
-                shipping_details: shippingDetails,
-                items: cartItems,
-                created_at: new Date().toISOString(),
-            };
+        const normalizedItems = Array.isArray(cartItems)
+            ? cartItems.map((item) => ({
+                id: item.id,
+                quantity: item.quantity,
+                product_id: item.products?.id ?? item.product_id ?? null,
+                name: item.products?.name ?? null,
+                unit_price: item.products?.price ?? null,
+            }))
+            : [];
 
-            const { error: insertError } = await supabase
-                .from('orders')
-                .insert([orderData]);
+        const orderData = {
+            user_id: userId,
+            transaction_id: transactionId,
+            total_price: Number(totalPrice) || 0,
+            status: 'confirmed',
+            shipping_details: shippingDetails,
+            items: normalizedItems,
+            created_at: new Date().toISOString(),
+        };
 
-            if (insertError) {
-                console.error('Error saving order:', insertError);
-                // Ne pas bloquer le paiement si la sauvegarde échoue
-            }
+        const { error: insertError } = await supabase
+            .from('orders')
+            .insert([orderData]);
+
+        if (insertError) {
+            console.error('Error saving order:', insertError);
+            return res.status(500).json({
+                error: 'Paiement validé, mais impossible d’enregistrer la commande. Vérifiez la table orders (colonnes user_id, transaction_id, total_price, status, shipping_details, items, created_at) et les politiques RLS.'
+            });
         }
 
         return res.status(200).json({

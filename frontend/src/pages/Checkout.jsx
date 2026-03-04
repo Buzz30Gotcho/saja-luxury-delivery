@@ -76,19 +76,21 @@ const Checkout = () => {
     setPaymentError(null);
 
     try {
+      const resolvedUserId = user?.id || user?.user?.id || user?.profile?.id || null;
+
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           paymentDetails,
           shippingDetails,
-          userId: user?.id || null,
+          userId: resolvedUserId,
           cartItems: cart,
           totalPrice,
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         setPaymentError(data.error || 'Une erreur est survenue.');

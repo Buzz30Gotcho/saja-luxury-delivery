@@ -1,12 +1,10 @@
-// pages/DashboardUser.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UserSidebar from '../components/UserSidebar';
-import OrderHistory from '../components/OrderHistory';
 import UserProfile from '../components/UserProfile';
+import OrderHistory from '../components/OrderHistory';
 import AddressManager from '../components/AddressManager';
 import PaymentMethods from '../components/PaymentMethods';
-
 
 const DashboardUser = () => {
   const { user } = useAuth();
@@ -22,7 +20,8 @@ const DashboardUser = () => {
     );
   }
 
-      // The PaymentMethods, AddressManager, and UserProfile components have been extracted to separate files
+  const renderContent = () => {
+    switch (activeSection) {
       case 'profile':
         return <UserProfile user={user} />;
       case 'orders':
@@ -38,7 +37,6 @@ const DashboardUser = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header simple */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
@@ -49,26 +47,19 @@ const DashboardUser = () => {
 
       <div className="max-w-7xl mx-auto py-8">
         <div className="flex gap-8">
-          {/* Sidebar */}
           <div className="w-80 flex-shrink-0">
-            <UserSidebar 
+            <UserSidebar
               user={user}
               activeSection={activeSection}
               setActiveSection={setActiveSection}
             />
           </div>
-          
-          {/* Contenu principal */}
-          <main className="flex-1 min-w-0">
-            {renderContent()}
-          </main>
+
+          <main className="flex-1 min-w-0">{renderContent()}</main>
         </div>
       </div>
     </div>
   );
 };
-
-// Composants pour les autres sections
-// The PaymentMethods component has been removed and is now imported.
 
 export default DashboardUser;
