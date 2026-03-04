@@ -294,32 +294,32 @@ const Home = () => {
       {/* 5. Merchant CTA - High Luxury Minimalist */}
       <section className="py-40 bg-background overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="relative bg-text-dark min-h-[500px] flex items-center">
-            <div className="absolute inset-0 opacity-20">
+          <div className="relative bg-text-dark dark:bg-white dark:border dark:border-border min-h-[500px] flex items-center">
+            <div className="absolute inset-0 opacity-20 dark:opacity-10">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green/20 rounded-full blur-[120px]" />
+              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green/20 dark:bg-green/10 rounded-full blur-[120px]" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 w-full relative z-10">
               <div className="lg:col-span-3 p-12 md:p-24 space-y-10 text-left">
                 <div className="space-y-4">
                   <span className="text-[10px] text-green uppercase tracking-[0.6em] font-black">Partenariat Privé</span>
-                  <h3 className="text-4xl md:text-5xl font-serif text-white leading-tight tracking-tight">
+                  <h3 className="text-4xl md:text-5xl font-serif text-white dark:text-text-dark leading-tight tracking-tight">
                     Votre Maison, <br />
-                    <span className="italic font-light opacity-90">notre écrin digital.</span>
+                    <span className="italic font-light opacity-90 dark:opacity-80">notre écrin digital.</span>
                   </h3>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-8 pt-6">
-                  <Link to="/merchant/register" className="group relative px-12 py-5 bg-white text-text-dark text-[11px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-500 text-center">
-                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">Devenir Partenaire</span>
+                  <Link to="/merchant/register" className="group relative px-12 py-5 bg-white dark:bg-text-dark text-text-dark dark:text-white text-[11px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-500 text-center">
+                    <span className="relative z-10 text-text-dark dark:text-white group-hover:text-white dark:group-hover:text-white transition-colors duration-500">Devenir Partenaire</span>
                     <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                   </Link>
-                  <Link to="/merchant/login" className="px-12 py-5 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-text-dark transition-all duration-500 text-center">
+                  <Link to="/merchant/login" className="px-12 py-5 border border-white/20 dark:border-text-dark/30 text-white dark:text-text-dark text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white dark:hover:bg-text-dark hover:text-text-dark dark:hover:text-white transition-all duration-500 text-center">
                     Espace Créateur
                   </Link>
                 </div>
               </div>
-              <div className="hidden lg:flex lg:col-span-2 items-center justify-center border-l border-white/5 bg-white/5 backdrop-blur-sm p-12">
+              <div className="hidden lg:flex lg:col-span-2 items-center justify-center border-l border-white/5 dark:border-text-dark/20 bg-white/5 dark:bg-text-dark/5 backdrop-blur-sm p-12">
                 <div className="text-center space-y-12">
                   {[
                     { label: "Commission", value: "08%" },
@@ -327,7 +327,7 @@ const Home = () => {
                     { label: "Support", value: "24/7" },
                   ].map((stat, i) => (
                     <motion.div key={stat.label} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 + (i * 0.1) }} className="space-y-1">
-                      <div className="text-4xl font-serif text-white">{stat.value}</div>
+                      <div className="text-4xl font-serif text-white dark:text-text-dark">{stat.value}</div>
                       <div className="text-[9px] text-green uppercase tracking-[0.4em] font-bold">{stat.label}</div>
                     </motion.div>
                   ))}
