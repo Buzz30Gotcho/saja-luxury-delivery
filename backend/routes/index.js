@@ -10,6 +10,7 @@ router.get('/health', (req, res) => {
     res.json({ status: 'ok', message: 'Ydays backend running' })
 })
 
+
 router.use('/products', productsRouter)
 router.use('/shops', shopsRouter)
 router.use('/cart', cartRouter)
