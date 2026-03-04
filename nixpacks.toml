@@ -1,18 +1,13 @@
-[providers]
-# Force to use Node.js provider
-nodes = ["nodejs"]
+[install]
+cmds = [
+  "npm ci --prefix backend",
+  "npm ci --prefix frontend"
+]
 
 [build]
-# Install dependencies for both frontend and backend
-installPhase = """
-npm ci --prefix backend
-npm ci --prefix frontend
-"""
+cmds = [
+  "npm run build --prefix frontend"
+]
 
-buildPhase = """
-npm run build --prefix frontend
-"""
-
-[start]
-# Start the backend server which serves the frontend
-runPhase = "cd backend && npm start"
+[[start]]
+cmd = "cd backend && npm start"
