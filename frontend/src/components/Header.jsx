@@ -96,7 +96,7 @@ const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral-light transition-colors"
+                  className="p-2 rounded-lg hover:bg-neutral-light transition-colors"
                 >
                   <img
                     src={getProfileImage()}
@@ -104,23 +104,18 @@ const Header = () => {
                     className="w-8 h-8 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
-                  <span className="text-text-medium font-medium text-sm">{getUserName()}</span>
                 </button>
 
                 {/* Dropdown utilisateur */}
                 <div className={`absolute right-0 mt-2 w-48 bg-background rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
                   isUserMenuOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
                 }`}>
-                  <div className="p-4 border-b border-neutral-light flex items-center space-x-3">
+                  <div className="p-4 border-b border-neutral-light flex justify-center">
                     <img
                       src={getProfileImage()}
                       alt="Profile"
-                      className="w-10 h-10 rounded-full object-cover border border-neutral-medium"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium"
                     />
-                    <div>
-                      <p className="font-medium text-text-dark text-sm">{getUserName()}</p>
-                      <p className="text-xs text-text-medium">{user.email}</p>
-                    </div>
                   </div>
                   <div className="p-2 flex flex-col">
                     <Link
