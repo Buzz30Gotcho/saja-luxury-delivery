@@ -76,33 +76,89 @@ export const processPayment = async (req, res) => {
                 quantity: item.quantity,
                 product_id: item.products?.id ?? item.product_id ?? null,
                 name: item.products?.name ?? null,
-                unit_price: item.products?.price ?? null,
+                unit_price: Number(item.products?.price ?? item.unit_price ?? 0),
+                shop_id: item.products?.shop_id ?? item.shop_id ?? null,
             }))
             : [];
 
+        const shopId = normalizedItems.find((item) => item.shop_id)?.shop_id;
+        if (!shopId) {
+            return res.status(400).json({
+                error: 'Impossible de déterminer la boutique de la commande (shop_id manquant).'
+            });
+        }
+
         const orderData = {
             user_id: userId,
-            transaction_id: transactionId,
-            total_price: Number(totalPrice) || 0,
-            status: 'confirmed',
-            shipping_details: shippingDetails,
-            items: normalizedItems,
-            created_at: new Date().toISOString(),
+            customer_name: shippingDetails.fullName,
+            customer_email: shippingDetails.email || paymentDetails.email || 'no-email@shopinline.local',
+            customer_phone: shippingDetails.phone || null,
+            delivery_address: shippingDetails.address,
+            delivery_city: shippingDetails.city,
+            delivery_postal_code: shippingDetails.postalCode,
+            delivery_instructions: shippingDetails.instructions || null,
+            total_amount: Number(totalPrice) || 0,
+            delivery_fee: Number(shippingDetails.deliveryFee || 0),
+            shop_id: shopId,
+            payment_method: 'card',
+            payment_status: 'paid',
         };
 
-        const { error: insertError } = await supabase
+        const { data: createdOrder, error: insertOrderError } = await supabase
             .from('orders')
-            .insert([orderData]);
+            .insert([orderData])
+            .select('id, created_at')
+            .single();
 
-        if (insertError) {
-            console.error('Error saving order:', insertError);
+        if (insertOrderError || !createdOrder?.id) {
+            console.error('Error saving order:', insertOrderError);
             return res.status(500).json({
                 error: 'Paiement validé, mais impossible d’enregistrer la commande.',
-                details: insertError.message || null,
-                hint: insertError.hint || null,
-                code: insertError.code || null,
-                expectedColumns: ['user_id', 'transaction_id', 'total_price', 'status', 'shipping_details', 'items', 'created_at']
+                details: insertOrderError?.message || null,
+                hint: insertOrderError?.hint || null,
+                code: insertOrderError?.code || null,
+                expectedColumns: [
+                    'user_id',
+                    'customer_name',
+                    'customer_email',
+                    'customer_phone',
+                    'delivery_address',
+                    'delivery_city',
+                    'delivery_postal_code',
+                    'delivery_instructions',
+                    'total_amount',
+                    'delivery_fee',
+                    'shop_id',
+                    'payment_method',
+                    'payment_status'
+                ]
             });
+        }
+
+        const orderItemsData = normalizedItems
+            .filter((item) => item.product_id)
+            .map((item) => ({
+                order_id: createdOrder.id,
+                product_id: item.product_id,
+                quantity: Number(item.quantity) || 1,
+                unit_price: Number(item.unit_price) || 0,
+            }));
+
+        if (orderItemsData.length > 0) {
+            const { error: insertItemsError } = await supabase
+                .from('order_items')
+                .insert(orderItemsData);
+
+            if (insertItemsError) {
+                console.error('Error saving order items:', insertItemsError);
+                await supabase.from('orders').delete().eq('id', createdOrder.id);
+                return res.status(500).json({
+                    error: 'Paiement validé, mais impossible d’enregistrer les articles de commande.',
+                    details: insertItemsError.message || null,
+                    hint: insertItemsError.hint || null,
+                    code: insertItemsError.code || null,
+                });
+            }
         }
 
         return res.status(200).json({
@@ -126,15 +182,40 @@ export const getUserOrders = async (req, res) => {
 
         const { data, error } = await supabase
             .from('orders')
-            .select('*')
+            .select(`
+                *,
+                order_items (
+                    id,
+                    product_id,
+                    quantity,
+                    unit_price,
+                    total_price
+                )
+            `)
             .eq('user_id', userId)
             .order('created_at', { ascending: false });
 
         if (error) throw error;
 
+        const normalizedOrders = (data || []).map((order) => ({
+            id: order.id,
+            transaction_id: `SIM-${String(order.id).replace(/-/g, '').slice(0, 8).toUpperCase()}`,
+            total_price: Number(order.total_amount || 0),
+            status: order.payment_status === 'paid' ? 'confirmed' : (order.status || 'pending'),
+            shipping_details: {
+                fullName: order.customer_name,
+                address: order.delivery_address,
+                city: order.delivery_city,
+                postalCode: order.delivery_postal_code,
+                phone: order.customer_phone,
+            },
+            items: Array.isArray(order.order_items) ? order.order_items : [],
+            created_at: order.created_at,
+        }));
+
         return res.status(200).json({
             success: true,
-            orders: data || [],
+            orders: normalizedOrders,
         });
     } catch (error) {
         console.error('Error fetching orders:', error);

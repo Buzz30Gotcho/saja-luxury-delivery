@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:4000' // The backend server URL
+const BASE_URL = '/api' // Use relative URL that works on all environments (dev + prod)
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`
