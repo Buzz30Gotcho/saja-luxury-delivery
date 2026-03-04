@@ -2,16 +2,26 @@ import supabase from '../supabaseClient.js'
 
 // Get user ID from request (assuming auth middleware)
 function getUserId(req) {
-  // This is a placeholder. In a real app, you'd get this from a session or token.
-  if (req.user) {
-    return req.user.id
-  }
-  // For now, returning a hardcoded ID for testing if no user is present
-  return 'a1b2c3d4-e5f6-7890-1234-567890abcdef'
+  if (req.user?.id) return req.user.id
+
+  const headerUserId = req.headers['x-user-id']
+  const queryUserId = req.query?.user_id
+  const bodyUserId = req.body?.user_id
+  const rawUserId = headerUserId || queryUserId || bodyUserId
+
+  if (typeof rawUserId !== 'string') return null
+
+  const uuidV4LikeRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+  return uuidV4LikeRegex.test(rawUserId) ? rawUserId : null
 }
 
 export async function getCart(req, res) {
   const userId = getUserId(req)
+  if (!userId) {
+    return res.status(401).json({ error: 'Utilisateur non authentifié pour le panier' })
+  }
   try {
     // Fetch cart items and join with products to get product details
     const { data, error } = await supabase
@@ -41,6 +51,9 @@ export async function getCart(req, res) {
 
 export async function addItemToCart(req, res) {
   const userId = getUserId(req)
+  if (!userId) {
+    return res.status(401).json({ error: 'Utilisateur non authentifié pour le panier' })
+  }
   const { product_id, quantity } = req.body
 
   if (!product_id || !quantity) {
@@ -54,10 +67,9 @@ export async function addItemToCart(req, res) {
       .select('id, quantity')
       .eq('user_id', userId)
       .eq('product_id', product_id)
-      .single()
+      .maybeSingle()
 
-    if (selectError && selectError.code !== 'PGRST116') {
-      // PGRST116 means no rows found, which is fine.
+    if (selectError) {
       return res.status(500).json({ error: selectError.message })
     }
 
@@ -91,6 +103,9 @@ export async function addItemToCart(req, res) {
 
 export async function updateCartItem(req, res) {
   const userId = getUserId(req)
+  if (!userId) {
+    return res.status(401).json({ error: 'Utilisateur non authentifié pour le panier' })
+  }
   const { id } = req.params
   const { quantity } = req.body
 
@@ -119,6 +134,9 @@ export async function updateCartItem(req, res) {
 
 export async function removeCartItem(req, res) {
   const userId = getUserId(req)
+  if (!userId) {
+    return res.status(401).json({ error: 'Utilisateur non authentifié pour le panier' })
+  }
   const { id } = req.params
 
   try {
@@ -141,6 +159,9 @@ export async function removeCartItem(req, res) {
 
 export async function clearCart(req, res) {
   const userId = getUserId(req)
+  if (!userId) {
+    return res.status(401).json({ error: 'Utilisateur non authentifié pour le panier' })
+  }
 
   try {
     const { data, error } = await supabase.from('cart_items').delete().eq('user_id', userId)

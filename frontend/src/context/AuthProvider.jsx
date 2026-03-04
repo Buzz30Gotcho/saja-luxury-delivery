@@ -36,12 +36,14 @@ export function AuthProvider({ children }) {
         .from("profiles")
         .select("*")
         .eq("id", currentUser.id)
-        .single();
+        .maybeSingle();
 
       setUser({
         ...currentUser,
-        profile: profileData,
+        profile: profileData || null,
       });
+    } else {
+      setUser(null);
     }
   } catch (error) {
     console.error("Erreur vérification utilisateur:", error);

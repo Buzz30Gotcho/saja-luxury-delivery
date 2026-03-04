@@ -43,12 +43,8 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("theme", newTheme);
   };
 
-  if (!isLoaded) {
-    return children;
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setCurrentTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setCurrentTheme, isLoaded }}>
       {children}
     </ThemeContext.Provider>
   );
