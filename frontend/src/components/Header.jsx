@@ -130,13 +130,6 @@ const Header = () => {
                     >
                       <span>👤</span> <span>Mon compte</span>
                     </Link>
-                    <Link
-                      to="/orders"
-                      className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-sm"
-                      onClick={() => setIsUserMenuOpen(false)}
-                    >
-                      <span>📦</span> <span>Mes commandes</span>
-                    </Link>
                     <button
                       onClick={handleLogout}
                       className="flex items-center space-x-2 w-full px-3 py-2 text-danger hover:bg-red-50 rounded-lg text-left text-sm"
