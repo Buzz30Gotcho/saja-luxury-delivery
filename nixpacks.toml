@@ -11,3 +11,7 @@ cmds = [
 
 [start]
 cmd = "cd backend && npm start"
+
+[variables]
+PORT = "4000"
+
