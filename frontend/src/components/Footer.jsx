@@ -56,7 +56,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {['Devenir Partenaire', 'Accès Créateur'].map((item) => (
                 <li key={item}>
-                  <Link to={item === 'Devenir Partenaire' ? '/merchant/register' : '/merchant/login'} className="text-[11px] text-text-light uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
+                  <Link to={item === 'Devenir Partenaire' ? '/merchant/register' : '/merchant/login'} className="text-[11px] text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
                     {item}
                   </Link>
                 </li>

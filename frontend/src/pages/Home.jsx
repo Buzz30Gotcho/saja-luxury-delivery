@@ -294,7 +294,7 @@ const Home = () => {
       {/* 5. Merchant CTA - High Luxury Minimalist */}
       <section className="py-40 bg-background overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="relative bg-text-dark dark:bg-white dark:border dark:border-border min-h-[500px] flex items-center">
+          <div className="relative bg-stone-900 dark:bg-black min-h-[500px] flex items-center">
             <div className="absolute inset-0 opacity-20 dark:opacity-10">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
               <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green/20 dark:bg-green/10 rounded-full blur-[120px]" />
@@ -304,17 +304,17 @@ const Home = () => {
               <div className="lg:col-span-3 p-12 md:p-24 space-y-10 text-left">
                 <div className="space-y-4">
                   <span className="text-[10px] text-green uppercase tracking-[0.6em] font-black">Partenariat Privé</span>
-                  <h3 className="text-4xl md:text-5xl font-serif text-white dark:text-text-dark leading-tight tracking-tight">
+                  <h3 className="text-4xl md:text-5xl font-serif text-white leading-tight tracking-tight">
                     Votre Maison, <br />
                     <span className="italic font-light opacity-90 dark:opacity-80">notre écrin digital.</span>
                   </h3>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-8 pt-6">
-                  <Link to="/merchant/register" className="group relative px-12 py-5 bg-white dark:bg-text-dark text-text-dark dark:text-white text-[11px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-500 text-center">
-                    <span className="relative z-10 text-text-dark dark:text-white group-hover:text-white dark:group-hover:text-white transition-colors duration-500">Devenir Partenaire</span>
+                  <Link to="/merchant/register" className="group relative px-12 py-5 bg-white dark:bg-zinc-900 text-black dark:text-white text-[11px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-500 text-center">
+                    <span className="relative z-10 text-black dark:text-white group-hover:text-white dark:group-hover:text-white transition-colors duration-500">Devenir Partenaire</span>
                     <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                   </Link>
-                  <Link to="/merchant/login" className="px-12 py-5 border border-white/20 dark:border-text-dark/30 text-white dark:text-text-dark text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white dark:hover:bg-text-dark hover:text-text-dark dark:hover:text-white transition-all duration-500 text-center">
+                  <Link to="/merchant/login" className="px-12 py-5 border border-white/20 dark:border-white/30 text-white text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white dark:hover:bg-white hover:text-text-dark dark:hover:text-black transition-all duration-500 text-center">
                     Espace Créateur
                   </Link>
                 </div>
