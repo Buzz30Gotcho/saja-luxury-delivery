@@ -14,11 +14,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send({ status: 'ok', message: 'Ydays backend running' })
-})
-
-app.use('/', apiRouter)
+// API routes
+app.use('/api', apiRouter)
 
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
