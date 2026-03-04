@@ -55,45 +55,18 @@ const Checkout = () => {
     shippingDetails.postalCode &&
     shippingDetails.country;
 
-  const rawCardNumber = paymentDetails.cardNumber.replace(/\s/g, '');
-
-  const validateExpiry = (expiry) => {
-    if (!/^\d{2}\/\d{2}$/.test(expiry)) {
-      return { valid: false, message: 'Date invalide (format attendu : MM/AA).' };
-    }
-
-    const [month, year] = expiry.split('/').map(Number);
-
-    if (month < 1 || month > 12) {
-      return { valid: false, message: 'Le mois doit être compris entre 01 et 12.' };
-    }
-
-    const now = new Date();
-    const currentYear = now.getFullYear() % 100;
-    const currentMonth = now.getMonth() + 1;
-
-    if (year < currentYear || (year === currentYear && month < currentMonth)) {
-      return { valid: false, message: 'Cette carte est expirée.' };
-    }
-
-    return { valid: true, message: '' };
-  };
-
-  const expiryValidation = validateExpiry(paymentDetails.expiry);
-  const isPaymentValid =
-    paymentDetails.cardHolder.trim().length > 2 &&
-    /^\d{16}$/.test(rawCardNumber) &&
-    expiryValidation.valid &&
-    /^\d{3,4}$/.test(paymentDetails.cvc);
+  // Client-side basic checks (UI only, server validates everything)
+  const isPaymentComplete =
+    paymentDetails.cardHolder &&
+    paymentDetails.cardNumber &&
+    paymentDetails.expiry &&
+    paymentDetails.cvc;
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    if (!isShippingValid || !isPaymentValid) {
-      setPaymentError(
-        expiryValidation.valid
-          ? 'Merci de compléter les informations de livraison et de paiement.'
-          : expiryValidation.message
-      );
+    
+    if (!isShippingValid || !isPaymentComplete) {
+      setPaymentError('Merci de compléter les informations de livraison et de paiement.');
       return;
     }
 
@@ -101,22 +74,29 @@ const Checkout = () => {
     setPaymentError(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1600));
+      const response = await fetch('http://localhost:4000/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paymentDetails,
+          shippingDetails,
+        }),
+      });
 
-      // Simulation:
-      // - carte finissant par 0000 => échec
-      // - autre carte valide => succès
-      if (rawCardNumber.endsWith('0000')) {
-        setPaymentError('Paiement refusé (simulation). Essayez une autre carte de test.');
+      const data = await response.json();
+
+      if (!response.ok) {
+        setPaymentError(data.error || 'Une erreur est survenue.');
         setIsProcessing(false);
         return;
       }
 
-      const fakeTx = `SIM-${Date.now().toString().slice(-8)}`;
-      setTransactionId(fakeTx);
+      // Succès du paiement
+      setTransactionId(data.transactionId);
       await clearCart();
       setOrderPlaced(true);
-    } catch {
+    } catch (error) {
+      console.error('Payment error:', error);
       setPaymentError('Une erreur réseau ou de serveur est survenue.');
       setIsProcessing(false);
     }
@@ -363,7 +343,7 @@ const Checkout = () => {
               <motion.button
                 type="submit"
                 form="payment-form"
-                disabled={isProcessing || !isShippingValid || !isPaymentValid}
+                disabled={isProcessing || !isShippingValid || !isPaymentComplete}
                 className="w-full py-5 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
                 whileHover={{ y: -1 }}
                 whileTap={{ y: 0 }}
