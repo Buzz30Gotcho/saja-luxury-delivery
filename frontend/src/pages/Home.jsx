@@ -6,7 +6,7 @@ import { useProducts } from '../hooks/useProduct';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import heroImage from '/hero-luxury.jpg';
-import { Search, Star, Truck, ShieldCheck, ArrowRight, Heart } from 'lucide-react';
+import { Search, Star, Truck, ShieldCheck, ArrowRight, Heart, Package, Clock, Shield } from 'lucide-react';
 import ShopCard from '../components/ShopCard';
 
 const fadeUp = {
@@ -157,7 +157,141 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Merchant CTA - High Luxury Minimalist */}
+      {/* 4. Premium Delivery - Luxury Service */}
+      <section className="relative py-32 bg-background overflow-hidden border-y border-border">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0,0,0,0.15) 1px, transparent 0)', 
+            backgroundSize: '40px 40px' 
+          }}></div>
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <div className="text-center mb-20 space-y-4">
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-[10px] text-green uppercase tracking-[0.5em] font-black italic"
+            >
+              Service Conciergerie
+            </motion.span>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl font-serif text-text-dark tracking-tight"
+            >
+              Livraison d'Exception
+            </motion.h2>
+            <motion.div 
+              initial={{ width: 0 }}
+              whileInView={{ width: 48 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="h-[1px] bg-green mx-auto"
+            />
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-text-light italic text-sm max-w-xl mx-auto"
+            >
+              Un service de livraison premium où chaque détail compte
+            </motion.p>
+          </div>
+
+          <motion.div 
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+          >
+            {[
+              {
+                icon: <Package size={24} strokeWidth={1.2} />,
+                title: "Emballage Signature",
+                desc: "Packaging luxueux avec ruban satin et carte manuscrite personnalisée"
+              },
+              {
+                icon: <Clock size={24} strokeWidth={1.2} />,
+                title: "Express Premium",
+                desc: "Livraison en 2h dans les zones privilégiées, créneaux sur-mesure"
+              },
+              {
+                icon: <Shield size={24} strokeWidth={1.2} />,
+                title: "Assurance Totale",
+                desc: "Protection intégrale de vos acquisitions jusqu'à votre domicile"
+              },
+              {
+                icon: <Truck size={24} strokeWidth={1.2} />,
+                title: "White Glove",
+                desc: "Service concierge avec installation et débalnage par nos experts"
+              }
+            ].map((service, i) => (
+              <motion.div
+                key={service.title}
+                variants={fadeUp}
+                custom={i}
+                className="group relative bg-white p-8 border border-border hover:border-green transition-all duration-500"
+              >
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-green/0 via-green to-green/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                
+                <div className="flex flex-col items-start space-y-6">
+                  <div className="text-green group-hover:scale-110 transition-transform duration-500">
+                    {service.icon}
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-text-dark">
+                      {service.title}
+                    </h3>
+                    <p className="text-[13px] text-text-light leading-relaxed font-light">
+                      {service.desc}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 right-0 w-24 h-24 bg-green/5 rounded-tl-full transform translate-x-12 translate-y-12 group-hover:translate-x-8 group-hover:translate-y-8 transition-transform duration-700" />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="text-center"
+          >
+            <div className="inline-block bg-card border border-border p-8">
+              <div className="flex items-center gap-8">
+                <div className="text-left space-y-2">
+                  <p className="text-[9px] text-text-light uppercase tracking-[0.4em] font-bold">
+                    Livraison offerte
+                  </p>
+                  <p className="text-2xl font-serif text-text-dark">
+                    Dès 150€ d'achat
+                  </p>
+                </div>
+                <div className="w-px h-12 bg-border" />
+                <div className="text-left space-y-2">
+                  <p className="text-[9px] text-text-light uppercase tracking-[0.4em] font-bold">
+                    Retours gratuits
+                  </p>
+                  <p className="text-2xl font-serif text-text-dark">
+                    Sous 30 jours
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 5. Merchant CTA - High Luxury Minimalist */}
       <section className="py-40 bg-background overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
           <div className="relative bg-text-dark min-h-[500px] flex items-center">

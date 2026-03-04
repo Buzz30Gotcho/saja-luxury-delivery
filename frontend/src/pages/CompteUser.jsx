@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UserSidebar from '../components/UserSidebar';
 import UserProfile from '../components/UserProfile';
-import OrderHistory from '../components/OrderHistory';
 import AddressManager from '../components/AddressManager';
 import PaymentMethods from '../components/PaymentMethods';
 
@@ -24,8 +23,6 @@ const DashboardUser = () => {
     switch (activeSection) {
       case 'profile':
         return <UserProfile user={user} />;
-      case 'orders':
-        return <OrderHistory user={user} />;
       case 'addresses':
         return <AddressManager user={user} />;
       case 'payment':

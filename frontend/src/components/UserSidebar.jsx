@@ -7,7 +7,6 @@ const UserSidebar = ({ user, activeSection, setActiveSection }) => {
 
   const menuItems = [
     { id: 'profile', label: 'Profil', icon: '👤' },
-    { id: 'orders', label: 'Commandes', icon: '📦' },
     { id: 'addresses', label: 'Adresses', icon: '📍' },
     { id: 'payment', label: 'Paiement', icon: '💳' },
     { id: 'favorites', label: 'Favoris', icon: '❤️' },
