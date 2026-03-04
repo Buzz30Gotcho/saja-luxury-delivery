@@ -1,0 +1,1376 @@
+-- =====================================================
+-- LOCALSHOP - COMPLETE DATABASE SETUP (REVISED & FIXED)
+-- =====================================================
+
+-- =====================================================
+-- 0. PREPARATION - Extensions, suppression sécurisée
+-- =====================================================
+
+-- Extension pour gen_random_uuid (pgcrypto)
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- Supprimer les fonctions si elles existent (pour re-création propre)
+DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
+
+DROP FUNCTION IF EXISTS public.update_updated_at_column () CASCADE;
+
+DROP FUNCTION IF EXISTS public.update_user_order_stats () CASCADE;
+
+DROP FUNCTION IF EXISTS public.current_user_role () CASCADE;
+
+-- Ensuite supprimer les tables dans l'ordre inverse des dépendances
+DROP TABLE IF EXISTS public.order_items CASCADE;
+
+DROP TABLE IF EXISTS public.orders CASCADE;
+
+DROP TABLE IF EXISTS public.user_favorites CASCADE;
+
+DROP TABLE IF EXISTS public.reviews CASCADE;
+
+DROP TABLE IF EXISTS public.notifications CASCADE;
+
+DROP TABLE IF EXISTS public.delivery_persons CASCADE;
+
+DROP TABLE IF EXISTS public.shop_staff CASCADE;
+
+DROP TABLE IF EXISTS public.user_addresses CASCADE;
+
+DROP TABLE IF EXISTS public.delivery_zones CASCADE;
+
+DROP TABLE IF EXISTS public.products CASCADE;
+
+DROP TABLE IF EXISTS public.shops CASCADE;
+
+DROP TABLE IF EXISTS public.profiles CASCADE;
+
+DROP TABLE IF EXISTS public.global_stats CASCADE;
+
+DROP TABLE IF EXISTS public.user_consents CASCADE;
+
+DROP TABLE IF EXISTS public.cart_items CASCADE;
+-- Enfin supprimer les types
+DROP TYPE IF EXISTS public.user_role CASCADE;
+
+DROP TYPE IF EXISTS public.order_status CASCADE;
+
+DROP TYPE IF EXISTS public.payment_status CASCADE;
+
+DROP TYPE IF EXISTS public.notification_type CASCADE;
+
+DROP TYPE IF EXISTS public.staff_role CASCADE;
+
+DROP TYPE IF EXISTS public.vehicle_type CASCADE;
+
+-- =====================================================
+-- 1. CREATION DES TYPES
+-- =====================================================
+
+CREATE TYPE user_role AS ENUM ('customer', 'shop_owner', 'admin', 'delivery_person');
+
+CREATE TYPE order_status AS ENUM ('pending', 'confirmed', 'preparing', 'ready_for_delivery', 'in_delivery', 'delivered', 'cancelled');
+
+CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed', 'refunded');
+
+CREATE TYPE notification_type AS ENUM ('order_update', 'promotion', 'system', 'delivery', 'new_product');
+
+CREATE TYPE staff_role AS ENUM ('owner', 'manager', 'employee');
+
+CREATE TYPE vehicle_type AS ENUM ('bike', 'scooter', 'car', 'motorcycle');
+
+-- =====================================================
+-- 2. CREATION DES TABLES PRINCIPALES
+-- =====================================================
+
+-- Table des profils utilisateurs
+CREATE TABLE public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users (id) ON DELETE CASCADE,
+    display_user TEXT,
+    phone TEXT,
+    avatar_url TEXT,
+    date_of_birth DATE,
+    default_address TEXT,
+    default_city TEXT,
+    default_postal_code TEXT,
+    default_country TEXT DEFAULT 'France',
+    newsletter_subscribed BOOLEAN DEFAULT false,
+    marketing_emails BOOLEAN DEFAULT false,
+    role user_role NOT NULL DEFAULT 'customer',
+    is_active BOOLEAN DEFAULT true,
+    email_verified BOOLEAN DEFAULT false,
+    total_orders INTEGER DEFAULT 0,
+    total_spent DECIMAL(10, 2) DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    rgpd_user_consent TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- TABLE RGPD - USER_CONSENTS
+CREATE TABLE public.user_consents (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL,
+    consent_type TEXT NOT NULL,
+    granted BOOLEAN DEFAULT false,
+    consent_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table des boutiques
+CREATE TABLE public.shops (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  description TEXT,
+  image TEXT,
+  address TEXT,
+  city TEXT,
+  postal_code TEXT,
+  latitude DECIMAL(10, 8),
+  longitude DECIMAL(11, 8),
+  phone TEXT,
+  email TEXT,
+  rating DECIMAL(2,1) DEFAULT 0.0,
+  delivery_time_min INTEGER DEFAULT 30,
+  delivery_time_max INTEGER DEFAULT 45,
+  delivery_time_display TEXT GENERATED ALWAYS AS (
+    CASE 
+      WHEN delivery_time_min = delivery_time_max THEN delivery_time_min::text || ' min'
+      ELSE delivery_time_min::text || '-' || delivery_time_max::text || ' min'
+    END
+  ) STORED,
+  delivery_fee DECIMAL(10,2) DEFAULT 2.50,
+  minimum_order DECIMAL(10,2) DEFAULT 10.00,
+  is_active BOOLEAN DEFAULT true,
+  owner_id UUID REFERENCES auth.users(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Fonction trigger sécurisée pour créer automatiquement un profil utilisateur
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger AS $$
+BEGIN
+  INSERT INTO public.profiles (id, display_user, newsletter_subscribed)
+  VALUES (
+    NEW.id,
+    NEW.raw_user_meta_data->>'display_name',
+    COALESCE((NEW.raw_user_meta_data->>'newsletter')::boolean, false)
+  );
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_auth_user_created
+AFTER INSERT ON auth.users
+FOR EACH ROW
+EXECUTE FUNCTION public.handle_new_user();
+
+-- Table des produits
+CREATE TABLE public.products (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    shop_id UUID REFERENCES public.shops (id) ON DELETE CASCADE NOT NULL,
+    name TEXT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    image TEXT,
+    gender TEXT,
+    description TEXT,
+    category TEXT,
+    ingredients TEXT,
+    allergens TEXT,
+    weight DECIMAL(10, 2),
+    unit TEXT,
+    is_available BOOLEAN DEFAULT true,
+    stock_quantity INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- =====================================================
+-- 3. CREATION DE LA TABLE ORDERS (AVANT LES TRIGGERS)
+-- =====================================================
+
+-- Table des commandes
+CREATE TABLE public.orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id),
+    customer_name TEXT NOT NULL,
+    customer_email TEXT NOT NULL,
+    customer_phone TEXT,
+    delivery_address TEXT NOT NULL,
+    delivery_city TEXT NOT NULL,
+    delivery_postal_code TEXT NOT NULL,
+    delivery_instructions TEXT,
+    status order_status DEFAULT 'pending',
+    total_amount DECIMAL(12, 2) NOT NULL,
+    delivery_fee DECIMAL(10, 2) DEFAULT 0,
+    shop_id UUID REFERENCES public.shops (id) NOT NULL,
+    payment_method TEXT DEFAULT 'card',
+    payment_status payment_status DEFAULT 'pending',
+    estimated_delivery_time TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table des articles de commande
+CREATE TABLE public.order_items (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    order_id UUID REFERENCES public.orders (id) ON DELETE CASCADE NOT NULL,
+    product_id UUID REFERENCES public.products (id) ON DELETE CASCADE NOT NULL,
+    quantity INTEGER NOT NULL,
+    unit_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(12, 2) GENERATED ALWAYS AS (quantity * unit_price) STORED,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- =====================================================
+-- 4. CREATION DES AUTRES TABLES
+-- =====================================================
+
+-- Table des zones de livraison
+CREATE TABLE public.delivery_zones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    shop_id UUID REFERENCES public.shops (id) ON DELETE CASCADE NOT NULL,
+    zone_name TEXT NOT NULL,
+    delivery_fee DECIMAL(10, 2) NOT NULL,
+    minimum_order DECIMAL(10, 2) DEFAULT 0,
+    estimated_time TEXT,
+    polygon_points JSONB,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table des adresses utilisateurs
+CREATE TABLE public.user_addresses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL,
+    title TEXT NOT NULL,
+    address_line1 TEXT NOT NULL,
+    address_line2 TEXT,
+    city TEXT NOT NULL,
+    postal_code TEXT NOT NULL,
+    country TEXT DEFAULT 'France',
+    is_default BOOLEAN DEFAULT false,
+    instructions TEXT,
+    latitude DECIMAL(10, 8),
+    longitude DECIMAL(11, 8),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table du personnel des boutiques
+CREATE TABLE public.shop_staff (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  shop_id UUID REFERENCES public.shops(id) ON DELETE CASCADE NOT NULL,
+  user_id UUID REFERENCES auth.users(id) NOT NULL,
+  role staff_role NOT NULL,
+  permissions TEXT[] DEFAULT '{}',
+  is_active BOOLEAN DEFAULT true,
+  hired_date DATE DEFAULT CURRENT_DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(shop_id, user_id)
+);
+
+-- Table des livreurs
+CREATE TABLE public.delivery_persons (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id) NOT NULL,
+    vehicle_type vehicle_type,
+    vehicle_plate TEXT,
+    is_available BOOLEAN DEFAULT true,
+    current_location_lat DECIMAL(10, 8),
+    current_location_lng DECIMAL(11, 8),
+    rating DECIMAL(2, 1) DEFAULT 5.0,
+    total_deliveries INTEGER DEFAULT 0,
+    is_verified BOOLEAN DEFAULT false,
+    insurance_number TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table des favoris utilisateurs
+CREATE TABLE public.user_favorites (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL,
+    shop_id UUID REFERENCES public.shops (id) ON DELETE CASCADE,
+    product_id UUID REFERENCES public.products (id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (user_id, shop_id),
+    UNIQUE (user_id, product_id),
+    CHECK (
+        (
+            shop_id IS NOT NULL
+            AND product_id IS NULL
+        )
+        OR (
+            shop_id IS NULL
+            AND product_id IS NOT NULL
+        )
+    )
+);
+
+-- =====================================================
+-- TABLE POUR LE PANIER (CART ITEMS)
+-- =====================================================
+
+-- Table pour le panier
+CREATE TABLE public.cart_items (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL,
+    product_id UUID REFERENCES public.products (id) ON DELETE CASCADE NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (user_id, product_id)
+);
+
+-- Index pour accélérer les recherches par utilisateur
+CREATE INDEX IF NOT EXISTS idx_cart_items_user ON public.cart_items (user_id);
+
+-- Activer la sécurité au niveau des lignes (RLS)
+ALTER TABLE public.cart_items ENABLE ROW LEVEL SECURITY;
+
+-- Politique : chaque utilisateur peut gérer son propre panier
+CREATE POLICY "Users can manage their own cart" ON public.cart_items FOR ALL USING (auth.uid () = user_id)
+WITH
+    CHECK (auth.uid () = user_id);
+
+-- Table des avis et notations
+CREATE TABLE public.reviews (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) NOT NULL,
+  shop_id UUID REFERENCES public.shops(id) ON DELETE CASCADE,
+  product_id UUID REFERENCES public.products(id) ON DELETE CASCADE,
+  order_id UUID REFERENCES public.orders(id),
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  title TEXT,
+  comment TEXT,
+  images TEXT[] DEFAULT '{}',
+  is_verified_purchase BOOLEAN DEFAULT false,
+  is_published BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CHECK (
+    (shop_id IS NOT NULL AND product_id IS NULL) OR 
+    (shop_id IS NULL AND product_id IS NOT NULL)
+  )
+);
+
+-- Table des notifications
+CREATE TABLE public.notifications (
+    id BIGSERIAL PRIMARY KEY,
+    user_id UUID REFERENCES auth.users (id) ON DELETE CASCADE NOT NULL,
+    type notification_type NOT NULL,
+    title TEXT NOT NULL,
+    message TEXT NOT NULL,
+    data JSONB DEFAULT '{}',
+    is_read BOOLEAN DEFAULT false,
+    related_entity_type TEXT,
+    related_entity_id UUID,
+    action_url TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Table des statistiques globales
+CREATE TABLE public.global_stats (
+    id BIGSERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    total_users INT DEFAULT 0,
+    total_shops INT DEFAULT 0,
+    total_orders INT DEFAULT 0,
+    total_revenue DECIMAL(14, 2) DEFAULT 0,
+    avg_order_value DECIMAL(12, 2) DEFAULT 0,
+    active_shops_7d INT DEFAULT 0,
+    active_users_7d INT DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (date)
+);
+
+-- =====================================================
+-- 5. CREATION DES INDEXES
+-- =====================================================
+
+-- Indexes pour shops
+CREATE INDEX IF NOT EXISTS idx_shops_category ON public.shops (category);
+
+CREATE INDEX IF NOT EXISTS idx_shops_city ON public.shops (city);
+
+CREATE INDEX IF NOT EXISTS idx_shops_active ON public.shops (is_active);
+
+CREATE INDEX IF NOT EXISTS idx_shops_owner ON public.shops (owner_id);
+
+CREATE INDEX IF NOT EXISTS idx_shops_created ON public.shops (created_at);
+
+-- Indexes pour products
+CREATE INDEX IF NOT EXISTS idx_products_shop ON public.products (shop_id);
+
+CREATE INDEX IF NOT EXISTS idx_products_category ON public.products (category);
+
+CREATE INDEX IF NOT EXISTS idx_products_available ON public.products (is_available);
+
+CREATE INDEX IF NOT EXISTS idx_products_created ON public.products (created_at);
+
+-- Indexes pour orders
+CREATE INDEX IF NOT EXISTS idx_orders_user ON public.orders (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_orders_shop ON public.orders (shop_id);
+
+CREATE INDEX IF NOT EXISTS idx_orders_status ON public.orders (status);
+
+CREATE INDEX IF NOT EXISTS idx_orders_created ON public.orders (created_at);
+
+CREATE INDEX IF NOT EXISTS idx_orders_payment_status ON public.orders (payment_status);
+
+-- Indexes pour order_items
+CREATE INDEX IF NOT EXISTS idx_order_items_order ON public.order_items (order_id);
+
+CREATE INDEX IF NOT EXISTS idx_order_items_product ON public.order_items (product_id);
+
+-- Indexes pour users/profiles/adresses
+CREATE INDEX IF NOT EXISTS idx_profiles_role ON public.profiles (role);
+
+CREATE INDEX IF NOT EXISTS idx_profiles_city ON public.profiles (default_city);
+
+CREATE INDEX IF NOT EXISTS idx_user_addresses_user ON public.user_addresses (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_user_favorites_user ON public.user_favorites (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_reviews_user ON public.reviews (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_reviews_shop ON public.reviews (shop_id);
+
+CREATE INDEX IF NOT EXISTS idx_reviews_product ON public.reviews (product_id);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_user ON public.notifications (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_read ON public.notifications (is_read, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_shop_staff_user ON public.shop_staff (user_id);
+
+CREATE INDEX IF NOT EXISTS idx_delivery_persons_available ON public.delivery_persons (is_available);
+
+-- =====================================================
+-- 6. FONCTIONS ET TRIGGERS (APRES CREATION DES TABLES)
+-- =====================================================
+
+-- Fonction pour mettre à jour updated_at
+CREATE OR REPLACE FUNCTION public.update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Fonction pour mettre à jour les statistiques utilisateur (sur orders)
+CREATE OR REPLACE FUNCTION public.update_user_order_stats()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    IF NEW.user_id IS NOT NULL THEN
+      UPDATE public.profiles 
+      SET 
+        total_orders = COALESCE(total_orders,0) + 1,
+        total_spent = COALESCE(total_spent,0) + COALESCE(NEW.total_amount,0)
+      WHERE id = NEW.user_id;
+    END IF;
+  ELSIF TG_OP = 'UPDATE' THEN
+    IF OLD.status IS DISTINCT FROM NEW.status AND NEW.status = 'delivered' AND NEW.user_id IS NOT NULL THEN
+      -- Si changement d'état vers 'delivered', ajuster total_spent si nécessaire
+      UPDATE public.profiles 
+      SET total_spent = COALESCE(total_spent,0) + (COALESCE(NEW.total_amount,0) - COALESCE(OLD.total_amount,0))
+      WHERE id = NEW.user_id;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Triggers pour updated_at (avant mise à jour des tables)
+CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_shops_updated_at BEFORE UPDATE ON public.shops FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON public.products FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_user_addresses_updated_at BEFORE UPDATE ON public.user_addresses FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_shop_staff_updated_at BEFORE UPDATE ON public.shop_staff FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_delivery_persons_updated_at BEFORE UPDATE ON public.delivery_persons FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+CREATE TRIGGER update_reviews_updated_at BEFORE UPDATE ON public.reviews FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+-- Trigger pour les statistiques utilisateur (CRÉÉ APRÈS LA TABLE ORDERS)
+CREATE TRIGGER update_user_stats_on_order
+  AFTER INSERT OR UPDATE ON public.orders
+  FOR EACH ROW EXECUTE FUNCTION public.update_user_order_stats();
+
+-- =====================================================
+-- 7. ROW LEVEL SECURITY (APRES TRIGGERS)
+-- =====================================================
+
+-- Activer RLS sur toutes les tables pertinentes
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.shops ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.delivery_zones ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.user_addresses ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.shop_staff ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.delivery_persons ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.user_favorites ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.global_stats ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.user_consents ENABLE ROW LEVEL SECURITY;
+
+-- Fonction pour obtenir le rôle de l'utilisateur courant
+
+CREATE OR REPLACE FUNCTION public.current_user_role()
+RETURNS user_role
+LANGUAGE SQL STABLE SECURITY DEFINER SET search_path=public AS $$
+  SELECT role FROM public.profiles WHERE id = auth.uid();
+$$;
+
+-- Politiques pour profiles
+
+CREATE POLICY "Users can view own consents" ON public.user_consents FOR
+SELECT USING (auth.uid () = user_id);
+
+CREATE POLICY "Users can insert own consents" ON public.user_consents FOR
+INSERT
+WITH
+    CHECK (auth.uid () = user_id);
+
+-- =========================
+-- PROFILES
+-- =========================
+DROP POLICY IF EXISTS "profiles_select_own" ON public.profiles;
+
+CREATE POLICY "profiles_select_own" ON public.profiles FOR
+SELECT USING (auth.uid () = id);
+
+DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
+
+CREATE POLICY "profiles_update_own" ON public.profiles FOR
+UPDATE USING (auth.uid () = id);
+
+DROP POLICY IF EXISTS "profiles_insert_own" ON public.profiles;
+
+CREATE POLICY "profiles_insert_own" ON public.profiles FOR
+INSERT
+WITH
+    CHECK (auth.uid () = id);
+
+-- =========================
+-- SHOPS
+-- =========================
+
+-- Lecture publique des shops actifs
+DROP POLICY IF EXISTS "shops_select_all" ON public.shops;
+
+CREATE POLICY "shops_select_all" ON public.shops FOR
+SELECT USING (is_active = true);
+
+-- Création d'un shop par son owner
+DROP POLICY IF EXISTS "shops_insert_own" ON public.shops;
+
+CREATE POLICY "shops_insert_own" ON public.shops FOR
+INSERT
+WITH
+    CHECK (auth.uid () = owner_id);
+
+-- Mise à jour par le owner
+DROP POLICY IF EXISTS "shops_update_own" ON public.shops;
+
+CREATE POLICY "shops_update_own" ON public.shops FOR
+UPDATE USING (auth.uid () = owner_id);
+
+-- Suppression par le owner
+DROP POLICY IF EXISTS "shops_delete_own" ON public.shops;
+
+CREATE POLICY "shops_delete_own" ON public.shops FOR DELETE USING (auth.uid () = owner_id);
+
+-- =========================
+-- PRODUCTS
+-- =========================
+
+-- Lecture publique des produits disponibles
+DROP POLICY IF EXISTS "products_select_all" ON public.products;
+
+CREATE POLICY "products_select_all" ON public.products FOR
+SELECT USING (is_available = true);
+
+-- Création produit par owner du shop
+DROP POLICY IF EXISTS "products_insert_own" ON public.products;
+
+CREATE POLICY "products_insert_own" ON public.products FOR
+INSERT
+WITH
+    CHECK (
+        EXISTS (
+            SELECT 1
+            FROM public.shops
+            WHERE
+                shops.id = products.shop_id
+                AND shops.owner_id = auth.uid ()
+        )
+    );
+
+-- Update produit par owner du shop
+DROP POLICY IF EXISTS "products_update_own" ON public.products;
+
+CREATE POLICY "products_update_own" ON public.products FOR
+UPDATE USING (
+    EXISTS (
+        SELECT 1
+        FROM public.shops
+        WHERE
+            shops.id = products.shop_id
+            AND shops.owner_id = auth.uid ()
+    )
+);
+
+-- Delete produit par owner du shop
+DROP POLICY IF EXISTS "products_delete_own" ON public.products;
+
+CREATE POLICY "products_delete_own" ON public.products FOR DELETE USING (
+    EXISTS (
+        SELECT 1
+        FROM public.shops
+        WHERE
+            shops.id = products.shop_id
+            AND shops.owner_id = auth.uid ()
+    )
+);
+
+-- =========================
+-- ORDERS
+-- =========================
+
+DROP POLICY IF EXISTS "orders_select_own" ON public.orders;
+
+CREATE POLICY "orders_select_own" ON public.orders FOR
+SELECT USING (auth.uid () = user_id);
+
+DROP POLICY IF EXISTS "orders_insert_own" ON public.orders;
+
+CREATE POLICY "orders_insert_own" ON public.orders FOR
+INSERT
+WITH
+    CHECK (auth.uid () = user_id);
+
+-- =========================
+-- USER ADDRESSES
+-- =========================
+DROP POLICY IF EXISTS "user_addresses_own" ON public.user_addresses;
+
+CREATE POLICY "user_addresses_own" ON public.user_addresses FOR ALL USING (auth.uid () = user_id);
+
+-- =========================
+-- USER FAVORITES
+-- =========================
+DROP POLICY IF EXISTS "user_favorites_own" ON public.user_favorites;
+
+CREATE POLICY "user_favorites_own" ON public.user_favorites FOR ALL USING (auth.uid () = user_id);
+
+-- =========================
+-- REVIEWS
+-- =========================
+DROP POLICY IF EXISTS "reviews_select_published" ON public.reviews;
+
+CREATE POLICY "reviews_select_published" ON public.reviews FOR
+SELECT USING (is_published = true);
+
+DROP POLICY IF EXISTS "reviews_own" ON public.reviews;
+
+CREATE POLICY "reviews_own" ON public.reviews FOR ALL USING (auth.uid () = user_id);
+
+-- =========================
+-- NOTIFICATIONS
+-- =========================
+DROP POLICY IF EXISTS "notifications_own" ON public.notifications;
+
+CREATE POLICY "notifications_own" ON public.notifications FOR ALL USING (auth.uid () = user_id);
+
+-- =========================
+-- SHOP STAFF
+-- =========================
+DROP POLICY IF EXISTS "shop_staff_shop_owner" ON public.shop_staff;
+
+CREATE POLICY "shop_staff_shop_owner" ON public.shop_staff FOR ALL USING (
+    EXISTS (
+        SELECT 1
+        FROM public.shops
+        WHERE
+            shops.id = shop_staff.shop_id
+            AND shops.owner_id = auth.uid ()
+    )
+);
+
+-- =========================
+-- GLOBAL STATS (ADMIN ONLY)
+-- =========================
+DROP POLICY IF EXISTS "global_stats_admin_only" ON public.global_stats;
+
+CREATE POLICY "global_stats_admin_only" ON public.global_stats FOR ALL USING (false);
+
+-- =====================================================
+-- 8. DONNÉES D'EXEMPLE
+-- =====================================================
+
+-- Insertion de boutiques de mode VÊTEMENTS & CHAUSSURES avec images fiables
+INSERT INTO
+    public.shops (
+        name,
+        category,
+        description,
+        image,
+        address,
+        city,
+        postal_code,
+        delivery_fee,
+        minimum_order,
+        delivery_time_min,
+        delivery_time_max
+    )
+VALUES (
+        'Fashion Store Paris',
+        'Vêtements',
+        'Vêtements tendance pour homme et femme - collections actuelles',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_clothes.jpg',
+        '45 Avenue de la Mode',
+        'Montpellier',
+        '75001',
+        3.50,
+        30.00,
+        2,
+        4
+    ),
+    (
+        'Basic & Co',
+        'Vêtements',
+        'Basiques intemporels de qualité - t-shirts, jeans, pulls',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_clothes_1.jpg',
+        '78 Rue du Textile',
+        'Montpellier',
+        '75002',
+        2.50,
+        25.00,
+        1,
+        3
+    ),
+    (
+        'Denim Factory',
+        'Vêtements',
+        'Spécialiste du jean - toutes coupes et coloris',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_clothes_jean.webp',
+        '22 Boulevard Denim',
+        'Montpellier',
+        '75003',
+        3.00,
+        35.00,
+        2,
+        5
+    ),
+    (
+        'Shoe Paradise',
+        'Chaussures',
+        'Collection exclusive de chaussures et baskets - grandes marques',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_shoes.jpg',
+        '123 Boulevard des Chaussures',
+        'Montpellier',
+        '75004',
+        4.00,
+        40.00,
+        3,
+        5
+    ),
+    (
+        'Luxury Shoes',
+        'Chaussures',
+        'Chaussures de luxe et escarpins haut de gamme',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shoes_luxe.jpg',
+        '56 Rue du Cuir',
+        'Montpellier',
+        '75005',
+        5.00,
+        80.00,
+        4,
+        7
+    ),
+    (
+        'Sneaker World',
+        'Chaussures',
+        'Baskets limited edition et collaborations exclusives',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_shoes_sneakers.avif',
+        '89 Avenue des Sneakers',
+        'Montpellier',
+        '75006',
+        4.50,
+        60.00,
+        3,
+        6
+    ),
+    (
+        'Urban Style',
+        'Mixte',
+        'Boutique lifestyle complète - vêtements, chaussures et accessoires',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_mixte.jpg',
+        '34 Rue Urban',
+        'Montpellier',
+        '75007',
+        4.50,
+        50.00,
+        2,
+        4
+    ),
+    (
+        'Sports & Fashion',
+        'Mixte',
+        'Sportswear et vêtements lifestyle - tenues complètes',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_mixte_1.jpg',
+        '67 Avenue Sport',
+        'Montpellier',
+        '75008',
+        3.50,
+        45.00,
+        2,
+        5
+    ),
+    (
+        'Leather Goods',
+        'Accessoires',
+        'Sacs, ceintures et accessoires en cuir véritable',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_accessories.jpg',
+        '91 Rue du Cuir',
+        'PMontpellier',
+        '75009',
+        3.00,
+        30.00,
+        1,
+        3
+    ),
+    (
+        'Jewelry Box',
+        'Accessoires',
+        'Bijoux fantaisie et accessoires tendance',
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_accessories_1.jpg',
+        '14 Place des Bijoux',
+        'Montpellier',
+        '75010',
+        2.00,
+        20.00,
+        1,
+        2
+    );
+
+-- Insertion de produits exemple (exemples pour plusieurs boutiques)
+INSERT INTO
+    public.products (
+        shop_id,
+        name,
+        price,
+        image,
+        gender,
+        description,
+        category,
+        stock_quantity
+    )
+VALUES (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Fashion Store Paris'
+        ),
+        'Robe Élégante Soirée',
+        89.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_robe.jpeg',
+        'femme',
+        'Robe longue en soie pour occasions spéciales',
+        'Robes',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Fashion Store Paris'
+        ),
+        'Costume Classique Homme',
+        199.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_costume2piece.jpg',
+        'homme',
+        'Costume deux pièces en laine premium',
+        'Costumes',
+        10
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Fashion Store Paris'
+        ),
+        'Blazer Tailleur',
+        129.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_Blazer_Tailleur.avif',
+        'femme',
+        'Blazer élégant pour tenue professionnelle',
+        'Vestes',
+        12
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Basic & Co'
+        ),
+        'T-shirt Coton Bio Blanc',
+        24.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_tshirtblanc.jpg',
+        'homme',
+        'T-shirt basique en coton biologique',
+        'T-shirts',
+        50
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Basic & Co'
+        ),
+        'Pull Col Rond Laine',
+        79.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_Pull_Col_Rond_Laine.jpg',
+        'femme',
+        'Pull en laine mérinos confortable',
+        'Pulls',
+        30
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Basic & Co'
+        ),
+        'Chemise Oxford Bleue Femme',
+        45.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_chemiseOxfordBleue.webp',
+        'femme',
+        'Chemise classique en coton oxford',
+        'Chemises',
+        20
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Denim Factory'
+        ),
+        'Jean Slim Délavé',
+        59.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_Jean_Slim_Delave.jpg',
+        'homme',
+        'Jean slim délavé confortable',
+        'Jeans',
+        25
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Denim Factory'
+        ),
+        'Jean Droit Noir',
+        65.90,
+        'https://images.unsplash.com/photo-1582418702059-97ebafb35d09',
+        'femme',
+        'Jean droit couleur noir élégant',
+        'Jeans',
+        18
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Denim Factory'
+        ),
+        'Jean Boyfriend Femme',
+        69.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/product_clothe_JeanBoyfriendFemme.webp',
+        'femme',
+        'Jean boyfriend confortable pour femme',
+        'Jeans',
+        22
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Shoe Paradise'
+        ),
+        'Baskets Cuir Blanches',
+        129.90,
+        'https://images.unsplash.com/photo-1542280756-74b2f55e73ab',
+        'unisexe',
+        'Baskets en cuir véritable blanc',
+        'Baskets',
+        18
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Shoe Paradise'
+        ),
+        'Escarpins Noirs Élégants',
+        89.90,
+        'https://images.unsplash.com/photo-1543163521-1bf539c55dd2',
+        'femme',
+        'Escarpins noirs pour tenue chic',
+        'Escarpins',
+        12
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Shoe Paradise'
+        ),
+        'Sandales Été Tressées',
+        59.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/sandale_tressee_ete%20(1).jpg',
+        'unisexe',
+        'Sandales tressées pour l été',
+        'Sandales',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Luxury Shoes'
+        ),
+        'Bottes Cuir Marron',
+        259.90,
+        'https://images.unsplash.com/photo-1608256246200-53e635b5b65f',
+        'femme',
+        'Bottes en cuir marron qualité premium',
+        'Bottes',
+        8
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Luxury Shoes'
+        ),
+        'Derby Cuir Brun',
+        189.90,
+        'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4',
+        'homme',
+        'Derby en cuir brun pour homme',
+        'Chaussures homme',
+        10
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Luxury Shoes'
+        ),
+        'Escarpins Louboutin',
+        450.90,
+        'https://images.unsplash.com/photo-1543163521-1bf539c55dd2',
+        'femme',
+        'Escarpins rouge signature',
+        'Escarpins',
+        5
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sneaker World'
+        ),
+        'Baskets Limited Edition',
+        299.90,
+        'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa',
+        'unisexe',
+        'Baskets édition limitée numérotée',
+        'Baskets',
+        3
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sneaker World'
+        ),
+        'Baskets Running Tech',
+        149.90,
+        'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+        'unisexe',
+        'Baskets running haute performance',
+        'Baskets sport',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sneaker World'
+        ),
+        'Baskets Vintage 90s',
+        129.90,
+        'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519',
+        'unisexe',
+        'Baskets style rétro années 90',
+        'Baskets',
+        12
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Urban Style'
+        ),
+        'Sweat à Capuche Streetwear',
+        69.90,
+        'https://images.unsplash.com/photo-1556821840-3a63f95609a7',
+        'unisexe',
+        'Sweat capuche style streetwear',
+        'Sweats',
+        25
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Urban Style'
+        ),
+        'Baskets Urban White',
+        119.90,
+        'https://images.unsplash.com/photo-1542280756-74b2f55e73ab',
+        'unisexe',
+        'Baskets urban lifestyle blanches',
+        'Baskets',
+        20
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Urban Style'
+        ),
+        'Veste Denim Destroyed',
+        89.90,
+        'https://images.unsplash.com/photo-1551028719-00167b16eac5',
+        'unisexe',
+        'Veste denim effet destroyed',
+        'Vestes',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sports & Fashion'
+        ),
+        'Survêtement Technique',
+        79.90,
+        'https://images.unsplash.com/photo-1556821840-3a63f95609a7',
+        'unisexe',
+        'Survêtement technique pour training',
+        'Sportswear',
+        20
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sports & Fashion'
+        ),
+        'Baskets Running Pro',
+        129.90,
+        'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+        'unisexe',
+        'Baskets de running professionnelles',
+        'Chaussures sport',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Sports & Fashion'
+        ),
+        'Legging Sport Femme',
+        45.90,
+        'https://images.unsplash.com/photo-1506629905607-e48b0e67d879',
+        'femme',
+        'Legging technique pour sport',
+        'Sportswear',
+        30
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Leather Goods'
+        ),
+        'Sac à Main Cuir Noir',
+        149.90,
+        'https://images.unsplash.com/photo-1584917865442-de89df76afd3',
+        'femme',
+        'Sac à main en cuir noir design moderne',
+        'Sacs',
+        15
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Leather Goods'
+        ),
+        'Ceinture Cuir Vintage',
+        34.90,
+        'https://images.unsplash.com/photo-1548036328-c9fa89d128fa',
+        'unisexe',
+        'Ceinture en cuir véritable vintage',
+        'Ceintures',
+        30
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Leather Goods'
+        ),
+        'Portefeuille Cuir Brun',
+        49.90,
+        'https://images.unsplash.com/photo-1627123424574-724758594e93',
+        'unisexe',
+        'Portefeuille en cuir brun élégant',
+        'Accessoires',
+        25
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Jewelry Box'
+        ),
+        'Collier Élégant Argent',
+        45.90,
+        'https://images.unsplash.com/photo-1605100804763-247f67b3557e',
+        'femme',
+        'Collier en argent avec pendentif',
+        'Bijoux',
+        25
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Jewelry Box'
+        ),
+        'Boucles d Oreilles Cristal',
+        29.90,
+        'https://vsofxamdhxaxxedrmyxy.supabase.co/storage/v1/object/public/shop/shop_accessoire_boucle_oreille.jpeg',
+        'femme',
+        'Boucles d oreilles cristal scintillant',
+        'Bijoux',
+        40
+    ),
+    (
+        (
+            SELECT id
+            FROM public.shops
+            WHERE
+                name = 'Jewelry Box'
+        ),
+        'Montre Minimaliste',
+        89.90,
+        'https://images.unsplash.com/photo-1523170335258-f5ed11844a49',
+        'homme',
+        'Montre bracelet cuir minimaliste',
+        'Montres',
+        12
+    );
+
+-- =====================================================
+-- INSTRUCTIONS D'EXECUTION
+-- =====================================================
+
+-- 1. Copiez TOUT le script dans l'éditeur SQL de Supabase
+-- 2. Exécutez-le en UNE SEULE FOIS (ne le divisez pas)
+-- 3. Si vous avez toujours des erreurs, essayez cette approche alternative :
+/*
+-- APPROCHE ALTERNATIVE SI LE SCRIPT COMPLET ECHOUE :
+
+-- Exécutez d'abord seulement les sections 0-4 (suppression, types, tables)
+-- Ensuite exécutez les sections 5-8 (indexes, fonctions, triggers, RLS, données)
+
+-- Ou exécutez table par table :
+
+-- 1. Créer les types
+-- 2. Créer la table profiles
+-- 3. Créer la table shops  
+-- 4. Créer la table products
+-- 5. Créer la table orders (IMPORTANT : doit être créée avant les triggers)
+-- 6. Créer les autres tables
+-- 7. Créer les indexes
+-- 8. Créer les fonctions
+-- 9. Créer les triggers
+-- 10. Activer RLS et créer les politiques
+-- 11. Insérer les données
+*/
+
+-- Fin du script
