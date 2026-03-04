@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { cart, totalPrice, clearCart } = useContext(CartContext);
   
   const [shippingDetails, setShippingDetails] = useState({
@@ -80,6 +82,9 @@ const Checkout = () => {
         body: JSON.stringify({
           paymentDetails,
           shippingDetails,
+          userId: user?.id || null,
+          cartItems: cart,
+          totalPrice,
         }),
       });
 

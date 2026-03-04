@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UserSidebar from '../components/UserSidebar';
-import UserProfile from '../components/UserProfile';
+import OrderHistory from '../components/OrderHistory';
 
 
 const DashboardUser = () => {

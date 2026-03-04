@@ -1,7 +1,14 @@
 // Backend payment validation controller
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY
+)
+
 export const processPayment = async (req, res) => {
     try {
-        const { paymentDetails, shippingDetails } = req.body;
+        const { paymentDetails, shippingDetails, userId, cartItems, totalPrice } = req.body;
 
         // Validation du titulaire
         if (!paymentDetails.cardHolder || paymentDetails.cardHolder.trim().length < 3) {
@@ -62,6 +69,29 @@ export const processPayment = async (req, res) => {
 
         // Succès de la simulation du paiement
         const transactionId = `SIM-${Date.now().toString().slice(-8)}`;
+
+        // Sauvegarder la commande dans Supabase si userId est fourni
+        if (userId) {
+            const orderData = {
+                user_id: userId,
+                transaction_id: transactionId,
+                total_price: totalPrice,
+                status: 'confirmed',
+                shipping_details: shippingDetails,
+                items: cartItems,
+                created_at: new Date().toISOString(),
+            };
+
+            const { error: insertError } = await supabase
+                .from('orders')
+                .insert([orderData]);
+
+            if (insertError) {
+                console.error('Error saving order:', insertError);
+                // Ne pas bloquer le paiement si la sauvegarde échoue
+            }
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Paiement traité avec succès.',
@@ -69,6 +99,32 @@ export const processPayment = async (req, res) => {
         });
     } catch (error) {
         console.error('Payment processing error:', error);
+        return res.status(500).json({ error: 'Une erreur serveur est survenue.' });
+    }
+};
+
+export const getUserOrders = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(400).json({ error: 'userId requis' });
+        }
+
+        const { data, error } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        return res.status(200).json({
+            success: true,
+            orders: data || [],
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
         return res.status(500).json({ error: 'Une erreur serveur est survenue.' });
     }
 };
