@@ -34,7 +34,8 @@ export async function getCart(req, res) {
           id,
           name,
           price,
-          image
+          image,
+          shop_id
         )
       `
       )

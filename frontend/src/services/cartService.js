@@ -1,33 +1,27 @@
+import { supabase } from '../lib/supabaseClient'
+
 const BASE_URL = '/api' // Use relative URL that works on all environments (dev + prod)
 
-function getSupabaseAccessToken() {
+async function getAuthContext(explicitUserId = null) {
   try {
-    const storageKey = Object.keys(localStorage).find((key) => key.endsWith('-auth-token'))
-    if (!storageKey) return null
-    const parsed = JSON.parse(localStorage.getItem(storageKey) || '{}')
-    return parsed?.access_token || null
+    const { data } = await supabase.auth.getSession()
+    const session = data?.session || null
+    return {
+      accessToken: session?.access_token || null,
+      userId: explicitUserId || session?.user?.id || null,
+    }
   } catch {
-    return null
+    return { accessToken: null, userId: explicitUserId || null }
   }
 }
 
-function getAuthenticatedUserId() {
-  try {
-    const storageKey = Object.keys(localStorage).find((key) => key.endsWith('-auth-token'))
-    if (!storageKey) return null
-    const parsed = JSON.parse(localStorage.getItem(storageKey) || '{}')
-    return parsed?.user?.id || null
-  } catch {
-    return null
-  }
-}
-
-async function request(endpoint, options = {}) {
+async function request(endpoint, options = {}, explicitUserId = null) {
   const url = `${BASE_URL}${endpoint}`
-  const accessToken = getSupabaseAccessToken()
+  const { accessToken, userId } = await getAuthContext(explicitUserId)
   const headers = {
     'Content-Type': 'application/json',
     ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    ...(userId ? { 'x-user-id': userId } : {}),
     ...options.headers,
   }
 
@@ -46,39 +40,34 @@ async function request(endpoint, options = {}) {
   return response.json()
 }
 
-export function getCart() {
-  const userId = getAuthenticatedUserId()
-  return request(userId ? `/cart?user_id=${encodeURIComponent(userId)}` : '/cart')
+export function getCart(userId = null) {
+  return request(userId ? `/cart?user_id=${encodeURIComponent(userId)}` : '/cart', {}, userId)
 }
 
-export function addItemToCart(item) {
-  const userId = getAuthenticatedUserId()
+export function addItemToCart(item, userId = null) {
   return request('/cart', {
     method: 'POST',
     body: JSON.stringify({ ...item, user_id: userId }),
-  })
+  }, userId)
 }
 
-export function updateCartItem(id, payload) {
-  const userId = getAuthenticatedUserId()
+export function updateCartItem(id, payload, userId = null) {
   return request(`/cart/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ ...payload, user_id: userId }),
-  })
+  }, userId)
 }
 
-export function removeCartItem(id) {
-  const userId = getAuthenticatedUserId()
+export function removeCartItem(id, userId = null) {
   return request(`/cart/${id}`, {
     method: 'DELETE',
     headers: userId ? { 'x-user-id': userId } : {},
-  })
+  }, userId)
 }
 
-export function clearCart() {
-  const userId = getAuthenticatedUserId()
+export function clearCart(userId = null) {
   return request('/cart', {
     method: 'DELETE',
     headers: userId ? { 'x-user-id': userId } : {},
-  })
+  }, userId)
 }

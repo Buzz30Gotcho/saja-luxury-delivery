@@ -81,7 +81,25 @@ export const processPayment = async (req, res) => {
             }))
             : [];
 
-        const shopId = normalizedItems.find((item) => item.shop_id)?.shop_id;
+        let shopId = normalizedItems.find((item) => item.shop_id)?.shop_id;
+
+        if (!shopId) {
+            const firstProductId = normalizedItems.find((item) => item.product_id)?.product_id;
+            if (firstProductId) {
+                const { data: productRow, error: productLookupError } = await supabase
+                    .from('products')
+                    .select('shop_id')
+                    .eq('id', firstProductId)
+                    .maybeSingle();
+
+                if (productLookupError) {
+                    console.error('Error resolving shop_id from product:', productLookupError);
+                } else {
+                    shopId = productRow?.shop_id || null;
+                }
+            }
+        }
+
         if (!shopId) {
             return res.status(400).json({
                 error: 'Impossible de déterminer la boutique de la commande (shop_id manquant).'
