@@ -154,115 +154,100 @@ const handleSubmit = async (e) => {
 
   // ... (le reste du JSX reste inchangé)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-background p-6 py-12">
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
       >
-        {/* Background Animation */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-tr from-blue-300 to-blue-500 rounded-full opacity-30"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-32 -right-32 w-64 h-64 bg-gradient-to-tr from-blue-400 to-blue-600 rounded-full opacity-30"
-        />
+        {/* Subtle Decorative Line */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
 
         {/* Header */}
         <motion.div
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="text-center mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-10"
         >
-           <motion.div 
-                                  whileHover={{ scale: 1.1 }} 
-                                  className="mx-auto w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-sm"
-                                >
-                    <img 
-                                    src={localStyleLogo} 
-                                    alt="LocalStyle" 
-                                    className="w-24 h-auto object-contain"
-                                    
-                                  />
-                                  </motion.div>
-          <h1 className="text-4xl font-extrabold text-blue-900 mb-4 cursor-default">
+          <div className="mb-6 flex justify-center">
+            <motion.img 
+              whileHover={{ scale: 1.05 }}
+              src={localStyleLogo} 
+              alt="LocalStyle" 
+              className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
             LocalStyle
           </h1>
-          <p className="text-blue-700 text-base">
+          <p className="text-text-light text-sm uppercase tracking-widest font-medium">
             Créer votre compte
           </p>
         </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+        <form onSubmit={handleSubmit} className="space-y-7 relative z-10">
           {/* Nom d'affichage */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">
-              Nom d'affichage <span className="text-gray-500 text-sm">(Optionnel)</span>
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+              Nom d'affichage <span className="text-text-light lowercase font-normal italic">(optionnel)</span>
             </label>
             <input
               type="text"
               name="displayName"
               value={formData.displayName}
               onChange={handleChange}
-              placeholder="Comment souhaitez-vous être appelé ?"
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              placeholder="Votre nom"
+              className="w-full py-3 bg-transparent border-b border-border text-text-dark placeholder:text-text-light/50 focus:outline-none focus:border-green transition-all duration-300"
               disabled={loading}
             />
           </div>
 
           {/* Email */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">
-              Email <span className="text-red-500">*</span>
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+              Email
             </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <div className="relative group">
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full px-4 py-3 pl-11 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
-                    ? "border-red-500 focus:ring-red-500" 
-                    : "border-gray-200 focus:border-blue-500"
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
                 }`}
                 required
                 disabled={loading}
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                {errors.email}
-              </p>
+              <p className="text-danger text-[10px] mt-1 italic">{errors.email}</p>
             )}
           </div>
 
           {/* Mot de passe */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">
-              Mot de passe <span className="text-red-500">*</span>
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+              Mot de passe
             </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <div className="relative group">
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 pl-11 pr-12 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
-                    ? "border-red-500 focus:ring-red-500" 
-                    : "border-gray-200 focus:border-blue-500"
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
                 }`}
                 required
                 disabled={loading}
@@ -270,57 +255,50 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             
-            {/* Indicateur de force du mot de passe */}
+            {/* Password Strength - Minimalist */}
             {formData.password && (
-              <div className="mt-3">
-                <div className="flex gap-1 mb-2">
-                  <div className={`h-2 flex-1 rounded-full transition-colors ${
-                    passwordStrength() >= 1 ? 'bg-red-500' : 'bg-gray-300'
-                  }`}></div>
-                  <div className={`h-2 flex-1 rounded-full transition-colors ${
-                    passwordStrength() >= 2 ? 'bg-yellow-500' : 'bg-gray-300'
-                  }`}></div>
-                  <div className={`h-2 flex-1 rounded-full transition-colors ${
-                    passwordStrength() >= 3 ? 'bg-green-500' : 'bg-gray-300'
-                  }`}></div>
+              <div className="mt-2">
+                <div className="flex gap-1 mb-1">
+                  {[1, 2, 3].map((s) => (
+                    <div key={s} className={`h-[2px] flex-1 transition-colors duration-500 ${
+                      passwordStrength() >= s ? 'bg-green' : 'bg-border'
+                    }`}></div>
+                  ))}
                 </div>
-                <p className="text-xs text-gray-600">
+                <p className="text-[9px] uppercase tracking-wider text-text-light">
                   {passwordStrengthText()}
                 </p>
               </div>
             )}
             
             {errors.password && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                {errors.password}
-              </p>
+              <p className="text-danger text-[10px] mt-1 italic">{errors.password}</p>
             )}
           </div>
 
-          {/* Confirmation mot de passe */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">
-              Confirmer le mot de passe <span className="text-red-500">*</span>
+          {/* Confirmation */}
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+              Confirmer
             </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <div className="relative group">
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 pl-11 pr-12 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.confirmPassword 
-                    ? "border-red-500 focus:ring-red-500" 
-                    : "border-gray-200 focus:border-blue-500"
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
                 }`}
                 required
                 disabled={loading}
@@ -328,175 +306,107 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                {errors.confirmPassword}
-              </p>
+              <p className="text-danger text-[10px] mt-1 italic">{errors.confirmPassword}</p>
             )}
           </div>
 
-          {/* Section RGPD - OBLIGATOIRE */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-            <div className="flex items-start gap-3 mb-3">
-              <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <div className="font-semibold text-yellow-800 text-sm">Conformité RGPD</div>
-                <div className="text-yellow-700 text-xs">
-                  Vous devez accepter nos conditions pour créer un compte.
-                </div>
-              </div>
-            </div>
+          {/* RGPD & Newsletter - Refined */}
+          <div className="space-y-4 pt-2">
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="acceptTerms"
+                checked={formData.acceptTerms}
+                onChange={handleChange}
+                className="mt-1 w-3.5 h-3.5 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+                required
+              />
+              <span className="text-[10px] text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
+                J'accepte les <Link to="/terms" className="underline font-bold">conditions</Link> et la <Link to="/privacy" className="underline font-bold">politique de confidentialité</Link>.
+              </span>
+            </label>
             
-            <label className={`flex items-start gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${
-              errors.acceptTerms 
-                ? "border-red-200 bg-red-50" 
-                : "border-transparent bg-white"
-            }`}>
-              <div className="flex items-start gap-2 mt-0.5">
-                <input
-                  type="checkbox"
-                  name="acceptTerms"
-                  checked={formData.acceptTerms}
-                  onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                  required
-                />
-              </div>
-              <span className="text-sm text-gray-700 leading-relaxed">
-                <strong>J'accepte</strong> les{" "}
-                <Link to="/terms" className="text-blue-600 font-semibold hover:underline" target="_blank">
-                  conditions d'utilisation
-                </Link>{" "}
-                et la{" "}
-                <Link to="/privacy" className="text-blue-600 font-semibold hover:underline" target="_blank">
-                  politique de confidentialité
-                </Link>{" "}
-                de LocalStyle. Je comprends que mes données seront traitées conformément au RGPD.
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="newsletter"
+                checked={formData.newsletter}
+                onChange={handleChange}
+                className="mt-1 w-3.5 h-3.5 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+              />
+              <span className="text-[10px] text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
+                S'abonner à la newsletter exclusive.
               </span>
             </label>
             
             {errors.acceptTerms && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                {errors.acceptTerms}
-              </p>
+              <p className="text-danger text-[10px] italic">{errors.acceptTerms}</p>
             )}
           </div>
 
-          {/* Se souvenir de moi - OPTIONNEL */}
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <input
-              type="checkbox"
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-            />
-            <span className="text-sm text-gray-700">
-              Se souvenir de moi
-            </span>
-          </div>
+          {/* Submit */}
+          <div className="pt-4">
+            {errors.submit && (
+              <div className="mb-4 text-danger text-[11px] bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
+                {errors.submit}
+              </div>
+            )}
 
-          {/* Newsletter - OPTIONNEL */}
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-            <input
-              type="checkbox"
-              name="newsletter"
-              checked={formData.newsletter}
-              onChange={handleChange}
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-            />
-            <span className="text-sm text-gray-700">
-              Je souhaite recevoir des conseils et actualités par email
-            </span>
-          </div>
-
-          {/* Erreur de soumission */}
-          {errors.submit && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-md text-sm flex items-center gap-2"
+            <motion.button
+              whileHover={{ y: -1 }}
+              whileTap={{ y: 0 }}
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 bg-green text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
-              <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              {errors.submit}
-            </motion.div>
-          )}
-
-          {/* Bouton d'inscription */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            disabled={loading}
-            className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin w-5 h-5 mr-2" />
-                Création du compte...
-              </>
-            ) : (
-              <>
-                <Check className="w-5 h-5 mr-2" />
-                Créer mon compte
-              </>
-            )}
-          </motion.button>
-
-          {/* Séparateur */}
-          <div className="relative flex items-center my-6">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-400 text-sm font-medium">ou</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+              {loading ? (
+                <Loader2 className="animate-spin w-4 h-4 mx-auto" />
+              ) : (
+                "Créer mon compte"
+              )}
+            </motion.button>
           </div>
 
-          {/* Bouton Google */}
-          <motion.button
+          {/* Separator */}
+          <div className="relative flex items-center py-2">
+            <div className="flex-grow border-t border-border"></div>
+            <span className="mx-4 text-[10px] text-text-light uppercase tracking-widest">ou</span>
+            <div className="flex-grow border-t border-border"></div>
+          </div>
+
+          {/* Google */}
+          <button
             type="button"
             onClick={handleGoogleRegister}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
             disabled={googleLoading}
-            className="w-full py-3 border-2 border-gray-300 rounded-xl flex items-center justify-center gap-3 text-gray-700 hover:bg-gray-50/50 hover:border-gray-400 transition-all disabled:opacity-50"
+            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-[11px] text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300 disabled:opacity-50"
           >
-            {googleLoading ? (
-              <Loader2 className="animate-spin w-5 h-5" />
-            ) : (
-              <>
-                <img 
-                  src="https://www.svgrepo.com/show/475656/google-color.svg" 
-                  alt="Google" 
-                  className="w-6 h-6"
-                />
-                S'inscrire avec Google
-              </>
-            )}
-          </motion.button>
+            <img 
+              src="https://www.svgrepo.com/show/475656/google-color.svg" 
+              alt="Google" 
+              className="w-4 h-4 grayscale opacity-70"
+            />
+            Google
+          </button>
 
-          {/* Lien vers connexion */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-center mt-6"
-          >
-            <p className="text-gray-600">
+          {/* Footer Link */}
+          <div className="text-center pt-4">
+            <p className="text-[11px] text-text-light uppercase tracking-widest">
               Déjà un compte ?{" "}
               <Link
                 to="/login"
-                className="text-blue-600 font-semibold hover:text-blue-800 hover:underline transition-colors"
+                className="text-green font-bold hover:text-green-dark transition-colors"
               >
                 Se connecter
               </Link>
             </p>
-          </motion.div>
+          </div>
         </form>
       </motion.div>
     </div>

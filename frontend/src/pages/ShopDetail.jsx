@@ -108,173 +108,133 @@ const ShopDetail = () => {
   if (!shop) return <div className="not-found">Boutique non trouvée</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background pt-32 pb-24">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="relative bg-white shadow-lg">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
-            <motion.div whileHover={{ scale: 1.02 }} className="lg:w-1/3">
-              <img src={shop.image} alt={shop.name} className="w-full h-64 lg:h-80 object-cover rounded-2xl shadow-lg" />
-            </motion.div>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto px-6 md:px-12 mb-24">
+        <div className="flex flex-col lg:flex-row gap-16 items-start">
+          <motion.div className="lg:w-2/5 aspect-[4/5] overflow-hidden bg-white shadow-sm">
+            <img src={shop.image} alt={shop.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+          </motion.div>
 
-            <div className="lg:w-2/3 space-y-4">
-              <div className="flex justify-between items-start">
+          <div className="lg:w-3/5 space-y-10">
+            <div>
+              <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="text-4xl font-bold text-gray-900">{shop.name}</h1>
-                  <p className="text-lg text-purple-600 font-semibold mt-2">{shop.category}</p>
+                  <p className="text-[10px] text-green uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
+                  <h1 className="text-4xl md:text-6xl font-serif text-text-dark tracking-tight">{shop.name}</h1>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-3 bg-red-50 text-red-500 rounded-full hover:bg-red-100 transition-colors"
+                  className="p-4 border border-border text-text-light hover:text-red-500 hover:border-red-500 transition-all duration-300"
                 >
-                  <Heart className="w-6 h-6" />
+                  <Heart className="w-5 h-5" />
                 </motion.button>
               </div>
+              <div className="w-12 h-[1px] bg-green mb-8"></div>
+              <p className="text-[15px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
+            </div>
 
-              <p className="text-gray-600 text-lg leading-relaxed">{shop.description}</p>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4">
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Star className="w-5 h-5 text-yellow-400" />
-                  <span className="font-semibold">{shop.rating ?? '—'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Clock className="w-5 h-5 text-blue-500" />
-                  <span>{shop.delivery_time ?? '—'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Truck className="w-5 h-5 text-green-500" />
-                  <span>{shop.delivery_fee ? `${shop.delivery_fee}€` : '—'}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Shield className="w-5 h-5 text-purple-500" />
-                  <span>Min. {shop.minimum_order ?? '—'}€</span>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-8 border-y border-border">
+              <div className="space-y-2 text-center md:text-left">
+                <span className="block text-[9px] uppercase tracking-widest text-text-light">Avis Client</span>
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <Star className="w-3 h-3 text-green" fill="currentColor" />
+                  <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.rating ?? '5.0'}</span>
                 </div>
               </div>
-
-              <div className="flex flex-wrap gap-2">
-                {shop.tags?.map((tag, i) => (
-                  <span key={i} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                    {tag}
-                  </span>
-                ))}
+              <div className="space-y-2 text-center md:text-left">
+                <span className="block text-[9px] uppercase tracking-widest text-text-light">Livraison</span>
+                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_time ?? '2-4 Jours'}</span>
               </div>
+              <div className="space-y-2 text-center md:text-left">
+                <span className="block text-[9px] uppercase tracking-widest text-text-light">Frais</span>
+                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_fee ? `${shop.delivery_fee}€` : 'Gratuit'}</span>
+              </div>
+              <div className="space-y-2 text-center md:text-left">
+                <span className="block text-[9px] uppercase tracking-widest text-text-light">Minimum</span>
+                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.minimum_order ?? '0'}€</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {shop.tags?.map((tag, i) => (
+                <span key={i} className="px-4 py-2 border border-border text-[9px] text-text-medium uppercase tracking-[0.2em] font-bold">
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </motion.div>
 
       {/* Controls bar */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }} className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            {/* Search + Filters button */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto items-start">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+      <div className="bg-white border-y border-border sticky top-0 z-40 mb-16">
+        <div className="container mx-auto px-6 md:px-12 py-6">
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
+            <div className="flex items-center gap-12 w-full lg:w-auto">
+              <div className="relative group min-w-[240px]">
+                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={14} />
                 <input
                   type="text"
-                  placeholder="Rechercher un produit..."
+                  placeholder="RECHERCHER..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-6 py-2 bg-transparent border-b border-transparent focus:border-green text-[10px] uppercase tracking-[0.2em] focus:outline-none transition-all"
                 />
               </div>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-              >
-                <Filter className="w-4 h-4" />
-                Filtres
-                <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-              </motion.button>
+              
+              <div className="hidden md:flex gap-8">
+                {['all', 'homme', 'femme'].map(g => (
+                  <button
+                    key={g}
+                    onClick={() => setGenderFilter(g)}
+                    className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${
+                      genderFilter === g ? 'text-green border-b border-green' : 'text-text-light hover:text-text-dark'
+                    }`}
+                  >
+                    {g === 'all' ? 'Univers' : g}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Controls (category, gender badges, sort, view) */}
-            <div className="flex items-center gap-3 w-full lg:w-auto flex-wrap">
-              {/* Categories select */}
+            <div className="flex items-center gap-8 w-full lg:w-auto justify-between lg:justify-end">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="bg-transparent text-[10px] font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
-                    {category === 'all' ? 'Toutes les catégories' : category}
+                    {category === 'all' ? 'Catégories' : category}
                   </option>
                 ))}
               </select>
 
-              {/* Gender badges (Option C) */}
-              <div className="flex items-center gap-2">
-                {['all','homme','femme','unisexe'].map(g => (
-                  <button
-                    key={g}
-                    onClick={() => setGenderFilter(g)}
-                    className={`px-3 py-1 rounded-full border text-sm transition ${
-                      genderFilter === g ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-300'
-                    }`}
-                  >
-                    {g === 'all' ? 'Tous' : g.charAt(0).toUpperCase() + g.slice(1)}
-                  </button>
-                ))}
-              </div>
-
-              {/* Sort */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg"
+                className="bg-transparent text-[10px] font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer"
               >
                 <option value="popular">Populaires</option>
-                <option value="price-low">Prix croissant</option>
-                <option value="price-high">Prix décroissant</option>
-                <option value="name">Nom A-Z</option>
+                <option value="price-low">Prix Croissant</option>
+                <option value="price-high">Prix Décroissant</option>
               </select>
 
-              {/* View mode */}
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button onClick={() => setViewMode('grid')} className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow' : ''}`}><Grid className="w-4 h-4" /></button>
-                <button onClick={() => setViewMode('list')} className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow' : ''}`}><List className="w-4 h-4" /></button>
+              <div className="flex gap-4">
+                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-green' : 'text-text-light'}`}><Grid size={18} /></button>
+                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-green' : 'text-text-light'}`}><List size={18} /></button>
               </div>
             </div>
           </div>
-
-          {/* Advanced filters area */}
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="mt-4 p-4 bg-gray-50 rounded-lg border">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Prix: {priceRange[0]}€ - {priceRange[1]}€</label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1000"
-                      value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
 
       {/* Products list */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-6 text-gray-600">
-          {filteredProducts.length} produit{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}
-        </div>
-
+      <div className="container mx-auto px-6 md:px-12">
         {viewMode === 'grid' ? (
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
             <AnimatePresence>
               {filteredProducts.map((product, index) => (
                 <ProductCard
@@ -290,7 +250,7 @@ const ShopDetail = () => {
             </AnimatePresence>
           </motion.div>
         ) : (
-          <motion.div layout className="space-y-4">
+          <motion.div layout className="space-y-12">
             <AnimatePresence>
               {filteredProducts.map((product, index) => (
                 <ProductRow
@@ -308,10 +268,8 @@ const ShopDetail = () => {
         )}
 
         {filteredProducts.length === 0 && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Aucun produit trouvé</h3>
-            <p className="text-gray-600">Essayez de modifier vos filtres ou votre recherche</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-32 border border-dashed border-border">
+             <p className="text-[11px] uppercase tracking-widest text-text-light">Aucun produit ne correspond à votre sélection.</p>
           </motion.div>
         )}
       </div>
@@ -321,100 +279,77 @@ const ShopDetail = () => {
 
 /* -----------------------------
    ProductCard (grid) & ProductRow (list)
-   kept simple and compatible with props used above
    ----------------------------- */
 
-const ProductCard = ({ product, index, isFavorite, onToggleFavorite, onAddToCart, onClick }) => ( // Ajoute onClick
+const ProductCard = ({ product, index, isFavorite, onToggleFavorite, onAddToCart, onClick }) => (
   <motion.div
     layout
-    initial={{ opacity: 0, scale: 0.96 }}
-    animate={{ opacity: 1, scale: 1 }}
-    exit={{ opacity: 0, scale: 0.96 }}
-    transition={{ delay: index * 0.03 }}
-    whileHover={{ y: -5 }}
-    className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden group cursor-pointer"
-    onClick={onClick} // Ajoute cette ligne
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: index * 0.05 }}
+    className="group cursor-pointer"
+    onClick={onClick}
   >
-    <div className="relative overflow-hidden">
-      <img src={product.image} alt={product.name} className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
-      <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <button onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }} className={`p-2 rounded-full ${isFavorite ? 'bg-red-500 text-white' : 'bg-white text-gray-700'}`}>
-          <Heart className="w-4 h-4" />
+    <div className="relative aspect-[4/5] overflow-hidden bg-white mb-6">
+      <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }} 
+          className={`p-3 bg-white/90 backdrop-blur-sm shadow-sm transition-colors ${isFavorite ? 'text-red-500' : 'text-text-light hover:text-red-500'}`}
+        >
+          <Heart size={14} fill={isFavorite ? "currentColor" : "none"} />
         </button>
       </div>
+      {product.price && (
+        <div className="absolute bottom-4 left-4">
+          <span className="bg-white/90 backdrop-blur-sm text-text-dark px-4 py-2 text-[10px] font-bold uppercase tracking-widest shadow-sm">
+            {product.price}€
+          </span>
+        </div>
+      )}
     </div>
 
-    <div className="p-4">
-      <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
-      <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
-
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Star className="w-4 h-4 text-yellow-400" />
-          <span className="text-sm text-gray-600">{product.rating ?? '-'}</span>
-        </div>
-        <span className="text-sm text-gray-500">{product.category}</span>
-      </div>
-
-      <div className="flex items-center justify-between mt-3">
-        <div>
-          <div className="text-xl font-bold text-gray-900">{product.price}€</div>
-          {product.originalPrice && <div className="text-sm text-gray-500 line-through">{product.originalPrice}€</div>}
-        </div>
-
-        <button onClick={(e) => { e.stopPropagation(); onAddToCart(); }} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
-          <ShoppingCart className="w-4 h-4" />
-          <span className="text-sm font-medium">Ajouter</span>
-        </button>
-      </div>
+    <div className="space-y-1 text-center lg:text-left">
+      <p className="text-[9px] text-text-light uppercase tracking-[0.2em] font-medium">{product.category}</p>
+      <h3 className="text-[12px] font-bold text-text-dark uppercase tracking-wider group-hover:text-green transition-colors">{product.name}</h3>
     </div>
   </motion.div>
 );
 
-const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart, onClick }) => ( // Ajoute onClick
+const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart, onClick }) => (
   <motion.div 
     layout 
     initial={{ opacity: 0, x: -10 }} 
     animate={{ opacity: 1, x: 0 }} 
-    exit={{ opacity: 0, x: 10 }} 
-    transition={{ delay: index * 0.02 }} 
-    className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-shadow cursor-pointer group"
-    onClick={onClick} // Ajoute cette ligne
+    transition={{ delay: index * 0.05 }} 
+    className="flex gap-12 group cursor-pointer border-b border-border pb-12"
+    onClick={onClick}
   >
-    <div className="flex gap-6">
-      <img src={product.image} alt={product.name} className="w-32 h-32 object-cover rounded-lg" />
-      <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-1">{product.name}</h3>
-            <p className="text-gray-600 mb-3">{product.description}</p>
+    <div className="w-48 aspect-[4/5] overflow-hidden bg-white">
+      <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+    </div>
+    <div className="flex-1 flex flex-col justify-center">
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <p className="text-[10px] text-green uppercase tracking-[0.3em] font-bold mb-2">{product.category}</p>
+          <h3 className="text-2xl font-serif text-text-dark mb-4">{product.name}</h3>
+          <p className="text-[13px] text-text-medium leading-relaxed font-light line-clamp-2 max-w-xl italic">{product.description}</p>
+        </div>
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <span className="text-2xl font-serif text-text-dark">{product.price}€</span>
           </div>
-          <button onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }} className={`p-2 rounded-full ${isFavorite ? 'text-red-500' : 'text-gray-400'}`}>
-            <Heart className="w-5 h-5" />
+          <button 
+            onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }} 
+            className={`p-4 border border-border transition-all ${isFavorite ? 'text-red-500 border-red-500' : 'text-text-light hover:text-text-dark'}`}
+          >
+            <Heart size={16} fill={isFavorite ? "currentColor" : "none"} />
           </button>
         </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm text-gray-600">{product.rating ?? '-'}</span>
-            </div>
-            <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">{product.category}</span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <span className="text-2xl font-bold text-gray-900">{product.price}€</span>
-              {product.originalPrice && <span className="text-sm text-gray-500 line-through ml-2">{product.originalPrice}€</span>}
-            </div>
-
-            <button onClick={(e) => { e.stopPropagation(); onAddToCart(); }} className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg">
-              <ShoppingCart className="w-4 h-4" />
-              <span className="font-medium">Ajouter au panier</span>
-            </button>
-          </div>
-        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Star className="w-3 h-3 text-green" fill="currentColor" />
+        <span className="text-[10px] font-bold text-text-dark uppercase tracking-widest">{product.rating ?? '5.0'}</span>
       </div>
     </div>
   </motion.div>

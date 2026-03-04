@@ -1,0 +1,14 @@
+{
+    "name": "ynov-ydays-ecommerce",
+    "version": "1.0.0",
+    "description": "Ynov Ydays 2025 E-Commerce Platform",
+    "type": "module",
+    "scripts": {
+        "install:all": "npm ci --prefix backend && npm ci --prefix frontend",
+        "build": "npm run build --prefix frontend",
+        "start": "cd backend && npm start"
+    },
+    "engines": {
+        "node": ">=22.0.0"
+    }
+}

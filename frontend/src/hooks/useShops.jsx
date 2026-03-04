@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { shopService } from '../services/shopService';
 
-export const useShops = (category = null, deliveryMode = 'delivery') => {
+export const useShops = (category = null, deliveryMode = null) => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +10,10 @@ export const useShops = (category = null, deliveryMode = 'delivery') => {
     const fetchShops = async () => {
       try {
         setLoading(true);
+        setError(null);
         let data;
+        
+        console.log('Fetching shops with category:', category);
         
         if (category && category !== 'Toutes') {
           data = await shopService.getShopsByCategory(category);
@@ -18,24 +21,28 @@ export const useShops = (category = null, deliveryMode = 'delivery') => {
           data = await shopService.getAllShops();
         }
 
-        // Filtrage selon le mode de livraison
+        console.log('Shops fetched:', data);
+
+        // Filtrage selon le mode de livraison (si spécifié et si les données existent)
         if (deliveryMode === 'delivery') {
-          data = data.filter(shop => shop.deliveryAvailable === true);
+          data = data.filter(shop => shop.deliveryAvailable !== false);
         } else if (deliveryMode === 'pickup') {
-          data = data.filter(shop => shop.pickupAvailable === true);
+          data = data.filter(shop => shop.pickupAvailable !== false);
         }
 
         setShops(data);
       } catch (err) {
-        setError(err.message || 'Erreur lors du chargement des boutiques');
+        const errorMessage = err.message || 'Erreur lors du chargement des boutiques';
+        setError(errorMessage);
         console.error('Error fetching shops:', err);
+        setShops([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchShops();
-  }, [category, deliveryMode]); // ✅ Ajout de deliveryMode comme dépendance
+  }, [category, deliveryMode]);
 
   return { shops, loading, error };
 };

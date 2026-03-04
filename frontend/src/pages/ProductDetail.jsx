@@ -23,12 +23,11 @@ const ProductDetail = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background pt-20">
-        <div className="text-center">
-          <div className="text-6xl mb-4">😔</div>
-          <h2 className="text-2xl font-bold text-text-dark mb-4">Produit non trouvé</h2>
-          <p className="text-text-medium max-w-md">{error}</p>
-          <Link to="/shops" className="mt-4 inline-block bg-primary text-background px-6 py-3 rounded-lg font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-6">
+          <h2 className="text-3xl font-serif text-text-dark">Produit non trouvé</h2>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-text-light max-w-xs mx-auto italic">{error}</p>
+          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm">
             Retour aux boutiques
           </Link>
         </div>
@@ -38,11 +37,10 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background pt-20">
-        <div className="text-center">
-          <div className="text-6xl mb-4">🔍</div>
-          <h2 className="text-2xl font-bold text-text-dark mb-4">Produit introuvable</h2>
-          <Link to="/shops" className="inline-block bg-primary text-background px-6 py-3 rounded-lg font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-6">
+          <h2 className="text-3xl font-serif text-text-dark">Pièce introuvable</h2>
+          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm">
             Explorer les boutiques
           </Link>
         </div>
@@ -59,74 +57,73 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="product-detail-page bg-background min-h-screen pt-20">
-      <div className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="product-detail-page bg-background min-h-screen pt-32 pb-24">
+      <div className="container mx-auto px-6 md:px-12">
+        {/* Breadcrumbs */}
+        <div className="mb-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+          <Link to="/" className="hover:text-green transition-colors">Accueil</Link>
+          <span>/</span>
+          <Link to="/shops" className="hover:text-green transition-colors">Boutiques</Link>
+          <span>/</span>
+          <span className="text-text-medium">{product.name}</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24">
           {/* Image du produit */}
-          <div className="relative">
+          <div className="relative aspect-[4/5] bg-white overflow-hidden shadow-sm">
             <img
               src={product.image || '/placeholder.png'}
               alt={product.name}
-              className="w-full h-96 lg:h-[500px] object-cover rounded-xl shadow-lg"
+              className="w-full h-full object-cover"
             />
             {product.shops && (
-              <div className="absolute top-4 left-4 bg-background bg-opacity-90 backdrop-blur-sm rounded-lg p-3 shadow-md">
-                <Link to={`/shop/${product.shops.id}`} className="flex items-center space-x-2 text-sm">
-                  <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-8 h-8 rounded-full object-cover" />
-                  <span className="font-medium text-text-dark">{product.shops.name}</span>
-                </Link>
-              </div>
+              <Link 
+                to={`/shop/${product.shops.id}`}
+                className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm flex items-center gap-3 hover:bg-white transition-all"
+              >
+                <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-6 h-6 rounded-full object-cover" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
+              </Link>
             )}
           </div>
 
           {/* Détails du produit */}
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-text-dark mb-2">{product.name}</h1>
-              <p className="text-text-medium text-lg">{product.category || 'Produit'}</p>
+          <div className="flex flex-col">
+            <div className="mb-8">
+              <p className="text-[10px] text-green uppercase tracking-[0.3em] font-bold mb-4">
+                {product.category || 'Édition Limitée'}
+              </p>
+              <h1 className="text-4xl md:text-5xl font-serif text-text-dark mb-6 leading-tight">
+                {product.name}
+              </h1>
+              <div className="text-2xl font-serif text-text-dark">
+                {product.price}€
+              </div>
             </div>
 
-            <div className="text-3xl font-bold text-primary">
-              {product.price}€
-            </div>
-
-            <div className="prose max-w-none"> {/* Removed prose-blue */}
-              <h3 className="text-xl font-semibold text-text-dark mb-3">Description</h3>
-              <p className="text-text-medium leading-relaxed">{product.description}</p>
-            </div>
-
-            {/* Informations supplémentaires */}
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              {product.stock && (
-                <div className="bg-background rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-text-dark">Stock</div>
-                  <div className="text-primary">{product.stock} disponibles</div>
-                </div>
-              )}
-              {product.shops?.delivery_time && (
-                <div className="bg-background rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-text-dark">Livraison</div>
-                  <div className="text-primary">{product.shops.delivery_time}</div>
-                </div>
-              )}
+            <div className="mb-12 space-y-6">
+              <div className="w-12 h-[1px] bg-border"></div>
+              <p className="text-[13px] text-text-medium leading-relaxed font-light">
+                {product.description}
+              </p>
             </div>
 
             {/* Sélecteur de quantité et bouton ajouter */}
-            <div className="bg-neutral-light rounded-xl p-6 shadow-sm space-y-4">
+            <div className="space-y-8 pt-8 border-t border-border">
               <div className="flex items-center justify-between">
-                <label className="font-semibold text-text-dark">Quantité</label>
-                <div className="flex items-center space-x-3">
+                <span className="text-[10px] uppercase tracking-widest text-text-medium font-bold">Quantité</span>
+                <div className="flex items-center border border-border px-4 py-2">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 rounded-full bg-primary-light hover:bg-primary text-background font-bold flex items-center justify-center"
-                    disabled={isAdded}
+                    className="w-8 h-8 text-text-light hover:text-green transition-colors disabled:opacity-30"
+                    disabled={isAdded || quantity <= 1}
                   >
                     -
                   </button>
-                  <span className="w-12 text-center font-semibold text-text-dark">{quantity}</span>
+                  <span className="w-12 text-center text-[12px] font-bold text-text-dark">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 rounded-full bg-primary-light hover:bg-primary text-background font-bold flex items-center justify-center"
+                    className="w-8 h-8 text-text-light hover:text-green transition-colors disabled:opacity-30"
                     disabled={isAdded || (product.stock && quantity >= product.stock)}
                   >
                     +
@@ -137,50 +134,54 @@ const ProductDetail = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isAdded || (product.stock && product.stock === 0)}
-                className={`w-full text-background py-4 rounded-lg font-semibold text-lg transition-colors duration-200 flex items-center justify-center space-x-2 ${
+                className={`w-full py-5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 shadow-sm ${
                   isAdded
-                    ? 'bg-success cursor-not-allowed'
+                    ? 'bg-success text-white cursor-not-allowed'
                     : (product.stock && product.stock === 0) 
-                    ? 'bg-neutral-medium cursor-not-allowed'
-                    : 'bg-primary hover:bg-primary-dark'
+                    ? 'bg-muted text-text-light cursor-not-allowed'
+                    : 'bg-text-dark text-white hover:bg-green'
                 }`}
               >
                 {isAdded ? (
-                  <>
-                    <span>✅</span>
-                    <span>Ajouté !</span>
-                  </>
+                  "Ajouté au panier"
                 ) : (product.stock && product.stock === 0) ? (
-                  <span>Rupture de stock</span>
+                  "Rupture de stock"
                 ) : (
                   <>
-                    <span>🛒</span>
-                    <span>Ajouter au panier • {(product.price * quantity).toFixed(2)}€</span>
+                    <span>Ajouter au panier</span>
+                    <span className="w-4 h-[1px] bg-white/30"></span>
+                    <span>{(product.price * quantity).toFixed(2)}€</span>
                   </>
                 )}
               </button>
             </div>
 
-            {/* Bouton retour à la boutique */}
-            {product.shops && (
-              <Link
-                to={`/shop/${product.shops.id}`}
-                className="inline-flex items-center space-x-2 text-primary hover:text-primary-dark font-medium"
-              >
-                <span>←</span>
-                <span>Retour à {product.shops.name}</span>
-              </Link>
-            )}
+            {/* Livraison / Stock Infos */}
+            <div className="mt-12 grid grid-cols-2 gap-8 py-8 border-y border-border">
+              <div>
+                <span className="block text-[9px] uppercase tracking-widest text-text-light mb-2">Disponibilité</span>
+                <span className="text-[11px] font-bold text-text-dark uppercase tracking-wider">
+                  {product.stock && product.stock > 0 ? `${product.stock} Pièces` : 'Sur Commande'}
+                </span>
+              </div>
+              <div>
+                <span className="block text-[9px] uppercase tracking-widest text-text-light mb-2">Livraison</span>
+                <span className="text-[11px] font-bold text-text-dark uppercase tracking-wider">
+                  {product.shops?.delivery_time || 'Standard (2-4 jours)'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
         {product.shops && (
-          <SimilarProducts shopId={product.shops.id} currentProductId={product.id} />
+          <div className="mt-32">
+            <SimilarProducts shopId={product.shops.id} currentProductId={product.id} />
+          </div>
         )}
       </div>
     </div>
-
-      );
+  );
 };
 
 export default ProductDetail;

@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import CartContext from "../context/CartContext";
 import { useDelivery } from "../context/DeliveryContext";
+import { useTheme } from "../hooks/useTheme";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const { cartCount } = useContext(CartContext);
   const navigate = useNavigate();
@@ -41,34 +43,49 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200">
-            <span className="text-2xl font-serif font-bold text-text-dark tracking-wider">LuxeStyle</span>
+            <span className="text-2xl font-serif font-bold text-green tracking-wider">Shop In Line</span>
           </Link>
 
           {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-text-medium hover:text-primary font-medium text-lg transition-colors"
+              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-primary font-medium text-lg transition-colors"
+              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
             >
               Boutiques
             </Link>
+            <Link
+              to="/catalogue"
+              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
+            >
+              Catalogue
+            </Link>
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2 text-text-medium hover:text-green transition-colors"
+              aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+              title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+            >
+              <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+            </button>
 
             {/* Panier */}
-            <Link to="/cart" className="relative p-2 text-text-medium hover:text-primary transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <Link to="/cart" className="relative p-2 text-text-medium hover:text-green transition-colors">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-background text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green text-white text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -133,13 +150,13 @@ const Header = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-primary font-medium text-sm transition-colors"
+                  className="text-text-medium hover:text-green font-medium text-sm transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-primary hover:bg-primary-dark text-background px-5 py-2 rounded-lg font-medium transition-colors"
+                  className="bg-green hover:bg-green-dark text-background px-5 py-2 rounded-lg font-medium transition-colors"
                 >
                   S'inscrire
                 </Link>
@@ -148,7 +165,7 @@ const Header = () => {
 
             {/* Menu Mobile Button */}
             <button
-              className="md:hidden p-2 text-text-medium hover:text-primary transition-colors"
+              className="md:hidden p-2 text-text-medium hover:text-green transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,8 +178,9 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-2 bg-background border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
-            <Link to="/" className="block py-2 text-text-medium hover:text-primary transition-colors">Accueil</Link>
-            <Link to="/shops" className="block py-2 text-text-medium hover:text-primary transition-colors">Boutiques</Link>
+            <Link to="/" className="block py-2 text-text-medium hover:text-green transition-colors">Accueil</Link>
+            <Link to="/shops" className="block py-2 text-text-medium hover:text-green transition-colors">Boutiques</Link>
+            <Link to="/catalogue" className="block py-2 text-text-medium hover:text-green transition-colors">Catalogue</Link>
           </div>
         )}
       </div>

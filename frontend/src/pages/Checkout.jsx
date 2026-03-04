@@ -1,14 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
 import { motion } from 'framer-motion';
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'; // Import Stripe hooks and PaymentElement
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, cartCount, totalPrice, clearCart } = useContext(CartContext);
-  const stripe = useStripe(); // Initialize Stripe
-  const elements = useElements(); // Initialize Elements
+  const { cart, totalPrice, clearCart } = useContext(CartContext);
   
   const [shippingDetails, setShippingDetails] = useState({
     fullName: '',
@@ -18,68 +15,108 @@ const Checkout = () => {
     country: '',
   });
 
-  const [paymentError, setPaymentError] = useState(null); // To display Stripe errors
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardHolder: '',
+    cardNumber: '',
+    expiry: '',
+    cvc: '',
+  });
+
+  const [paymentError, setPaymentError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-
-  // Simulate fetching a client secret from your backend
-  // In a real app, this would be an API call after creating a PaymentIntent
-  const [clientSecret, setClientSecret] = useState('pi_MOCK_CLIENT_SECRET_EXAMPLE'); // Placeholder client secret
+  const [transactionId, setTransactionId] = useState('');
 
   const handleShippingChange = (e) => {
     setShippingDetails({ ...shippingDetails, [e.target.name]: e.target.value });
   };
 
+  const handlePaymentChange = (e) => {
+    let { name, value } = e.target;
+
+    if (name === 'cardNumber' || name === 'cvc') {
+      value = value.replace(/\D/g, '');
+    }
+
+    if (name === 'expiry') {
+      value = value
+        .replace(/[^\d]/g, '')
+        .slice(0, 4)
+        .replace(/(\d{2})(\d)/, '$1/$2');
+    }
+
+    setPaymentDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isShippingValid =
+    shippingDetails.fullName &&
+    shippingDetails.address &&
+    shippingDetails.city &&
+    shippingDetails.postalCode &&
+    shippingDetails.country;
+
+  const rawCardNumber = paymentDetails.cardNumber.replace(/\s/g, '');
+
+  const validateExpiry = (expiry) => {
+    if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+      return { valid: false, message: 'Date invalide (format attendu : MM/AA).' };
+    }
+
+    const [month, year] = expiry.split('/').map(Number);
+
+    if (month < 1 || month > 12) {
+      return { valid: false, message: 'Le mois doit être compris entre 01 et 12.' };
+    }
+
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return { valid: false, message: 'Cette carte est expirée.' };
+    }
+
+    return { valid: true, message: '' };
+  };
+
+  const expiryValidation = validateExpiry(paymentDetails.expiry);
+  const isPaymentValid =
+    paymentDetails.cardHolder.trim().length > 2 &&
+    /^\d{16}$/.test(rawCardNumber) &&
+    expiryValidation.valid &&
+    /^\d{3,4}$/.test(paymentDetails.cvc);
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    setIsProcessing(true);
-    setPaymentError(null);
-
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      setIsProcessing(false);
+    if (!isShippingValid || !isPaymentValid) {
+      setPaymentError(
+        expiryValidation.valid
+          ? 'Merci de compléter les informations de livraison et de paiement.'
+          : expiryValidation.message
+      );
       return;
     }
 
-    // In a real application, you'd make an API call to your backend
-    // to create a PaymentIntent and get its client_secret.
-    // For this boilerplate, we'll use a mock clientSecret.
+    setIsProcessing(true);
+    setPaymentError(null);
 
     try {
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
-          return_url: `${window.location.origin}/checkout/confirmation`, // This is where Stripe redirects after payment
-          shipping: { // Pass shipping details to Stripe
-            name: shippingDetails.fullName,
-            address: {
-              line1: shippingDetails.address,
-              city: shippingDetails.city,
-              postal_code: shippingDetails.postalCode,
-              country: shippingDetails.country,
-            }
-          }
-        },
-        redirect: 'if_required', // Don't redirect immediately
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1600));
 
-      if (error) {
-        setPaymentError(error.message);
+      // Simulation:
+      // - carte finissant par 0000 => échec
+      // - autre carte valide => succès
+      if (rawCardNumber.endsWith('0000')) {
+        setPaymentError('Paiement refusé (simulation). Essayez une autre carte de test.');
         setIsProcessing(false);
-      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        setOrderPlaced(true);
-        clearCart();
-        // In a real app, you'd also confirm the payment success with your backend
-        // and navigate to a proper confirmation page.
-        // navigate('/checkout/confirmation'); 
-      } else {
-        // Handle other statuses or unknown errors
-        setPaymentError('Une erreur inattendue est survenue lors du paiement.');
-        setIsProcessing(false);
+        return;
       }
-    } catch (err) {
+
+      const fakeTx = `SIM-${Date.now().toString().slice(-8)}`;
+      setTransactionId(fakeTx);
+      await clearCart();
+      setOrderPlaced(true);
+    } catch {
       setPaymentError('Une erreur réseau ou de serveur est survenue.');
       setIsProcessing(false);
     }
@@ -87,162 +124,259 @@ const Checkout = () => {
 
   if (orderPlaced) {
     return (
-      <motion.div 
-        className="container mx-auto px-4 py-16 text-center bg-background rounded-lg shadow-md mt-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h1 className="text-3xl font-bold text-primary mb-4">Commande Passée avec Succès ! 🎉</h1>
-        <p className="text-text-medium mb-6">Merci pour votre achat. Votre commande sera traitée sous peu.</p>
-        <button 
-          onClick={() => navigate('/')} 
-          className="inline-block bg-primary text-background px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors font-semibold"
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <motion.div 
+          className="max-w-md w-full text-center space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-          Retour à l'accueil
-        </button>
-      </motion.div>
+          <h1 className="text-4xl font-serif text-text-dark">Merci pour votre commande</h1>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-text-light leading-relaxed">
+            Votre demande est en cours de traitement par nos maisons partenaires. <br /> Un email de confirmation vous a été envoyé.
+          </p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-text-medium">
+            Référence paiement : {transactionId}
+          </p>
+          <button 
+            onClick={() => navigate('/')} 
+            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm"
+          >
+            Retour au catalogue
+          </button>
+        </motion.div>
+      </div>
     );
   }
 
   if (!cart || cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center bg-background rounded-lg shadow-md mt-8">
-        <h1 className="text-3xl font-bold text-text-dark mb-4">Votre panier est vide 🛒</h1>
-        <p className="text-text-medium mb-6">Ajoutez des articles avant de passer commande.</p>
-        <button 
-          onClick={() => navigate('/')} 
-          className="inline-block bg-primary text-background px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors font-semibold"
-        >
-          Retour à l'accueil
-        </button>
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <div className="max-w-md w-full text-center space-y-8">
+          <h1 className="text-4xl font-serif text-text-dark">Votre panier est vide</h1>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
+            Ajoutez des articles avant de finaliser votre commande.
+          </p>
+          <button 
+            onClick={() => navigate('/')} 
+            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm"
+          >
+            Découvrir la sélection
+          </button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-text-dark mb-8 text-center">Finaliser votre commande</h1>
+    <div className="min-h-screen bg-background pt-32 pb-24">
+      <div className="container mx-auto px-6 md:px-12">
+        <h1 className="text-4xl font-serif text-text-dark mb-16 text-center">Finaliser votre commande</h1>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Shipping Details */}
-        <motion.div 
-          className="lg:w-2/3 bg-neutral-light rounded-lg shadow-sm p-6"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-2xl font-bold text-text-dark mb-6 border-b pb-4 border-neutral-medium">
-            1. Adresse de livraison
-          </h2>
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Nom complet"
-              value={shippingDetails.fullName}
-              onChange={handleShippingChange}
-              className="col-span-2 p-3 border border-neutral-medium rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-dark placeholder-text-light"
-              required
-            />
-            <input
-              type="text"
-              name="address"
-              placeholder="Adresse (Numéro et Rue)"
-              value={shippingDetails.address}
-              onChange={handleShippingChange}
-              className="col-span-2 p-3 border border-neutral-medium rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-dark placeholder-text-light"
-              required
-            />
-            <input
-              type="text"
-              name="city"
-              placeholder="Ville"
-              value={shippingDetails.city}
-              onChange={handleShippingChange}
-              className="p-3 border border-neutral-medium rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-dark placeholder-text-light"
-              required
-            />
-            <input
-              type="text"
-              name="postalCode"
-              placeholder="Code Postal"
-              value={shippingDetails.postalCode}
-              onChange={handleShippingChange}
-              className="p-3 border border-neutral-medium rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-dark placeholder-text-light"
-              required
-            />
-            <input
-              type="text"
-              name="country"
-              placeholder="Pays"
-              value={shippingDetails.country}
-              onChange={handleShippingChange}
-              className="col-span-2 p-3 border border-neutral-medium rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-text-dark placeholder-text-light"
-              required
-            />
-          </form>
-
-          {/* Payment Details - Stripe */}
-          <h2 className="text-2xl font-bold text-text-dark mb-6 mt-10 border-b pb-4 border-neutral-medium">
-            2. Informations de paiement
-          </h2>
-          {clientSecret && elements && stripe ? ( // Render PaymentElement only if Stripe is ready
-            <form id="payment-form" onSubmit={handlePlaceOrder}>
-              <PaymentElement id="payment-element" />
-              {paymentError && <div className="text-danger mt-4">{paymentError}</div>}
-              {/* This button is now part of the form submitting PaymentElement */}
-              {/* The actual submission button is below in the summary section */}
-            </form>
-          ) : (
-            <div className="flex justify-center items-center py-4">
-              <LoadingSpinner size="sm" message="Chargement du formulaire de paiement..." />
-            </div>
-          )}
-        </motion.div>
-
-        {/* Order Summary */}
-        <motion.div 
-          className="lg:w-1/3 bg-neutral-light rounded-lg shadow-sm p-6 self-start"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <h2 className="text-2xl font-bold text-text-dark mb-4 border-b pb-4 border-neutral-medium">
-            3. Récapitulatif de la commande
-          </h2>
-          <div className="space-y-3 mb-6">
-            {cart.map(item => (
-              <div key={item.id} className="flex justify-between items-center text-text-medium text-sm">
-                <p>{item.products.name} x {item.quantity}</p>
-                <p>{(item.products.price * item.quantity).toFixed(2)} €</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-text-medium">Sous-total:</p>
-            <p className="text-text-dark font-semibold">{totalPrice.toFixed(2)} €</p>
-          </div>
-          <div className="flex justify-between items-center mb-4">
-            <p className="text-text-medium">Livraison:</p>
-            <p className="text-text-dark font-semibold">Gratuit</p> {/* Placeholder for now */}
-          </div>
-          <div className="border-t border-neutral-medium pt-4 mt-4 flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-text-dark">Total:</h2>
-            <h2 className="text-2xl font-bold text-primary">{totalPrice.toFixed(2)} €</h2>
-          </div>
-
-          <motion.button
-            type="submit" // Changed to submit
-            form="payment-form" // Link to the payment form
-            disabled={isProcessing || !stripe || !elements || !clientSecret || !shippingDetails.fullName || !shippingDetails.address || !shippingDetails.city || !shippingDetails.postalCode || !shippingDetails.country}
-            className="mt-6 w-full inline-block text-center bg-primary text-background px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-            whileHover={{ scale: isProcessing || !stripe || !elements || !clientSecret ? 1 : 1.01 }}
-            whileTap={{ scale: isProcessing || !stripe || !elements || !clientSecret ? 1 : 0.99 }}
+        <div className="flex flex-col lg:flex-row gap-16">
+          {/* Shipping Details */}
+          <motion.div 
+            className="lg:w-2/3 space-y-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
           >
-            {isProcessing ? 'Traitement...' : 'Payer et passer commande'}
-          </motion.button>
-        </motion.div>
+            <div className="bg-card border border-border p-10 shadow-sm">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-green mb-10 pb-4 border-b border-border/50">
+                1. Adresse de livraison
+              </h2>
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                <div className="md:col-span-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Nom complet</label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="..."
+                    value={shippingDetails.fullName}
+                    onChange={handleShippingChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Adresse (Numéro et Rue)</label>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="..."
+                    value={shippingDetails.address}
+                    onChange={handleShippingChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Ville</label>
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="..."
+                    value={shippingDetails.city}
+                    onChange={handleShippingChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Code Postal</label>
+                  <input
+                    type="text"
+                    name="postalCode"
+                    placeholder="..."
+                    value={shippingDetails.postalCode}
+                    onChange={handleShippingChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Pays</label>
+                  <input
+                    type="text"
+                    name="country"
+                    placeholder="..."
+                    value={shippingDetails.country}
+                    onChange={handleShippingChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div className="bg-card border border-border p-10 shadow-sm">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-green mb-10 pb-4 border-b border-border/50">
+                2. Informations de paiement
+              </h2>
+              <form id="payment-form" onSubmit={handlePlaceOrder} className="space-y-8">
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Titulaire de la carte</label>
+                  <input
+                    type="text"
+                    name="cardHolder"
+                    placeholder="Nom Prénom"
+                    value={paymentDetails.cardHolder}
+                    onChange={handlePaymentChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Numéro de carte</label>
+                  <input
+                    type="text"
+                    name="cardNumber"
+                    inputMode="numeric"
+                    maxLength={16}
+                    placeholder="4242424242424242"
+                    value={paymentDetails.cardNumber}
+                    onChange={handlePaymentChange}
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Expiration</label>
+                    <input
+                      type="text"
+                      name="expiry"
+                      inputMode="numeric"
+                      maxLength={5}
+                      placeholder="MM/AA"
+                      value={paymentDetails.expiry}
+                      onChange={handlePaymentChange}
+                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                      required
+                    />
+                    {paymentDetails.expiry && !expiryValidation.valid && (
+                      <p className="text-danger text-[10px] mt-2">{expiryValidation.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">CVC</label>
+                    <input
+                      type="text"
+                      name="cvc"
+                      inputMode="numeric"
+                      maxLength={4}
+                      placeholder="123"
+                      value={paymentDetails.cvc}
+                      onChange={handlePaymentChange}
+                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p className="text-[10px] text-text-light uppercase tracking-[0.2em] leading-relaxed">
+                  Simulation : utilisez <strong className="text-text-dark">4242424242424242</strong> pour un succès,
+                  ou une carte finissant par <strong className="text-danger">0000</strong> pour simuler un refus.
+                </p>
+
+                {paymentError && <div className="text-danger text-[11px] italic mt-4">{paymentError}</div>}
+              </form>
+            </div>
+          </motion.div>
+
+          {/* Order Summary */}
+          <motion.div 
+            className="lg:w-1/3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <div className="bg-card border border-border p-10 sticky top-40 shadow-sm">
+              <h2 className="text-xl font-serif text-text-dark mb-8">Votre Commande</h2>
+              <div className="space-y-6 mb-10">
+                {cart.map(item => (
+                  <div key={item.id} className="flex justify-between items-start gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[11px] font-bold text-text-dark uppercase tracking-wider">{item.products.name}</p>
+                      <p className="text-[10px] text-text-light uppercase tracking-widest">Quantité: {item.quantity}</p>
+                    </div>
+                    <p className="text-[11px] font-bold text-text-dark">{(item.products.price * item.quantity).toFixed(2)}€</p>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="space-y-4 mb-10 pt-8 border-t border-border">
+                <div className="flex justify-between text-[11px] uppercase tracking-widest">
+                  <span className="text-text-medium">Sous-total</span>
+                  <span className="text-text-dark font-bold">{totalPrice.toFixed(2)}€</span>
+                </div>
+                <div className="flex justify-between text-[11px] uppercase tracking-widest">
+                  <span className="text-text-medium">Livraison</span>
+                  <span className="text-green font-bold italic">Offerte</span>
+                </div>
+              </div>
+              
+              <div className="pt-8 border-t border-border flex justify-between items-end mb-10">
+                <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-text-dark">Total</span>
+                <span className="text-2xl font-serif text-text-dark">{totalPrice.toFixed(2)}€</span>
+              </div>
+
+              <motion.button
+                type="submit"
+                form="payment-form"
+                disabled={isProcessing || !isShippingValid || !isPaymentValid}
+                className="w-full py-5 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed"
+                whileHover={{ y: -1 }}
+                whileTap={{ y: 0 }}
+              >
+                {isProcessing ? 'Traitement...' : 'Confirmer le paiement'}
+              </motion.button>
+              
+              <p className="text-[9px] text-center text-text-light mt-6 uppercase tracking-widest leading-relaxed">
+                Paiement simulé en local <br /> Aucune transaction réelle
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

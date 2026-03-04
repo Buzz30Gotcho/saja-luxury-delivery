@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -11,29 +12,38 @@ export default {
         serif: ['Lora', 'serif'],
       },
       colors: {
-        'primary': {
-          DEFAULT: '#55849E',
-          light: '#A6CDE4',
-          dark: '#3B5B71',
+        primary: {
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          light: 'rgb(var(--primary-light) / <alpha-value>)',
+          dark: 'rgb(var(--primary-dark) / <alpha-value>)',
+          foreground: 'rgb(var(--primary-foreground) / <alpha-value>)',
         },
-        'secondary': {
-          DEFAULT: '#D4B8AE', // Rosy Beige
-          light: '#E0CFC9',
-          dark: '#BA9B92',
+        green: {
+          DEFAULT: 'rgb(var(--green) / <alpha-value>)',
+          light: 'rgb(var(--green-light) / <alpha-value>)',
+          dark: 'rgb(var(--green-dark) / <alpha-value>)',
         },
-        'text': {
-          dark: '#2F4858', // Dark Blue-Gray
-          medium: '#5C7C8A', // Medium Blue-Gray
-          light: '#8DA1AA',  // Light Blue-Gray
+        secondary: {
+          DEFAULT: 'rgb(var(--green) / <alpha-value>)',
+          light: 'rgb(var(--green-light) / <alpha-value>)',
+          dark: 'rgb(var(--green-dark) / <alpha-value>)',
         },
-        'background': '#F5F6F7', // Soft Off-White
-        'neutral': {
-          light: '#E0E4E7', // Light Neutral Gray
-          medium: '#CBD2D8', // Medium Neutral Gray
+        text: {
+          dark: 'rgb(var(--text-dark) / <alpha-value>)',
+          medium: 'rgb(var(--text-medium) / <alpha-value>)',
+          light: 'rgb(var(--text-light) / <alpha-value>)',
         },
-        // Keeping red and green for feedback messages
-        'danger': '#EF4444', // Tailwind's red-500
-        'success': '#22C55E', // Tailwind's green-500
+        background: 'rgb(var(--background) / <alpha-value>)',
+        card: 'rgb(var(--card) / <alpha-value>)',
+        border: 'rgb(var(--border) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        'muted-foreground': 'rgb(var(--muted-foreground) / <alpha-value>)',
+        neutral: {
+          light: 'rgb(var(--neutral-light) / <alpha-value>)',
+          medium: 'rgb(var(--neutral-medium) / <alpha-value>)',
+        },
+        danger: 'rgb(var(--danger) / <alpha-value>)',
+        success: 'rgb(var(--success) / <alpha-value>)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -1,0 +1,76 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, MapPin } from 'lucide-react';
+
+const ShopCard = ({ shop }) => {
+  if (!shop) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center text-gray-500">
+        <p>Boutique non disponible</p>
+      </div>
+    );
+  }
+
+  const {
+    id,
+    name = 'Nom non disponible',
+    category = 'Catégorie non spécifiée',
+    description = '',
+    city = 'Lieu non spécifié',
+    location = 'Lieu non spécifié',
+    address = '',
+    image = 'https://via.placeholder.com/400x200/f3f4f6/9ca3af?text=Boutique+Indisponible',
+  } = shop;
+
+  const displayLocation = city || location || address || 'Lieu non spécifié';
+
+  return (
+    <div className="bg-card group rounded-none border border-border/40 hover:border-green/30 transition-all duration-700 h-full flex flex-col relative overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-background">
+        <img 
+          src={image} 
+          alt={name} 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+        />
+        <div className="absolute top-4 left-4">
+          <span className="bg-white/90 backdrop-blur-md text-text-dark text-[9px] font-bold px-3 py-1 uppercase tracking-widest shadow-sm">
+            {category}
+          </span>
+        </div>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700" />
+      </div>
+      
+      <div className="p-8 flex flex-col flex-1">
+        <div className="mb-4">
+          <h3 className="text-xl font-serif text-text-dark tracking-tight">
+            {name}
+          </h3>
+          <div className="w-8 h-[1px] bg-green mt-3 group-hover:w-12 transition-all duration-700" />
+        </div>
+        
+        {description && (
+          <p className="text-text-medium text-[13px] leading-relaxed mb-8 line-clamp-2 font-light italic">
+            {description}
+          </p>
+        )}
+
+        <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
+          <div className="flex items-center gap-2 text-text-light">
+            <MapPin size={12} className="text-green" />
+            <p className="text-[10px] font-bold uppercase tracking-widest truncate max-w-[120px]">{displayLocation}</p>
+          </div>
+          
+          <Link 
+            to={`/shop/${id}`} 
+            className="text-[10px] font-bold text-green uppercase tracking-[0.2em] border-b border-transparent hover:border-green transition-all pb-1"
+          >
+            Découvrir
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShopCard;
+

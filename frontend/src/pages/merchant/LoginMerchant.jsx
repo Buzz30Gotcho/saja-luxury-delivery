@@ -39,155 +39,119 @@ const LoginMerchant = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/30 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white shadow-2xl rounded-3xl overflow-hidden border border-blue-100"
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
       >
-        {/* Header avec fond coloré */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <motion.div 
-              whileHover={{ scale: 1.1 }} 
-              className="mx-auto w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-sm"
-            >
-              <img 
-                src={localStyleLogo} 
-                alt="LocalStyle" 
-                className="w-32 h-auto object-contain"
-                
-              />
-              <LogIn size={32} className="hidden" />
-            </motion.div>
-            <h2 className="text-3xl font-bold mb-2">Connexion Créateur</h2>
-            <p className="text-blue-100 text-lg">
-              Accédez à votre espace LocalStyle
-            </p>
-          </motion.div>
-        </div>
+        {/* Subtle Decorative Element */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
+        
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-10"
+        >
+          <div className="mb-6 flex justify-center">
+            <motion.img 
+              whileHover={{ scale: 1.05 }}
+              src={localStyleLogo} 
+              alt="LocalStyle" 
+              className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
+            Espace Créateur
+          </h1>
+          <p className="text-text-light text-[10px] uppercase tracking-[0.3em] font-bold">
+            Gérer votre boutique
+          </p>
+        </motion.div>
 
-        <div className="p-8">
-          <div className="mb-6 text-center">
-            <p className="text-gray-600">
-              Pas encore de compte ?{" "}
-              <Link 
-                to="/merchant/register" 
-                className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Email */}
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Email Professionnel</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="votre@boutique.com"
+              className={`w-full py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                errors.email 
+                  ? "border-danger" 
+                  : "border-border focus:border-green"
+              }`}
+            />
+            {errors.email && (
+              <p className="text-danger text-[10px] mt-1 italic">{errors.email}</p>
+            )}
+          </div>
+
+          {/* Mot de passe */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-end">
+              <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
+            </div>
+            <div className="relative group">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`w-full py-3 pr-10 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                  errors.password 
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                Créer un compte
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-danger text-[10px] mt-1 italic">{errors.password}</p>
+            )}
+          </div>
+
+          {/* Bouton de connexion */}
+          <motion.button
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 0 }}
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 bg-text-dark text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green transition-all duration-500 disabled:opacity-50 shadow-sm"
+          >
+            {loading ? (
+              <Loader2 className="animate-spin w-4 h-4 mx-auto" />
+            ) : (
+              "Accéder au Dashboard"
+            )}
+          </motion.button>
+
+          {/* Lien vers l'inscription */}
+          <div className="text-center pt-4">
+            <p className="text-[11px] text-text-light uppercase tracking-widest">
+              Pas encore partenaire ?{" "}
+              <Link
+                to="/merchant/register"
+                className="text-green font-bold hover:text-green-dark transition-colors"
+              >
+                Rejoindre le réseau
               </Link>
             </p>
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Adresse email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="votre@email.com"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                  errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-200"
-                }`}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                  {errors.email}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Mot de passe
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  placeholder="Votre mot de passe"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 pr-12 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.password ? "border-red-500 focus:ring-red-500" : "border-gray-200"
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
-                  {errors.password}
-                </p>
-              )}
-            </div>
-
-            <div className="flex justify-between items-center text-sm">
-              <label className="flex items-center">
-                <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                <span className="ml-2 text-gray-600">Se souvenir de moi</span>
-              </label>
-              <Link to="/merchant/forgot-password" className="text-blue-600 hover:text-blue-700 font-medium">
-                Mot de passe oublié ?
-              </Link>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              disabled={loading}
-              className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin h-5 w-5 mr-2" />
-                  Connexion...
-                </>
-              ) : (
-                "Se connecter"
-              )}
-            </motion.button>
-
-            <div className="relative flex items-center my-6">
-              <div className="flex-grow border-t border-gray-300"></div>
-              <span className="mx-4 text-gray-400 text-sm font-medium">ou</span>
-              <div className="flex-grow border-t border-gray-300"></div>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="button"
-              className="w-full py-3 border-2 border-gray-300 rounded-xl flex items-center justify-center gap-3 text-gray-700 hover:bg-gray-50/50 hover:border-gray-400 transition-all"
-            >
-              <img 
-                src="https://www.svgrepo.com/show/475656/google-color.svg" 
-                alt="Google" 
-                className="w-6 h-6"
-              />
-              Continuer avec Google
-            </motion.button>
-          </form>
-        </div>
+        </form>
       </motion.div>
     </div>
   );

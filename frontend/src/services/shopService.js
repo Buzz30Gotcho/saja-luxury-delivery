@@ -9,7 +9,6 @@ export const shopService = {
           *,
           products (*)
         `)
-        .eq('city', 'Montpellier')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -17,9 +16,9 @@ export const shopService = {
       // Ajout des champs de disponibilité si non présents
       return data.map(shop => ({
         ...shop,
-        deliveryAvailable: shop.delivery_available !== undefined ? shop.delivery_available : true,
-        pickupAvailable: shop.pickup_available !== undefined ? shop.pickup_available : true,
-        isOpen: shop.is_open !== undefined ? shop.is_open : true
+        deliveryAvailable: shop.delivery_available === false ? false : true,
+        pickupAvailable: shop.pickup_available === false ? false : true,
+        isOpen: shop.is_open === false ? false : true
       }));
     } catch (error) {
       console.error('Error fetching shops:', error);
@@ -29,20 +28,22 @@ export const shopService = {
 
   async getShopsByCategory(category) {
     try {
+      // Requête avec eq pour une correspondance exacte
       const { data, error } = await supabase
         .from('shops')
         .select('*')
         .eq('category', category)
-        .eq('city', 'Montpellier')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
+      console.log(`Fetched shops for category "${category}":`, data);
+
       return data.map(shop => ({
         ...shop,
-        deliveryAvailable: shop.delivery_available !== undefined ? shop.delivery_available : true,
-        pickupAvailable: shop.pickup_available !== undefined ? shop.pickup_available : true,
-        isOpen: shop.is_open !== undefined ? shop.is_open : true
+        deliveryAvailable: shop.delivery_available === false ? false : true,
+        pickupAvailable: shop.pickup_available === false ? false : true,
+        isOpen: shop.is_open === false ? false : true
       }));
     } catch (error) {
       console.error('Error fetching shops by category:', error);
@@ -65,9 +66,9 @@ export const shopService = {
 
       return {
         ...data,
-        deliveryAvailable: data.delivery_available !== undefined ? data.delivery_available : true,
-        pickupAvailable: data.pickup_available !== undefined ? data.pickup_available : true,
-        isOpen: data.is_open !== undefined ? data.is_open : true
+        deliveryAvailable: data.delivery_available === false ? false : true,
+        pickupAvailable: data.pickup_available === false ? false : true,
+        isOpen: data.is_open === false ? false : true
       };
     } catch (error) {
       console.error('Error fetching shop by id:', error);
@@ -86,9 +87,9 @@ export const shopService = {
 
       return data.map(shop => ({
         ...shop,
-        deliveryAvailable: shop.delivery_available !== undefined ? shop.delivery_available : true,
-        pickupAvailable: shop.pickup_available !== undefined ? shop.pickup_available : true,
-        isOpen: shop.is_open !== undefined ? shop.is_open : true
+        deliveryAvailable: shop.delivery_available === false ? false : true,
+        pickupAvailable: shop.pickup_available === false ? false : true,
+        isOpen: shop.is_open === false ? false : true
       }));
     } catch (error) {
       console.error('Error searching shops:', error);

@@ -78,191 +78,160 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10 relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
       >
-        {/* Background Animation */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-tr from-blue-300 to-blue-500 rounded-full opacity-30"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-32 -right-32 w-64 h-64 bg-gradient-to-tr from-blue-400 to-blue-600 rounded-full opacity-30"
-        />
-
+        {/* Subtle Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
+        
         {/* Header */}
         <motion.div
-          initial={{ y: -30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="text-center mb-8 flex items-center justify-center flex-col"
-          
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mb-10"
         >
-          <motion.div 
-                        whileHover={{ scale: 1.1 }} 
-                        className="mx-auto w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-sm"
-                      >
-          <img 
-                          src={localStyleLogo} 
-                          alt="LocalStyle" 
-                          className="w-24 h-auto object-contain"
-                          
-                        />
-                        </motion.div>
-          <h1 className="text-4xl font-extrabold text-blue-900 mb-4 cursor-default">
+          <div className="mb-6 flex justify-center">
+            <motion.img 
+              whileHover={{ scale: 1.05 }}
+              src={localStyleLogo} 
+              alt="LocalStyle" 
+              className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
             Localstyle
           </h1>
-          <p className="text-blue-700 text-base">
-            Connectez-vous à votre compte
+          <p className="text-text-light text-sm uppercase tracking-widest font-medium">
+            Bienvenue
           </p>
         </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+        <form onSubmit={handleSubmit} className="space-y-8">
           {/* Email */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <div className="space-y-2">
+            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Email</label>
+            <div className="relative group">
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full px-4 py-3 pl-11 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
-                    ? "border-red-500 focus:ring-red-500" 
-                    : "border-gray-200 focus:border-blue-500"
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
                 }`}
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
+              <p className="text-danger text-[10px] mt-1 flex items-center italic">
                 {errors.email}
               </p>
             )}
           </div>
 
           {/* Mot de passe */}
-          <div>
-            <label className="block text-blue-800 font-medium mb-2">Mot de passe</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <div className="space-y-2">
+            <div className="flex justify-between items-end">
+              <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
+              <Link 
+                to="/forgot-password" 
+                className="text-[10px] text-text-light hover:text-green transition-colors uppercase tracking-wider"
+              >
+                Oublié ?
+              </Link>
+            </div>
+            <div className="relative group">
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full px-4 py-3 pl-11 pr-12 rounded-xl border-2 bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
-                    ? "border-red-500 focus:ring-red-500" 
-                    : "border-gray-200 focus:border-blue-500"
+                    ? "border-danger" 
+                    : "border-border focus:border-green"
                 }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-2 flex items-center">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></span>
+              <p className="text-danger text-[10px] mt-1 flex items-center italic">
                 {errors.password}
               </p>
             )}
           </div>
 
-          {/* Lien mot de passe oublié */}
-          <div className="text-right">
-            <Link 
-              to="/forgot-password" 
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline transition-colors"
-            >
-              Mot de passe oublié ?
-            </Link>
-          </div>
-
           {/* Erreur de soumission */}
           {errors.submit && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-md text-sm"
-            >
+            <div className="text-danger text-[11px] bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
               {errors.submit}
-            </motion.div>
+            </div>
           )}
 
           {/* Bouton de connexion */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-green text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
             {loading ? (
-              <>
-                <Loader2 className="animate-spin w-5 h-5 mr-2" />
-                Connexion...
-              </>
+              <Loader2 className="animate-spin w-4 h-4 mx-auto" />
             ) : (
               "Se connecter"
             )}
           </motion.button>
 
           {/* Séparateur */}
-          <div className="relative flex items-center my-6">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-400 text-sm font-medium">ou</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+          <div className="relative flex items-center py-2">
+            <div className="flex-grow border-t border-border"></div>
+            <span className="mx-4 text-[10px] text-text-light uppercase tracking-widest">ou</span>
+            <div className="flex-grow border-t border-border"></div>
           </div>
 
           {/* Bouton Google */}
-          <motion.button
+          <button
             type="button"
             onClick={handleGoogleLogin}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-3 border-2 border-gray-300 rounded-xl flex items-center justify-center gap-3 text-gray-700 hover:bg-gray-50/50 hover:border-gray-400 transition-all"
+            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-[11px] text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300"
           >
             <img 
               src="https://www.svgrepo.com/show/475656/google-color.svg" 
               alt="Google" 
-              className="w-6 h-6"
+              className="w-4 h-4 grayscale opacity-70"
             />
-            Continuer avec Google
-          </motion.button>
+            Google
+          </button>
 
           {/* Lien vers l'inscription */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-center mt-6"
-          >
-            <p className="text-gray-600">
-              Pas encore de compte ?{" "}
+          <div className="text-center pt-4">
+            <p className="text-[11px] text-text-light uppercase tracking-widest">
+              Pas de compte ?{" "}
               <Link
                 to="/register"
-                className="text-blue-600 font-semibold hover:text-blue-800 hover:underline transition-colors"
+                className="text-green font-bold hover:text-green-dark transition-colors"
               >
-                Créer un compte
+                S'inscrire
               </Link>
             </p>
-          </motion.div>
+          </div>
         </form>
       </motion.div>
     </div>

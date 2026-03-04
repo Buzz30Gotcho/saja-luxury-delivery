@@ -6,7 +6,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ShopDetail from "../pages/ShopDetail";
+import ShopList from "../pages/ShopList";
 import ProductDetail from "../pages/ProductDetail";
+import ProductCatalogue from "../pages/ProductCatalogue";
 import CartPage from "../pages/CartPage";
 import Checkout from "../pages/Checkout";
 import CompteUser from "../pages/CompteUser";
@@ -31,7 +33,9 @@ export const routes = (
     <Route path="/" element={<Home />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
+    <Route path="/shops" element={<ShopList />} />
     <Route path="/shop/:id" element={<ShopDetail />} />
+    <Route path="/catalogue" element={<ProductCatalogue />} />
     <Route path="/product/:id" element={<ProductDetail />} />
     <Route path="/category/:category" element={<Home />} />
 
