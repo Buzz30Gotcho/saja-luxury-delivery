@@ -1,15 +1,28 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Ajoute cette import
+import { useLocation, useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const ProductCard = ({ product }) => {
   const { addItem } = useContext(CartContext);
-  const navigate = useNavigate(); // Ajoute cette ligne
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product);
+
+    if (!user?.id) {
+      navigate('/login', { state: { from: location.pathname } });
+      return;
+    }
+
+    try {
+      await addItem(product);
+    } catch (error) {
+      console.error('Erreur ajout panier:', error);
+    }
   };
 
   const handleCardClick = (e) => {

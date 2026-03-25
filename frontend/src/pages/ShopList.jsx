@@ -1,10 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShops } from '../hooks/useShops';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
-import { Search } from 'lucide-react';
+import Maps from '../Map/Maps';
 import heroImage from '/localstyle.png';
+
+const toRad = (value) => (value * Math.PI) / 180;
+
+const haversineDistanceKm = (lat1, lon1, lat2, lon2) => {
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+const estimateEtaMinutes = (distanceKm) => {
+  // Estimation simple : vitesse moyenne urbaine + temps fixe de préparation
+  const averageSpeedKmh = 25;
+  const prepMinutes = 8;
+  const travelMinutes = (distanceKm / averageSpeedKmh) * 60;
+  return Math.max(10, Math.round(prepMinutes + travelMinutes));
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -21,6 +44,80 @@ const stagger = {
 
 const ShopList = () => {
   const { shops, loading, error } = useShops();
+  const [userLocation, setUserLocation] = useState(null);
+  const [geoStatus, setGeoStatus] = useState('idle');
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setGeoStatus('unsupported');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setGeoStatus('granted');
+      },
+      () => {
+        setGeoStatus('denied');
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5 * 60 * 1000,
+      }
+    );
+  }, []);
+
+  const shopsWithDistanceAndEta = useMemo(() => {
+    if (!shops || shops.length === 0) return [];
+
+    const enrichedShops = shops.map((shop) => {
+      const latitude = Number(shop?.latitude);
+      const longitude = Number(shop?.longitude);
+      const hasCoordinates = Number.isFinite(latitude) && Number.isFinite(longitude);
+
+      if (!userLocation || !hasCoordinates) {
+        return {
+          ...shop,
+          distanceKm: null,
+          etaMin: null,
+        };
+      }
+
+      const distanceKmRaw = haversineDistanceKm(
+        userLocation.latitude,
+        userLocation.longitude,
+        latitude,
+        longitude
+      );
+
+      const distanceKm = Number(distanceKmRaw.toFixed(1));
+
+      return {
+        ...shop,
+        distanceKm,
+        etaMin: estimateEtaMinutes(distanceKmRaw),
+      };
+    });
+
+    return enrichedShops.sort((a, b) => {
+      const aDistance = a.distanceKm;
+      const bDistance = b.distanceKm;
+
+      if (aDistance == null && bDistance == null) return 0;
+      if (aDistance == null) return 1;
+      if (bDistance == null) return -1;
+      return aDistance - bDistance;
+    });
+  }, [shops, userLocation]);
+
+  const shopsWithCoordinates = (shops || []).filter(
+    (shop) => Number.isFinite(Number(shop?.latitude)) && Number.isFinite(Number(shop?.longitude))
+  );
 
   if (loading) {
     return (
@@ -64,8 +161,43 @@ const ShopList = () => {
           </motion.p>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20"
+        >
+          <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-2xl md:text-3xl font-serif text-text-dark">Carte des boutiques</h2>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+              {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
+            </p>
+          </div>
+
+          {shopsWithCoordinates.length > 0 ? (
+            <Maps shops={shopsWithCoordinates} />
+          ) : (
+            <div className="w-full h-[220px] bg-card border border-border flex items-center justify-center p-6 text-center">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
+                Aucune boutique n&apos;a encore de coordonnées GPS.
+              </p>
+            </div>
+          )}
+
+          {geoStatus !== 'granted' && (
+            <p className="mt-4 text-[10px] uppercase tracking-[0.2em] text-text-light">
+              Position non disponible. Activez la géolocalisation pour voir distance et ETA.
+            </p>
+          )}
+        </motion.div>
+
         {/* Shops Grid */}
         {shops && shops.length > 0 ? (
+          <>
+          {geoStatus === 'granted' && (
+            <p className="mb-6 text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+              Boutiques triées par distance
+            </p>
+          )}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -73,7 +205,7 @@ const ShopList = () => {
             variants={stagger}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20"
           >
-            {shops.map((shop, i) => (
+            {shopsWithDistanceAndEta.map((shop, i) => (
               <motion.div key={shop.id} variants={fadeUp} custom={i}>
                 <Link to={`/shop/${shop.id}`} className="group block">
                   <div className="relative aspect-[16/10] overflow-hidden bg-white mb-8 shadow-sm">
@@ -96,7 +228,7 @@ const ShopList = () => {
                     </h3>
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] text-text-light uppercase tracking-[0.2em] font-bold">
-                         📍 {shop.distance ? `${shop.distance} km` : 'Local'}
+                         📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : 'Local'}
                       </p>
                       <span className="text-[10px] text-green uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Visiter la boutique
@@ -107,6 +239,7 @@ const ShopList = () => {
               </motion.div>
             ))}
           </motion.div>
+          </>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}

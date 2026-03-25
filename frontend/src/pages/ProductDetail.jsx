@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useProduct } from '../hooks/useProduct';
 import CartContext from '../context/CartContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useAuth } from '../context/AuthContext';
 
 import SimilarProducts from '../components/SimilarProducts';
 
@@ -10,8 +11,12 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { product, loading, error } = useProduct(id);
   const { addItem } = useContext(CartContext);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const [addError, setAddError] = useState('');
 
   if (loading) {
     return (
@@ -48,12 +53,22 @@ const ProductDetail = () => {
     );
   }
 
-  const handleAddToCart = () => {
-    addItem(product, quantity);
-    setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 2000);
+  const handleAddToCart = async () => {
+    if (!user?.id) {
+      navigate('/login', { state: { from: location.pathname } });
+      return;
+    }
+
+    try {
+      setAddError('');
+      await addItem(product, quantity);
+      setIsAdded(true);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+    } catch (err) {
+      setAddError(err?.message || 'Impossible d’ajouter au panier pour le moment.');
+    }
   };
 
   return (
@@ -154,6 +169,12 @@ const ProductDetail = () => {
                   </>
                 )}
               </button>
+
+              {addError && (
+                <p className="text-[10px] uppercase tracking-[0.15em] text-red-500 text-center">
+                  {addError}
+                </p>
+              )}
             </div>
 
             {/* Livraison / Stock Infos */}

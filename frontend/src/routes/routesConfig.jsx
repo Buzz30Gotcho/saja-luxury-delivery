@@ -11,6 +11,7 @@ import ProductDetail from "../pages/ProductDetail";
 import ProductCatalogue from "../pages/ProductCatalogue";
 import CartPage from "../pages/CartPage";
 import Checkout from "../pages/Checkout";
+import OrderTracking from "../pages/OrderTracking";
 import CompteUser from "../pages/CompteUser";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedRouteMerchant from "./ProtectedRouteMerchant";
@@ -73,6 +74,14 @@ export const routes = (
         </ProtectedRoute>
       }
     />
+     <Route
+       path="/order-tracking/:orderId"
+       element={
+         <ProtectedRoute role="user">
+           <OrderTracking />
+         </ProtectedRoute>
+       }
+     />
     <Route
       path="/orders"
       element={

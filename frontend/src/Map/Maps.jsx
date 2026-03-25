@@ -1,5 +1,5 @@
 // src/components/Map.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -9,8 +9,20 @@ const containerStyle = {
 
 const defaultCenter = { lat: 48.8566, lng: 2.3522 }; // Paris par défaut
 
-const Map = ({ shops }) => {
+const Maps = ({ shops = [] }) => {
   const [userLocation, setUserLocation] = useState(null);
+  const [geoError, setGeoError] = useState(false);
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  const safeShops = useMemo(
+    () =>
+      (shops || []).filter(
+        (shop) =>
+          Number.isFinite(Number(shop?.latitude)) &&
+          Number.isFinite(Number(shop?.longitude))
+      ),
+    [shops]
+  );
 
   // 1️⃣ Récupérer la localisation de l'utilisateur
   useEffect(() => {
@@ -23,26 +35,34 @@ const Map = ({ shops }) => {
           });
         },
         () => {
-          alert("Impossible de récupérer votre position, localisation par défaut utilisée.");
+          setGeoError(true);
         }
       );
-    } else {
-      alert("Votre navigateur ne supporte pas la géolocalisation.");
     }
   }, []);
 
+  if (!googleMapsApiKey) {
+    return (
+      <div className="w-full h-[400px] bg-card border border-border flex items-center justify-center p-6 text-center">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
+          Carte indisponible : ajoutez <strong>VITE_GOOGLE_MAPS_API_KEY</strong> dans le fichier <strong>frontend/.env</strong>.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+    <LoadScript googleMapsApiKey={googleMapsApiKey}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={userLocation || defaultCenter}
         zoom={13}
       >
         {/* Marqueurs des shops */}
-        {shops.map((shop) => (
+        {safeShops.map((shop) => (
           <Marker
             key={shop.id}
-            position={{ lat: shop.latitude, lng: shop.longitude }}
+            position={{ lat: Number(shop.latitude), lng: Number(shop.longitude) }}
             title={shop.name}
           />
         ))}
@@ -58,8 +78,13 @@ const Map = ({ shops }) => {
           />
         )}
       </GoogleMap>
+      {geoError && (
+        <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-text-light">
+          Position non disponible, affichage centré sur Paris.
+        </p>
+      )}
     </LoadScript>
   );
 };
 
-export default Map;
+export default Maps;

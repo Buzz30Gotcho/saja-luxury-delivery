@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -14,7 +14,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  const redirectTo = typeof location.state?.from === 'string' ? location.state.from : '/';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,8 +56,8 @@ const Login = () => {
           profile: profile.data || {}
         });
         
-        // Redirection vers la home page
-        navigate("/");
+        // Redirection vers la page d'origine (ou home par défaut)
+        navigate(redirectTo);
       }
     } catch (error) {
       setErrors({ submit: "Erreur lors de la connexion" });

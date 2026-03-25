@@ -100,8 +100,25 @@ const Checkout = () => {
 
       // Succès du paiement
       setTransactionId(data.transactionId);
+       const orderId = data.orderId;
+
+       // Auto-assigner le coursier
+       if (orderId) {
+         try {
+           await fetch(`/api/delivery/assign/${orderId}`, { method: 'POST' });
+         } catch (err) {
+           console.error('Erreur assignation coursier:', err);
+         }
+       }
+
       await clearCart();
-      setOrderPlaced(true);
+     
+       // Rediriger vers le suivi de livraison
+       if (orderId) {
+         navigate(`/order-tracking/${orderId}`);
+       } else {
+         setOrderPlaced(true);
+       }
     } catch (error) {
       console.error('Payment error:', error);
       setPaymentError('Une erreur réseau ou de serveur est survenue.');

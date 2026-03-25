@@ -183,6 +183,7 @@ export const processPayment = async (req, res) => {
             success: true,
             message: 'Paiement traité avec succès.',
             transactionId: transactionId,
+            orderId: createdOrder.id,
         });
     } catch (error) {
         console.error('Payment processing error:', error);
