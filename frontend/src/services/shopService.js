@@ -5,20 +5,17 @@ export const shopService = {
     try {
       const { data, error } = await supabase
         .from('shops')
-        .select(`
-          *,
-          products (*)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      if (!data) return [];
 
-      // Ajout des champs de disponibilité si non présents
       return data.map(shop => ({
         ...shop,
-        deliveryAvailable: shop.delivery_available === false ? false : true,
-        pickupAvailable: shop.pickup_available === false ? false : true,
-        isOpen: shop.is_open === false ? false : true
+        deliveryAvailable: true, // Defaulting to true as columns don't exist yet
+        pickupAvailable: true,
+        isOpen: shop.is_active !== false
       }));
     } catch (error) {
       console.error('Error fetching shops:', error);
@@ -84,6 +81,7 @@ export const shopService = {
         .textSearch('name', query);
 
       if (error) throw error;
+      if (!data) return [];
 
       return data.map(shop => ({
         ...shop,

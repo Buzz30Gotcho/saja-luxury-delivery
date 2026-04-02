@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, LogIn, Eye, EyeOff } from "lucide-react";
 
@@ -11,6 +12,7 @@ const LoginMerchant = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -29,13 +31,23 @@ const LoginMerchant = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     setLoading(true);
-    setTimeout(() => {
-      navigate("/merchant/dashboard");
-    }, 1200);
+    
+    try {
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        navigate("/merchant/dashboard");
+      } else {
+        setErrors({ submit: result.error });
+      }
+    } catch (err) {
+      setErrors({ submit: "Identifiants incorrects." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

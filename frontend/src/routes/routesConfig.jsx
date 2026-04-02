@@ -1,3 +1,4 @@
+import HistoriqueLivraisons from "../pages/coursier/HistoriqueLivraisons";
 import React from "react";
 import { Route, Navigate } from "react-router-dom";
 
@@ -13,8 +14,13 @@ import CartPage from "../pages/CartPage";
 import Checkout from "../pages/Checkout";
 import OrderTracking from "../pages/OrderTracking";
 import CompteUser from "../pages/CompteUser";
+import CoursierDashboard from "../pages/coursier/CoursierDashboard";
+import LoginCoursier from "../pages/coursier/LoginCoursier";
+import RegisterCoursier from "../pages/coursier/RegisterCoursier";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedRouteMerchant from "./ProtectedRouteMerchant";
+import ProtectedRouteCoursier from "./ProtectedRouteCoursier";
+import CoursierLayout from "../components/CoursierLayout";
 // Merchant pages
 import LoginMerchant from "../pages/merchant/LoginMerchant";
 import RegisterMerchant from "../pages/merchant/RegisterMerchant";
@@ -29,110 +35,132 @@ const Help = () => <div>Aide</div>;
 const Settings = () => <div>Paramètres</div>;
 
 export const routes = (
-  <Route element={<Layout />}>
-    {/* Public routes */}
-    <Route path="/" element={<Home />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/shops" element={<ShopList />} />
-    <Route path="/shop/:id" element={<ShopDetail />} />
-    <Route path="/catalogue" element={<ProductCatalogue />} />
-    <Route path="/product/:id" element={<ProductDetail />} />
-    <Route path="/category/:category" element={<Home />} />
+  <>
+    <Route element={<Layout />}>
+      {/* Public routes */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/shops" element={<ShopList />} />
+      <Route path="/shop/:id" element={<ShopDetail />} />
+      <Route path="/catalogue" element={<ProductCatalogue />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/category/:category" element={<Home />} />
 
-    {/* Merchant public routes */}
+      {/* Merchant public routes */}
+      <Route path="/merchant/login" element={<LoginMerchant />} />
+      <Route path="/merchant/register" element={<RegisterMerchant />} />
 
-    <Route path="/merchant/login" element={   <LoginMerchant />
-    
-    } />
+      {/* User protected routes */}
+      <Route
+        path="/compte_user"
+        element={
+          <ProtectedRoute>
+            <CompteUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/order-tracking/:orderId"
+        element={
+          <ProtectedRoute>
+            <OrderTracking />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/favorites"
+        element={
+          <ProtectedRoute>
+            <Favorites />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/addresses"
+        element={
+          <ProtectedRoute>
+            <Addresses />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <ProtectedRoute role="customer">
+            <Payment />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/help"
+        element={
+          <ProtectedRoute >
+            <Help />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute role="user">
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
 
-       <Route path="/merchant/register" element={  <RegisterMerchant />} />
-    
+      {/* renvoie vers le home si il ne trouve pas la page */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Route>
 
-    {/* User protected routes */}
-    <Route
-      path="/compte_user"
-      element={
-        <ProtectedRoute role="user">
-          <CompteUser />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/cart"
-      element={
-        <ProtectedRoute>
-          <CartPage />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/checkout"
-      element={
-        <ProtectedRoute role="user">
-          <Checkout />
-        </ProtectedRoute>
-      }
-    />
-     <Route
-       path="/order-tracking/:orderId"
-       element={
-         <ProtectedRoute role="user">
-           <OrderTracking />
-         </ProtectedRoute>
-       }
-     />
-    <Route
-      path="/orders"
-      element={
-        <ProtectedRoute role="user">
-          <Orders />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/favorites"
-      element={
-        <ProtectedRoute role="user">
-          <Favorites />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/addresses"
-      element={
-        <ProtectedRoute role="user">
-          <Addresses />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/payment"
-      element={
-        <ProtectedRoute role="user">
-          <Payment />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/help"
-      element={
-        <ProtectedRoute role="user">
-          <Help />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/settings"
-      element={
-        <ProtectedRoute role="user">
-          <Settings />
-        </ProtectedRoute>
-      }
-    />
+    {/* COURSIER APP - COMPLETELY SEPARATE FROM CUSTOMER SITE */}
+    {/* Public routes (no header) */}
+    <Route path="/coursier/login" element={<LoginCoursier />} />
+    <Route path="/coursier/register" element={<RegisterCoursier />} />
 
+    {/* Protected routes with layout */}
+    <Route element={<CoursierLayout />}>
+      <Route
+        path="/coursier/dashboard"
+        element={
+          <ProtectedRouteCoursier>
+            <CoursierDashboard />
+          </ProtectedRouteCoursier>
+        }
+      />
 
-    {/* renvoie vers le home si il ne trouve pas la page */}
-    <Route path="*" element={<Navigate to="/" />} />
-  </Route>
+      <Route
+        path="/coursier/historique"
+        element={
+          <ProtectedRouteCoursier>
+            <HistoriqueLivraisons />
+          </ProtectedRouteCoursier>
+        }
+      />
+    </Route>
+  </>
 );

@@ -9,17 +9,17 @@ export const productService = {
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data
+    return data || []
   },
 
   async getAllProducts() {
     const { data, error } = await supabase
       .from('products')
-      .select('*, shops(*)')
+      .select('*')
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data
+    return data || []
   },
 
   async getProductsByCategory(category) {
@@ -30,7 +30,7 @@ export const productService = {
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data
+    return data || []
   },
 
   async getProductById(id) {

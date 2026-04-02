@@ -1,10 +1,9 @@
-// src/routes/ProtectedRouteMerchant.jsx
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuthMerchant } from "../context/merchant/MerchantAuthContext"; // ton context merchant
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedRouteMerchant = ({ children }) => {
-  const { merchantUser, loading } = useAuthMerchant();
+  const { user, loading } = useAuth();
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen text-gray-700 text-xl">
@@ -12,8 +11,9 @@ const ProtectedRouteMerchant = ({ children }) => {
     </div>
   );
 
-  if (!merchantUser) {
-    return <Navigate to="/login_merchant" replace />;
+  // Vérifie si l'utilisateur est connecté ET s'il a le rôle de propriétaire de boutique
+  if (!user || (user.role !== 'shop_owner' && user.profile?.role !== 'shop_owner')) {
+    return <Navigate to="/merchant/login" replace />;
   }
 
   return children;

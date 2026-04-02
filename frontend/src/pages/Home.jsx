@@ -29,9 +29,16 @@ const Home = () => {
   const { shops, loading: shopsLoading } = useShops();
   const { products, loading: productsLoading } = useProducts();
 
+  console.log('--- Home Render Status ---');
+  console.log('authLoading:', authLoading);
+  console.log('shopsLoading:', shopsLoading);
+  console.log('shopsCount:', shops?.length || 0);
+
   const featuredShops = shops ? shops.slice(0, 3) : [];
   const signatureProducts = products ? products.slice(0, 4) : [];
 
+  // TEMPORAIREMENT COMMENTÉ POUR DÉBUGGER
+  /*
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -39,9 +46,12 @@ const Home = () => {
       </div>
     );
   }
+  */
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Afficher un message de chargement plus discret si authLoading est vrai */}
+      {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
       {/* Hero Section */}
       <section className="relative h-[85vh] overflow-hidden">
         <div className="absolute inset-0">
@@ -203,7 +213,7 @@ const Home = () => {
             </motion.p>
           </div>
 
-          <motion.div 
+          <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="visible"

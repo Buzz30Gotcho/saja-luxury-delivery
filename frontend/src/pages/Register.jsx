@@ -14,7 +14,6 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     acceptTerms: false,
-    newsletter: false,
     rememberMe: false
   });
   const [errors, setErrors] = useState({});
@@ -108,8 +107,10 @@ const handleSubmit = async (e) => {
     const result = await authService.signUp(
       formData.email,
       formData.password,
-      formData.displayName,
-      formData.newsletter
+      {
+        display_name: formData.displayName,
+        role: 'customer'
+      }
     );
     
     if (result.success) {

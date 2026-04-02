@@ -1,5 +1,34 @@
 import supabase from '../supabaseClient.js'
 
+const buildDeliveryAddress = ({ address, postalCode, city, country }) =>
+    [address, postalCode, city, country].filter(Boolean).join(', ')
+
+const geocodeAddress = async (rawAddress) => {
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.VITE_GOOGLE_MAPS_API_KEY
+    const normalizedAddress = String(rawAddress || '').trim()
+
+    if (!apiKey || !normalizedAddress) return null
+
+    try {
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(normalizedAddress)}&region=fr&language=fr&key=${apiKey}`
+        const response = await fetch(url)
+
+        if (!response.ok) return null
+
+        const payload = await response.json()
+        const location = payload?.results?.[0]?.geometry?.location
+
+        if (payload?.status !== 'OK' || !location) return null
+
+        return {
+            lat: Number(Number(location.lat).toFixed(6)),
+            lng: Number(Number(location.lng).toFixed(6)),
+        }
+    } catch {
+        return null
+    }
+}
+
 export const processPayment = async (req, res) => {
     try {
         const { paymentDetails, shippingDetails, userId, cartItems, totalPrice } = req.body;
@@ -179,6 +208,56 @@ export const processPayment = async (req, res) => {
             }
         }
 
+        // Créer automatiquement une mission coursier en attente
+        // pour que la commande apparaisse côté dashboard coursier.
+        const { data: shopForMission } = await supabase
+            .from('shops')
+            .select('latitude, longitude')
+            .eq('id', shopId)
+            .maybeSingle();
+
+        const pickupLat = Number(shopForMission?.latitude);
+        const pickupLng = Number(shopForMission?.longitude);
+        const hasPickupCoords = Number.isFinite(pickupLat) && Number.isFinite(pickupLng);
+
+        if (hasPickupCoords) {
+            const deliveryAddress = buildDeliveryAddress({
+                address: shippingDetails.address,
+                postalCode: shippingDetails.postalCode,
+                city: shippingDetails.city,
+                country: shippingDetails.country,
+            });
+
+            const geocodedDropoff = await geocodeAddress(deliveryAddress);
+            const fallbackDropoffLat = Number((pickupLat + 0.01).toFixed(6));
+            const fallbackDropoffLng = Number((pickupLng + 0.01).toFixed(6));
+
+            if (!geocodedDropoff) {
+                console.warn('[checkout] geocoding client impossible, fallback coord estimée utilisée:', {
+                    orderId: createdOrder.id,
+                    deliveryAddress,
+                    fallbackDropoffLat,
+                    fallbackDropoffLng,
+                });
+            }
+
+            await supabase
+                .from('delivery_missions')
+                .insert([
+                    {
+                        order_id: createdOrder.id,
+                        courier_name: null,
+                        status: 'awaiting_courier',
+                        pickup_lat: pickupLat,
+                        pickup_lng: pickupLng,
+                        dropoff_lat: geocodedDropoff?.lat ?? fallbackDropoffLat,
+                        dropoff_lng: geocodedDropoff?.lng ?? fallbackDropoffLng,
+                        courier_lat: pickupLat,
+                        courier_lng: pickupLng,
+                    },
+                ]);
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Paiement traité avec succès.',
@@ -208,7 +287,13 @@ export const getUserOrders = async (req, res) => {
                     product_id,
                     quantity,
                     unit_price,
-                    total_price
+                    total_price,
+                    products:product_id (
+                        id,
+                        name,
+                        image,
+                        price
+                    )
                 )
             `)
             .eq('user_id', userId)
@@ -218,6 +303,7 @@ export const getUserOrders = async (req, res) => {
 
         const normalizedOrders = (data || []).map((order) => ({
             id: order.id,
+            order_number: String(order.id).slice(0, 8).toUpperCase(),
             transaction_id: `SIM-${String(order.id).replace(/-/g, '').slice(0, 8).toUpperCase()}`,
             total_price: Number(order.total_amount || 0),
             status: order.payment_status === 'paid' ? 'confirmed' : (order.status || 'pending'),
@@ -228,7 +314,13 @@ export const getUserOrders = async (req, res) => {
                 postalCode: order.delivery_postal_code,
                 phone: order.customer_phone,
             },
-            items: Array.isArray(order.order_items) ? order.order_items : [],
+            items: Array.isArray(order.order_items)
+                ? order.order_items.map((item) => ({
+                    ...item,
+                    product_name: item?.products?.name || 'Produit',
+                    product_image: item?.products?.image || null,
+                }))
+                : [],
             created_at: order.created_at,
         }));
 

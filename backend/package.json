@@ -4,9 +4,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "fuser -k 4000/tcp 2>/dev/null || true; nodemon server.js",
-    "dev": "nodemon server.js",
-    "start:clean": "fuser -k 4000/tcp 2>/dev/null || true; nodemon server.js"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.10.0",

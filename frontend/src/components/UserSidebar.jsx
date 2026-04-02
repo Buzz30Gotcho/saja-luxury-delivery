@@ -10,7 +10,6 @@ const UserSidebar = ({ user, activeSection, setActiveSection }) => {
     { id: 'orders', label: 'Commandes', icon: '📦' },
     { id: 'addresses', label: 'Adresses', icon: '📍' },
     { id: 'payment', label: 'Paiement', icon: '💳' },
-    { id: 'favorites', label: 'Favoris', icon: '❤️' },
   ];
 
   const getProfileImage = () => {
@@ -26,7 +25,7 @@ const UserSidebar = ({ user, activeSection, setActiveSection }) => {
           src={getProfileImage()}
           alt="Profile"
           className="w-12 h-12 rounded-full border-2 border-gray-200 object-cover"
-        />
+        />kingdom
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 text-sm truncate">
             {user?.user_metadata?.full_name || user?.email?.split('@')[0]}

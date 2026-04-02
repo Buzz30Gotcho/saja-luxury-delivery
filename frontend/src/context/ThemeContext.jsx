@@ -9,9 +9,8 @@ export const ThemeProvider = ({ children }) => {
   // Initialiser le thème au montage
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark =
-      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
+    // On force 'light' par défaut si rien n'est stocké, au lieu de regarder prefers-color-scheme
+    const initialTheme = storedTheme || "light";
     
     setTheme(initialTheme);
     applyTheme(initialTheme);

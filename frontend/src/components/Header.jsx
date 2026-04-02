@@ -36,14 +36,18 @@ const Header = () => {
            'Utilisateur';
   };
 
+  const getUserRole = () => {
+    return user?.role || user?.profile?.role || 'customer';
+  };
+
   return (
     <header className="bg-background border-b border-neutral-light sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200">
-            <span className="text-2xl font-serif font-bold text-green tracking-wider">Shop In Line</span>
+          <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200 min-w-0">
+            <span className="font-serif font-bold text-green tracking-wider truncate text-lg sm:text-xl md:text-2xl max-w-[120px] sm:max-w-xs">Shop In Line</span>
           </Link>
 
           {/* Navigation Desktop */}
@@ -110,12 +114,14 @@ const Header = () => {
                 <div className={`absolute right-0 mt-2 w-48 bg-background rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
                   isUserMenuOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
                 }`}>
-                  <div className="p-4 border-b border-neutral-light flex justify-center">
+                  <div className="p-4 border-b border-neutral-light flex justify-center flex-col items-center">
                     <img
                       src={getProfileImage()}
                       alt="Profile"
-                      className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium mb-2"
                     />
+                    <p className="text-xs font-semibold text-text-dark">{getUserName()}</p>
+                    <p className="text-[10px] text-text-light uppercase tracking-widest">{getUserRole()}</p>
                   </div>
                   <div className="p-2 flex flex-col">
                     <Link
@@ -125,6 +131,17 @@ const Header = () => {
                     >
                       <span>👤</span> <span>Mon compte</span>
                     </Link>
+
+                    {getUserRole() === 'shop_owner' && (
+                      <Link
+                        to="/merchant/dashboard"
+                        className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-sm"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <span>🏬</span> <span>Dashboard Marchand</span>
+                      </Link>
+                    )}
+
                     <button
                       onClick={handleLogout}
                       className="flex items-center space-x-2 w-full px-3 py-2 text-danger hover:bg-red-50 rounded-lg text-left text-sm"
@@ -166,9 +183,9 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-2 bg-background border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
-            <Link to="/" className="block py-2 text-text-medium hover:text-green transition-colors">Accueil</Link>
-            <Link to="/shops" className="block py-2 text-text-medium hover:text-green transition-colors">Boutiques</Link>
-            <Link to="/catalogue" className="block py-2 text-text-medium hover:text-green transition-colors">Catalogue</Link>
+            <Link to="/" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
+            <Link to="/shops" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
+            <Link to="/catalogue" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
           </div>
         )}
       </div>

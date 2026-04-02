@@ -40,27 +40,18 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Utilisation du service d'authentification
-      const { data, error } = await authService.signIn(formData.email, formData.password);
+      // Utilisation de la fonction login du contexte qui gère tout (signIn + profil)
+      const result = await login(formData.email, formData.password);
 
-      if (error) {
-        setErrors({ submit: error.message });
-      } else if (data.user) {
-        // Récupération du profil complet si nécessaire
-        const profile = await authService.getUserProfile(data.user.id);
-        
-        login({
-          email: data.user.email,
-          id: data.user.id,
-          user_metadata: data.user.user_metadata || {},
-          profile: profile.data || {}
-        });
-        
+      if (!result.success) {
+        setErrors({ submit: result.error || "Erreur lors de la connexion" });
+      } else {
         // Redirection vers la page d'origine (ou home par défaut)
         navigate(redirectTo);
       }
     } catch (error) {
-      setErrors({ submit: "Erreur lors de la connexion" });
+      console.error("Login page error:", error);
+      setErrors({ submit: "Une erreur inattendue est survenue" });
     } finally {
       setLoading(false);
     }

@@ -48,6 +48,9 @@ const OrderHistory = ({ user }) => {
             <div key={order.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start mb-3">
                 <div>
+                  <p className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1">
+                    Commande #{order.order_number || order.id?.slice(0, 8)}
+                  </p>
                   <p className="text-sm font-semibold text-gray-900">
                     Transaction: {order.transaction_id}
                   </p>
@@ -73,6 +76,25 @@ const OrderHistory = ({ user }) => {
                 <p className="text-xs text-gray-600">
                   {order.shipping_details?.address}, {order.shipping_details?.postalCode} {order.shipping_details?.city}
                 </p>
+              </div>
+
+              <div className="border-t pt-3 mb-3">
+                <p className="text-xs font-semibold text-gray-700 mb-2">Produits commandés</p>
+                {order.items && order.items.length > 0 ? (
+                  <div className="space-y-2">
+                    {order.items.map((item) => (
+                      <div key={item.id} className="flex items-center justify-between text-xs text-gray-700 bg-gray-50 rounded-md px-3 py-2">
+                        <div className="min-w-0">
+                          <p className="font-medium truncate">{item.product_name || 'Produit'}</p>
+                          <p className="text-gray-500">Qté: {item.quantity}</p>
+                        </div>
+                        <p className="font-semibold">{Number(item.total_price || item.unit_price * item.quantity || 0).toFixed(2)}€</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-gray-500 italic">Aucun article détaillé disponible.</p>
+                )}
               </div>
 
               <div className="border-t pt-3 flex justify-between items-center">

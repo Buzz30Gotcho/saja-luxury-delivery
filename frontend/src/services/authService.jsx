@@ -10,30 +10,30 @@ export const authService = {
     return { data, error };
   },
 
-  // Inscription
- signUp: async (email, password, displayName = '', newsletter = false) => {
+   
+// Inscription
+signUp: async (email, password, userData = {}) => {
   try {
-    email = email.trim().toLowerCase();
-    const finalDisplayName = displayName || email.split('@')[0];
+    const finalEmail = email.trim().toLowerCase();
+    const role = userData.role || 'customer';
+    const display_name = userData.display_name || userData.firstName || finalEmail.split('@')[0];
 
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: finalEmail,
       password,
       options: {
         data: {
-          display_name: finalDisplayName,
-          newsletter_subscribed: newsletter
+          ...userData,
+          display_name,
+          role
         }
       }
     });
 
     if (error) {
       console.error('❌ Erreur Auth:', error);
-      return { success: false, error };
+      return { success: false, error: error.message };
     }
-
-    console.log('✅ Compte auth créé:', data.user?.id);
-supabase.auth.getUser().then(console.log)
 
     return {
       success: true,
@@ -43,7 +43,7 @@ supabase.auth.getUser().then(console.log)
     };
   } catch (error) {
     console.error('💥 Erreur inattendue:', error);
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 },
 

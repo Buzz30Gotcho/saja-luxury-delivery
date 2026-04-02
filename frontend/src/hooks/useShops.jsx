@@ -8,6 +8,11 @@ export const useShops = (category = null, deliveryMode = null) => {
 
   useEffect(() => {
     const fetchShops = async () => {
+      const timeout = setTimeout(() => {
+        setLoading(false);
+        setError("Le délai d'attente de la base de données a expiré.");
+      }, 5000);
+
       try {
         setLoading(true);
         setError(null);
@@ -21,16 +26,20 @@ export const useShops = (category = null, deliveryMode = null) => {
           data = await shopService.getAllShops();
         }
 
+        clearTimeout(timeout);
         console.log('Shops fetched:', data);
 
+        if (!data) data = [];
+
         // Filtrage selon le mode de livraison (si spécifié et si les données existent)
+        let filteredData = [...data];
         if (deliveryMode === 'delivery') {
-          data = data.filter(shop => shop.deliveryAvailable !== false);
+          filteredData = data.filter(shop => shop.deliveryAvailable !== false);
         } else if (deliveryMode === 'pickup') {
-          data = data.filter(shop => shop.pickupAvailable !== false);
+          filteredData = data.filter(shop => shop.pickupAvailable !== false);
         }
 
-        setShops(data);
+        setShops(filteredData);
       } catch (err) {
         const errorMessage = err.message || 'Erreur lors du chargement des boutiques';
         setError(errorMessage);

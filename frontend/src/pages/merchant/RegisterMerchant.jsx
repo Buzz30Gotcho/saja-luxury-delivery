@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, ShoppingBag, Building, MapPin, Phone, User, UserCircle } from "lucide-react";
 import localStyleLogo from "/localstyle.png";
@@ -21,6 +22,7 @@ const RegisterMerchant = () => {
   
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -69,12 +71,26 @@ const RegisterMerchant = () => {
     
     setLoading(true);
     try {
-      // Simulation d'appel API
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log("Données soumises:", { accountType, ...formData });
-      navigate("/merchant/login");
+      const result = await register(formData.email, formData.password, {
+        role: 'shop_owner',
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        display_name: formData.shopName,
+        shopName: formData.shopName,
+        phone: formData.phone,
+        location: formData.location,
+        accountType: accountType,
+        siret: formData.siret
+      });
+
+      if (result.success) {
+        navigate("/merchant/login", { state: { message: "Inscription réussie ! Veuillez vous connecter." } });
+      } else {
+        setErrors({ submit: result.error });
+      }
     } catch (error) {
       console.error("Erreur d'inscription:", error);
+      setErrors({ submit: "Une erreur est survenue lors de l'inscription." });
     } finally {
       setLoading(false);
     }
