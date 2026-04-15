@@ -1,1 +1,57 @@
-..supabaselemien
+# =========================
+# Logs
+# =========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+# Dependencies
+# =========================
+node_modules/
+**/node_modules/
+
+# =========================
+# Build outputs / caches
+# =========================
+dist/
+build/
+coverage/
+.vite/
+.cache/
+
+# =========================
+# Environment files (secrets)
+# =========================
+.env
+.env.*
+backend/.env
+frontend/.env
+
+# Keep templates tracked
+!.env.example
+!.env.*.example
+
+# =========================
+# Editor / OS
+# =========================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# =========================
+# Runtime / misc
+# =========================
+*.pid
+*.seed
+*.pid.lock
+tmp/
+temp/

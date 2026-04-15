@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShops } from '../hooks/useShops';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -47,11 +47,13 @@ const ShopList = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [geoStatus, setGeoStatus] = useState('idle');
 
-  useEffect(() => {
+  const requestUserLocation = () => {
     if (!navigator.geolocation) {
       setGeoStatus('unsupported');
       return;
     }
+
+    setGeoStatus('loading');
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -65,12 +67,12 @@ const ShopList = () => {
         setGeoStatus('denied');
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 10000,
-        maximumAge: 5 * 60 * 1000,
+        maximumAge: 10 * 60 * 1000,
       }
     );
-  }, []);
+  };
 
   const shopsWithDistanceAndEta = useMemo(() => {
     if (!shops || shops.length === 0) return [];
@@ -168,13 +170,31 @@ const ShopList = () => {
         >
           <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <h2 className="text-2xl md:text-3xl font-serif text-text-dark">Carte des boutiques</h2>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
-              {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+                {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
+              </p>
+              {geoStatus !== 'granted' && (
+                <button
+                  type="button"
+                  onClick={requestUserLocation}
+                  className="rounded border border-border px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-text-dark hover:bg-card transition-colors"
+                >
+                  {geoStatus === 'loading' ? 'Localisation…' : 'Activer ma position'}
+                </button>
+              )}
+            </div>
           </div>
 
           {shopsWithCoordinates.length > 0 ? (
-            <Maps shops={shopsWithCoordinates} />
+            <Maps
+              shops={shopsWithCoordinates}
+              userLocation={
+                userLocation
+                  ? { lat: userLocation.latitude, lng: userLocation.longitude }
+                  : null
+              }
+            />
           ) : (
             <div className="w-full h-[220px] bg-card border border-border flex items-center justify-center p-6 text-center">
               <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
@@ -183,9 +203,9 @@ const ShopList = () => {
             </div>
           )}
 
-          {geoStatus !== 'granted' && (
+          {(geoStatus === 'idle' || geoStatus === 'unsupported' || geoStatus === 'denied') && (
             <p className="mt-4 text-[10px] uppercase tracking-[0.2em] text-text-light">
-              Position non disponible. Activez la géolocalisation pour voir distance et ETA.
+              Position non active. Cliquez sur « Activer ma position » pour afficher distance et ETA.
             </p>
           )}
         </motion.div>

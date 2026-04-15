@@ -1,6 +1,6 @@
 // src/components/Map.js
-import React, { useState, useEffect, useMemo } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import React, { useMemo } from "react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
@@ -9,10 +9,14 @@ const containerStyle = {
 
 const defaultCenter = { lat: 48.8566, lng: 2.3522 }; // Paris par défaut
 
-const Maps = ({ shops = [] }) => {
-  const [userLocation, setUserLocation] = useState(null);
-  const [geoError, setGeoError] = useState(false);
+const Maps = ({ shops = [], userLocation: externalUserLocation = null }) => {
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script-shops",
+    googleMapsApiKey: googleMapsApiKey || "",
+  });
+
+  const userLocation = externalUserLocation;
 
   const safeShops = useMemo(
     () =>
@@ -24,23 +28,6 @@ const Maps = ({ shops = [] }) => {
     [shops]
   );
 
-  // 1️⃣ Récupérer la localisation de l'utilisateur
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        () => {
-          setGeoError(true);
-        }
-      );
-    }
-  }, []);
-
   if (!googleMapsApiKey) {
     return (
       <div className="w-full h-[400px] bg-card border border-border flex items-center justify-center p-6 text-center">
@@ -51,8 +38,26 @@ const Maps = ({ shops = [] }) => {
     );
   }
 
+  if (loadError) {
+    return (
+      <div className="w-full h-[400px] bg-card border border-border flex items-center justify-center p-6 text-center">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
+          Carte indisponible : chargement Google Maps bloqué (clé API invalide, quotas, ou bloqueur de contenu).
+        </p>
+      </div>
+    );
+  }
+
+  if (!isLoaded) {
+    return (
+      <div className="w-full h-[400px] bg-card border border-border flex items-center justify-center p-6 text-center">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">Chargement de la carte…</p>
+      </div>
+    );
+  }
+
   return (
-    <LoadScript googleMapsApiKey={googleMapsApiKey}>
+    <>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={userLocation || defaultCenter}
@@ -73,17 +78,12 @@ const Maps = ({ shops = [] }) => {
             position={userLocation}
             title="Vous êtes ici"
             icon={{
-              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+              url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
             }}
           />
         )}
       </GoogleMap>
-      {geoError && (
-        <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-text-light">
-          Position non disponible, affichage centré sur Paris.
-        </p>
-      )}
-    </LoadScript>
+    </>
   );
 };
 

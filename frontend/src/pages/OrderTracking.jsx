@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api'
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
 import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function OrderTracking() {
@@ -8,6 +8,11 @@ export default function OrderTracking() {
     const [mission, setMission] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+    const { isLoaded: isMapLoaded, loadError: mapLoadError } = useJsApiLoader({
+        id: 'google-map-script-tracking',
+        googleMapsApiKey: googleMapsApiKey || '',
+    })
 
     // Récupérer les infos du suivi
     const fetchTracking = async () => {
@@ -181,7 +186,19 @@ export default function OrderTracking() {
                         {hasBothCoords ? (
                             <>
                                 {/* Google Map avec marqueurs */}
-                                <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyD4z0C...tempKey'}>
+                                {!googleMapsApiKey ? (
+                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                                        Carte indisponible : ajoute <strong>VITE_GOOGLE_MAPS_API_KEY</strong> dans <strong>frontend/.env</strong>.
+                                    </div>
+                                ) : mapLoadError ? (
+                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                                        Carte indisponible : chargement Google Maps bloqué (clé API, quota ou extension de blocage).
+                                    </div>
+                                ) : !isMapLoaded ? (
+                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                                        Chargement de la carte…
+                                    </div>
+                                ) : (
                                     <GoogleMap
                                         mapContainerStyle={{ width: '100%', height: '400px', borderRadius: '0.75rem', border: '1px solid rgb(226, 232, 240)' }}
                                         center={mapOptions.center}
@@ -222,7 +239,7 @@ export default function OrderTracking() {
                                             />
                                         )}
                                     </GoogleMap>
-                                </LoadScript>
+                                )}
 
                                 <div className="mt-3">
                                     <a
