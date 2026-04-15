@@ -47,26 +47,26 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200 min-w-0">
-            <span className="font-serif font-bold text-green tracking-wider truncate text-lg sm:text-xl md:text-2xl max-w-[120px] sm:max-w-xs">Shop In Line</span>
+            <span className="font-serif font-bold text-green tracking-wider truncate text-xl sm:text-2xl md:text-3xl max-w-[140px] sm:max-w-xs">Shop In Line</span>
           </Link>
 
           {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-medium text-base transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-medium text-base transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-medium text-base transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Catalogue
             </Link>
@@ -89,7 +89,7 @@ const Header = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green text-white text-[9px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -120,13 +120,13 @@ const Header = () => {
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium mb-2"
                     />
-                    <p className="text-xs font-semibold text-text-dark">{getUserName()}</p>
-                    <p className="text-[11px] text-text-light uppercase tracking-widest">{getUserRole()}</p>
+                    <p className="text-sm font-semibold text-text-dark">{getUserName()}</p>
+                    <p className="text-xs text-text-light uppercase tracking-widest">{getUserRole()}</p>
                   </div>
                   <div className="p-2 flex flex-col">
                     <Link
                       to="/compte_user"
-                      className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-sm"
+                      className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-base"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <span>👤</span> <span>Mon compte</span>
@@ -135,7 +135,7 @@ const Header = () => {
                     {getUserRole() === 'shop_owner' && (
                       <Link
                         to="/merchant/dashboard"
-                        className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-sm"
+                        className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-lg text-base"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         <span>🏬</span> <span>Dashboard Marchand</span>
@@ -144,7 +144,7 @@ const Header = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 w-full px-3 py-2 text-danger hover:bg-red-50 rounded-lg text-left text-sm"
+                      className="flex items-center space-x-2 w-full px-3 py-2 text-danger hover:bg-red-50 rounded-lg text-left text-base"
                     >
                       <span>🚪</span> <span>Déconnexion</span>
                     </button>
@@ -155,7 +155,7 @@ const Header = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-green font-medium text-sm transition-colors"
+                  className="text-text-medium hover:text-green font-medium text-base transition-colors"
                 >
                   Connexion
                 </Link>
@@ -183,9 +183,9 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-2 bg-background border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
-            <Link to="/" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
-            <Link to="/shops" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
-            <Link to="/catalogue" className="block py-2 text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
+            <Link to="/" className="block py-2.5 text-base text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
+            <Link to="/shops" className="block py-2.5 text-base text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
+            <Link to="/catalogue" className="block py-2.5 text-base text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
           </div>
         )}
       </div>

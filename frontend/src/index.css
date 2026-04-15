@@ -32,6 +32,10 @@
   --success: 22 101 52;
 }
 
+html {
+  font-size: clamp(16px, 0.85vw + 12px, 18px);
+}
+
 .dark {
   color-scheme: dark;
   --background: 12 10 9;
@@ -63,6 +67,7 @@
 body {
   @apply font-sans text-text-dark bg-background;
   /* Apply default font, text color, and background */
+  line-height: 1.5;
 }
 
 @layer base {

@@ -48,7 +48,7 @@ const ShopCard = ({ shop }) => {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-white/90 backdrop-blur-md text-text-dark text-[9px] font-bold px-3 py-1 uppercase tracking-widest shadow-sm">
+          <span className="bg-white/90 backdrop-blur-md text-text-dark text-xs md:text-sm font-bold px-3 py-1 uppercase tracking-wider shadow-sm">
             {category}
           </span>
         </div>
@@ -72,12 +72,12 @@ const ShopCard = ({ shop }) => {
         <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
           <div className="flex items-center gap-2 text-text-light">
             <MapPin size={12} className="text-green" />
-            <p className="text-[10px] font-bold uppercase tracking-widest truncate max-w-[120px]">{displayLocation}</p>
+            <p className="text-xs md:text-sm font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
           </div>
           
           <Link 
             to={`/shop/${id}`} 
-            className="text-[10px] font-bold text-green uppercase tracking-[0.2em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
+            className="text-xs md:text-sm font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
           >
             Découvrir
           </Link>

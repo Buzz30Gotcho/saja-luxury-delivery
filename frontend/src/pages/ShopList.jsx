@@ -170,16 +170,16 @@ const ShopList = () => {
           className="max-w-3xl mx-auto text-center mb-24"
         >
           <motion.div variants={fadeUp} custom={0} className="mb-6">
-            <span className="text-text-light text-[10px] font-bold tracking-[0.4em] uppercase">Partenaires</span>
+            <span className="text-text-light text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Partenaires</span>
           </motion.div>
           <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-serif text-text-dark mb-6">
             L'Écosystème Local
           </motion.h1>
           <motion.div variants={fadeUp} className="w-12 h-[1px] bg-green mx-auto mb-8" />
-          <motion.p variants={fadeUp} custom={2} className="text-[13px] uppercase tracking-widest text-text-medium max-w-lg mx-auto leading-relaxed font-medium">
+          <motion.p variants={fadeUp} custom={2} className="text-sm md:text-base uppercase tracking-wide text-text-medium max-w-2xl mx-auto leading-relaxed font-medium">
             Découvrez les maisons indépendantes sélectionnées pour leur excellence et leur savoir-faire unique.
           </motion.p>
-          <motion.p variants={fadeUp} custom={3} className="text-[10px] uppercase tracking-[0.2em] text-text-light mt-4">
+          <motion.p variants={fadeUp} custom={3} className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light mt-4">
             Villes partenaires : {ALLOWED_SHOP_CITIES.join(' • ')}
           </motion.p>
         </motion.div>
@@ -192,14 +192,14 @@ const ShopList = () => {
           <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <h2 className="text-2xl md:text-3xl font-serif text-text-dark">Carte des boutiques</h2>
             <div className="flex items-center gap-3">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+              <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light font-bold">
                 {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
               </p>
               {geoStatus !== 'granted' && (
                 <button
                   type="button"
                   onClick={requestUserLocation}
-                  className="rounded border border-border px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-text-dark hover:bg-card transition-colors"
+                  className="rounded border border-border px-3 py-2 text-xs md:text-sm uppercase tracking-[0.18em] text-text-dark hover:bg-card transition-colors"
                 >
                   {geoStatus === 'loading' ? 'Localisation…' : 'Activer ma position'}
                 </button>
@@ -218,14 +218,14 @@ const ShopList = () => {
             />
           ) : (
             <div className="w-full h-[220px] bg-card border border-border flex items-center justify-center p-6 text-center">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
+              <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light">
                 Aucune boutique n&apos;a encore de coordonnées GPS.
               </p>
             </div>
           )}
 
           {(geoStatus === 'idle' || geoStatus === 'unsupported' || geoStatus === 'denied') && (
-            <p className="mt-4 text-[10px] uppercase tracking-[0.2em] text-text-light">
+            <p className="mt-4 text-xs md:text-sm uppercase tracking-[0.18em] text-text-light">
               Position non active. Cliquez sur « Activer ma position » pour afficher distance et ETA.
             </p>
           )}
@@ -235,7 +235,7 @@ const ShopList = () => {
         {shops && shops.length > 0 ? (
           <>
           {geoStatus === 'granted' && (
-            <p className="mb-6 text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+            <p className="mb-6 text-xs md:text-sm uppercase tracking-[0.18em] text-text-light font-bold">
               Boutiques triées par distance
             </p>
           )}
@@ -257,7 +257,7 @@ const ShopList = () => {
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
                     <div className="absolute top-4 left-4">
-                       <span className="bg-white/90 backdrop-blur-sm px-4 py-2 text-[9px] font-bold uppercase tracking-widest text-text-dark shadow-sm">
+                       <span className="bg-white/90 backdrop-blur-sm px-4 py-2 text-xs font-bold uppercase tracking-wider text-text-dark shadow-sm">
                          {shop.category}
                        </span>
                     </div>
@@ -268,10 +268,10 @@ const ShopList = () => {
                       {shop.name}
                     </h3>
                     <div className="flex items-center justify-between">
-                      <p className="text-[10px] text-text-light uppercase tracking-[0.2em] font-bold">
+                      <p className="text-xs md:text-sm text-text-light uppercase tracking-[0.18em] font-bold">
                          📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : (shop.normalizedCity || 'Ville partenaire')}
                       </p>
-                      <span className="text-[10px] text-green uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-xs md:text-sm text-green uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Visiter la boutique
                       </span>
                     </div>
@@ -287,7 +287,7 @@ const ShopList = () => {
             animate={{ opacity: 1 }}
             className="text-center py-32 border border-dashed border-border"
           >
-             <p className="text-[11px] uppercase tracking-widest text-text-light">Aucune boutique disponible pour le moment.</p>
+             <p className="text-xs md:text-sm uppercase tracking-wider text-text-light">Aucune boutique disponible pour le moment.</p>
           </motion.div>
         )}
       </section>
