@@ -32,7 +32,7 @@ const ProductDetail = () => {
         <div className="text-center space-y-6">
           <h2 className="text-3xl font-serif text-text-dark">Produit non trouvé</h2>
           <p className="text-[11px] uppercase tracking-[0.2em] text-text-light max-w-xs mx-auto italic">{error}</p>
-          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm">
+          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-colors duration-200 shadow-sm">
             Retour aux boutiques
           </Link>
         </div>
@@ -45,7 +45,7 @@ const ProductDetail = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-6">
           <h2 className="text-3xl font-serif text-text-dark">Pièce introuvable</h2>
-          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm">
+          <Link to="/shops" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-colors duration-200 shadow-sm">
             Explorer les boutiques
           </Link>
         </div>
@@ -94,7 +94,7 @@ const ProductDetail = () => {
             {product.shops && (
               <Link 
                 to={`/shop/${product.shops.id}`}
-                className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm flex items-center gap-3 hover:bg-white transition-all"
+                className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm flex items-center gap-3 hover:bg-white transition-colors duration-150"
               >
                 <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-6 h-6 rounded-full object-cover" />
                 <span className="text-[10px] font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
@@ -149,7 +149,7 @@ const ProductDetail = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isAdded || (product.stock && product.stock === 0)}
-                className={`w-full py-5 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500 flex items-center justify-center gap-3 shadow-sm ${
+                className={`w-full py-5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
                   isAdded
                     ? 'bg-success text-white cursor-not-allowed'
                     : (product.stock && product.stock === 0) 

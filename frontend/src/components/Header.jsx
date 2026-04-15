@@ -54,19 +54,19 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
+              className="text-text-medium hover:text-green font-medium text-base transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
+              className="text-text-medium hover:text-green font-medium text-base transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-medium text-lg transition-colors"
+              className="text-text-medium hover:text-green font-medium text-base transition-colors"
             >
               Catalogue
             </Link>
@@ -121,7 +121,7 @@ const Header = () => {
                       className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium mb-2"
                     />
                     <p className="text-xs font-semibold text-text-dark">{getUserName()}</p>
-                    <p className="text-[10px] text-text-light uppercase tracking-widest">{getUserRole()}</p>
+                    <p className="text-[11px] text-text-light uppercase tracking-widest">{getUserRole()}</p>
                   </div>
                   <div className="p-2 flex flex-col">
                     <Link

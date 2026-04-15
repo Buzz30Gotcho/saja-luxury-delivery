@@ -25,19 +25,19 @@ const ShopCard = ({ shop }) => {
   const displayLocation = city || location || address || 'Lieu non spécifié';
 
   return (
-    <div className="bg-card group rounded-none border border-border/40 hover:border-green/30 transition-all duration-700 h-full flex flex-col relative overflow-hidden">
+    <div className="bg-card group rounded-none border border-border/40 hover:border-green/30 transition-colors duration-200 h-full flex flex-col relative overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden bg-background">
         <img 
           src={image} 
           alt={name} 
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4">
           <span className="bg-white/90 backdrop-blur-md text-text-dark text-[9px] font-bold px-3 py-1 uppercase tracking-widest shadow-sm">
             {category}
           </span>
         </div>
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700" />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-200" />
       </div>
       
       <div className="p-8 flex flex-col flex-1">
@@ -45,7 +45,7 @@ const ShopCard = ({ shop }) => {
           <h3 className="text-xl font-serif text-text-dark tracking-tight">
             {name}
           </h3>
-          <div className="w-8 h-[1px] bg-green mt-3 group-hover:w-12 transition-all duration-700" />
+          <div className="w-8 h-[1px] bg-green mt-3 group-hover:w-12 transition-[width] duration-200" />
         </div>
         
         {description && (
@@ -62,7 +62,7 @@ const ShopCard = ({ shop }) => {
           
           <Link 
             to={`/shop/${id}`} 
-            className="text-[10px] font-bold text-green uppercase tracking-[0.2em] border-b border-transparent hover:border-green transition-all pb-1"
+            className="text-[10px] font-bold text-green uppercase tracking-[0.2em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
           >
             Découvrir
           </Link>
