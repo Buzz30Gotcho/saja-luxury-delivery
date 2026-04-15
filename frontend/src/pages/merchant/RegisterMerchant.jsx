@@ -4,6 +4,9 @@ import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, ShoppingBag, Building, MapPin, Phone, User, UserCircle } from "lucide-react";
 import localStyleLogo from "/localstyle.png";
+
+const ALLOWED_CITIES = ["Bordeaux", "Paris", "Cannes"];
+
 const RegisterMerchant = () => {
   const [accountType, setAccountType] = useState("independent"); // "independent" ou "professional"
   const [formData, setFormData] = useState({
@@ -49,7 +52,8 @@ const RegisterMerchant = () => {
     if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
     
-    if (!formData.location.trim()) newErrors.location = "Localisation requise";
+    if (!formData.location.trim()) newErrors.location = "Ville requise";
+    else if (!ALLOWED_CITIES.includes(formData.location)) newErrors.location = "Ville non prise en charge";
     if (!formData.phone.trim()) newErrors.phone = "Téléphone requis";
 
     // Validation conditionnelle pour SIRET
@@ -129,8 +133,8 @@ const RegisterMerchant = () => {
     },
     {
       name: "location",
-      type: "text",
-      placeholder: "Ville / Quartier *",
+      type: "select",
+      placeholder: "Ville *",
       icon: MapPin
     },
     {
@@ -217,16 +221,34 @@ const RegisterMerchant = () => {
                 <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">
                   {field.placeholder.replace(' *', '')}
                 </label>
-                <input
-                  type={field.type}
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  placeholder="..."
-                  className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
-                    errors[field.name] ? "border-danger" : "border-border focus:border-green"
-                  }`}
-                />
+                {field.name === "location" ? (
+                  <select
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    className={`w-full py-2 bg-transparent border-b text-text-dark focus:outline-none transition-all duration-300 ${
+                      errors[field.name] ? "border-danger" : "border-border focus:border-green"
+                    }`}
+                  >
+                    <option value="">Choisir une ville</option>
+                    {ALLOWED_CITIES.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    placeholder="..."
+                    className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                      errors[field.name] ? "border-danger" : "border-border focus:border-green"
+                    }`}
+                  />
+                )}
                 {errors[field.name] && (
                   <p className="text-danger text-[9px] mt-1 italic">{errors[field.name]}</p>
                 )}

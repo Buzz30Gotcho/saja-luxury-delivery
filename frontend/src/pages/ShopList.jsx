@@ -6,6 +6,17 @@ import { motion } from 'framer-motion';
 import Maps from '../Map/Maps';
 import heroImage from '/localstyle.png';
 
+const ALLOWED_SHOP_CITIES = ['Bordeaux', 'Paris', 'Cannes'];
+
+const normalizeShopCity = (value = '') => {
+  const raw = String(value || '').trim().toLowerCase();
+  if (!raw) return null;
+  if (raw.includes('bordeaux')) return 'Bordeaux';
+  if (raw.includes('paris')) return 'Paris';
+  if (raw.includes('cannes')) return 'Cannes';
+  return null;
+};
+
 const toRad = (value) => (value * Math.PI) / 180;
 
 const haversineDistanceKm = (lat1, lon1, lat2, lon2) => {
@@ -78,6 +89,11 @@ const ShopList = () => {
     if (!shops || shops.length === 0) return [];
 
     const enrichedShops = shops.map((shop) => {
+      const normalizedCity =
+        normalizeShopCity(shop?.city) ||
+        normalizeShopCity(shop?.location) ||
+        normalizeShopCity(shop?.address);
+
       const latitude = Number(shop?.latitude);
       const longitude = Number(shop?.longitude);
       const hasCoordinates = Number.isFinite(latitude) && Number.isFinite(longitude);
@@ -85,6 +101,7 @@ const ShopList = () => {
       if (!userLocation || !hasCoordinates) {
         return {
           ...shop,
+          normalizedCity,
           distanceKm: null,
           etaMin: null,
         };
@@ -101,6 +118,7 @@ const ShopList = () => {
 
       return {
         ...shop,
+        normalizedCity,
         distanceKm,
         etaMin: estimateEtaMinutes(distanceKmRaw),
       };
@@ -160,6 +178,9 @@ const ShopList = () => {
           <motion.div variants={fadeUp} className="w-12 h-[1px] bg-green mx-auto mb-8" />
           <motion.p variants={fadeUp} custom={2} className="text-[13px] uppercase tracking-widest text-text-medium max-w-lg mx-auto leading-relaxed font-medium">
             Découvrez les maisons indépendantes sélectionnées pour leur excellence et leur savoir-faire unique.
+          </motion.p>
+          <motion.p variants={fadeUp} custom={3} className="text-[10px] uppercase tracking-[0.2em] text-text-light mt-4">
+            Villes partenaires : {ALLOWED_SHOP_CITIES.join(' • ')}
           </motion.p>
         </motion.div>
 
@@ -248,7 +269,7 @@ const ShopList = () => {
                     </h3>
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] text-text-light uppercase tracking-[0.2em] font-bold">
-                         📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : 'Local'}
+                         📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : (shop.normalizedCity || 'Ville partenaire')}
                       </p>
                       <span className="text-[10px] text-green uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Visiter la boutique

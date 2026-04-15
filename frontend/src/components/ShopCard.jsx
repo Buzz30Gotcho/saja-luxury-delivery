@@ -2,6 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin } from 'lucide-react';
 
+const normalizeShopCity = (value = '') => {
+  const raw = String(value || '').trim().toLowerCase();
+  if (!raw) return null;
+  if (raw.includes('bordeaux')) return 'Bordeaux';
+  if (raw.includes('paris')) return 'Paris';
+  if (raw.includes('cannes')) return 'Cannes';
+  return null;
+};
+
 const ShopCard = ({ shop }) => {
   if (!shop) {
     return (
@@ -22,7 +31,13 @@ const ShopCard = ({ shop }) => {
     image = 'https://via.placeholder.com/400x200/f3f4f6/9ca3af?text=Boutique+Indisponible',
   } = shop;
 
-  const displayLocation = city || location || address || 'Lieu non spécifié';
+  const displayLocation =
+    normalizeShopCity(city) ||
+    normalizeShopCity(location) ||
+    normalizeShopCity(address) ||
+    city ||
+    location ||
+    'Ville partenaire';
 
   return (
     <div className="bg-card group rounded-none border border-border/40 hover:border-green/30 transition-colors duration-200 h-full flex flex-col relative overflow-hidden">
