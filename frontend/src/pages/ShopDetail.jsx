@@ -120,7 +120,7 @@ const ShopDetail = () => {
             <div>
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <p className="text-[10px] text-green uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
+                  <p className="text-[12px] text-green uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
                   <h1 className="text-4xl md:text-6xl font-serif text-text-dark tracking-tight">{shop.name}</h1>
                 </div>
                 <motion.button
@@ -132,34 +132,34 @@ const ShopDetail = () => {
                 </motion.button>
               </div>
               <div className="w-12 h-[1px] bg-green mb-8"></div>
-              <p className="text-[15px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
+              <p className="text-[17px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-8 border-y border-border">
               <div className="space-y-2 text-center md:text-left">
-                <span className="block text-[9px] uppercase tracking-widest text-text-light">Avis Client</span>
+                <span className="block text-[11px] uppercase tracking-widest text-text-light">Avis Client</span>
                 <div className="flex items-center justify-center md:justify-start gap-2">
                   <Star className="w-3 h-3 text-green" fill="currentColor" />
-                  <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.rating ?? '5.0'}</span>
+                  <span className="text-[13px] font-bold text-text-dark uppercase tracking-widest">{shop.rating ?? '5.0'}</span>
                 </div>
               </div>
               <div className="space-y-2 text-center md:text-left">
-                <span className="block text-[9px] uppercase tracking-widest text-text-light">Livraison</span>
-                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_time ?? '2-4 Jours'}</span>
+                <span className="block text-[11px] uppercase tracking-widest text-text-light">Livraison</span>
+                <span className="text-[13px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_time ?? '2-4 Jours'}</span>
               </div>
               <div className="space-y-2 text-center md:text-left">
-                <span className="block text-[9px] uppercase tracking-widest text-text-light">Frais</span>
-                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_fee ? `${shop.delivery_fee}€` : 'Gratuit'}</span>
+                <span className="block text-[11px] uppercase tracking-widest text-text-light">Frais</span>
+                <span className="text-[13px] font-bold text-text-dark uppercase tracking-widest">{shop.delivery_fee ? `${shop.delivery_fee}€` : 'Gratuit'}</span>
               </div>
               <div className="space-y-2 text-center md:text-left">
-                <span className="block text-[9px] uppercase tracking-widest text-text-light">Minimum</span>
-                <span className="text-[11px] font-bold text-text-dark uppercase tracking-widest">{shop.minimum_order ?? '0'}€</span>
+                <span className="block text-[11px] uppercase tracking-widest text-text-light">Minimum</span>
+                <span className="text-[13px] font-bold text-text-dark uppercase tracking-widest">{shop.minimum_order ?? '0'}€</span>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-3">
               {shop.tags?.map((tag, i) => (
-                <span key={i} className="px-4 py-2 border border-border text-[9px] text-text-medium uppercase tracking-[0.2em] font-bold">
+                <span key={i} className="px-4 py-2 border border-border text-[11px] text-text-medium uppercase tracking-[0.2em] font-bold">
                   {tag}
                 </span>
               ))}

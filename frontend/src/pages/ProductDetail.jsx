@@ -118,7 +118,7 @@ const ProductDetail = () => {
 
             <div className="mb-12 space-y-6">
               <div className="w-12 h-[1px] bg-border"></div>
-              <p className="text-[13px] text-text-medium leading-relaxed font-light">
+              <p className="text-[16px] text-text-medium leading-relaxed font-light">
                 {product.description}
               </p>
             </div>
@@ -126,7 +126,7 @@ const ProductDetail = () => {
             {/* Sélecteur de quantité et bouton ajouter */}
             <div className="space-y-8 pt-8 border-t border-border">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-widest text-text-medium font-bold">Quantité</span>
+                <span className="text-[12px] uppercase tracking-widest text-text-medium font-bold">Quantité</span>
                 <div className="flex items-center border border-border px-4 py-2">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -135,7 +135,7 @@ const ProductDetail = () => {
                   >
                     -
                   </button>
-                  <span className="w-12 text-center text-[12px] font-bold text-text-dark">{quantity}</span>
+                  <span className="w-12 text-center text-[14px] font-bold text-text-dark">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="w-8 h-8 text-text-light hover:text-green transition-colors disabled:opacity-30"
@@ -149,7 +149,7 @@ const ProductDetail = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isAdded || (product.stock && product.stock === 0)}
-                className={`w-full py-5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
+                className={`w-full py-5 text-[13px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
                   isAdded
                     ? 'bg-success text-white cursor-not-allowed'
                     : (product.stock && product.stock === 0) 
@@ -171,7 +171,7 @@ const ProductDetail = () => {
               </button>
 
               {addError && (
-                <p className="text-[10px] uppercase tracking-[0.15em] text-red-500 text-center">
+                <p className="text-[12px] uppercase tracking-[0.15em] text-red-500 text-center">
                   {addError}
                 </p>
               )}
@@ -180,14 +180,14 @@ const ProductDetail = () => {
             {/* Livraison / Stock Infos */}
             <div className="mt-12 grid grid-cols-2 gap-8 py-8 border-y border-border">
               <div>
-                <span className="block text-[9px] uppercase tracking-widest text-text-light mb-2">Disponibilité</span>
-                <span className="text-[11px] font-bold text-text-dark uppercase tracking-wider">
+                <span className="block text-[11px] uppercase tracking-widest text-text-light mb-2">Disponibilité</span>
+                <span className="text-[13px] font-bold text-text-dark uppercase tracking-wider">
                   {product.stock && product.stock > 0 ? `${product.stock} Pièces` : 'Sur Commande'}
                 </span>
               </div>
               <div>
-                <span className="block text-[9px] uppercase tracking-widest text-text-light mb-2">Livraison</span>
-                <span className="text-[11px] font-bold text-text-dark uppercase tracking-wider">
+                <span className="block text-[11px] uppercase tracking-widest text-text-light mb-2">Livraison</span>
+                <span className="text-[13px] font-bold text-text-dark uppercase tracking-wider">
                   {product.shops?.delivery_time || 'Standard (2-4 jours)'}
                 </span>
               </div>
