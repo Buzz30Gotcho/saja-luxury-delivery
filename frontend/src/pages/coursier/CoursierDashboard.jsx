@@ -85,20 +85,15 @@ export default function CoursierDashboard() {
     },
   }[presenceState];
 
-  // Fonction réutilisable pour recharger les stats
   const fetchStats = async () => {
     if (!user?.id) return;
-
     try {
       const response = await fetch(`/api/delivery/courier/${user.id}/stats`);
       const payload = await response.json().catch(() => ({}));
-
       if (!response.ok) {
-        console.error('Erreur chargement stats coursier:', payload?.error || 'Erreur inconnue');
         setIsAvailable(false);
         return;
       }
-
       const apiStats = payload?.stats || {};
       setIsAvailable(Boolean(apiStats.isAvailable));
       setStats({
@@ -108,14 +103,12 @@ export default function CoursierDashboard() {
         onlineTime: '—'
       });
     } catch (error) {
-      console.error('Erreur réseau chargement stats coursier:', error);
+      console.error('Erreur stats:', error);
       setIsAvailable(false);
     }
   };
 
-  useEffect(() => {
-    fetchStats();
-  }, [user]);
+  useEffect(() => { fetchStats(); }, [user]);
 
   const statsArray = [
     { label: "Gains totaux", value: `${stats.totalEarnings.toFixed(2)} €`, icon: DollarSign, color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -126,20 +119,16 @@ export default function CoursierDashboard() {
 
   const persistAvailability = async (nextAvailability) => {
     if (!user?.id) return;
-
     const response = await fetch(`/api/delivery/courier/${user.id}/availability`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ isAvailable: nextAvailability }),
     });
-
     const data = await response.json().catch(() => ({}));
-
     if (!response.ok) {
       setActionError(data.error || 'Impossible de mettre à jour votre statut.');
       return;
     }
-
     setIsAvailable(data?.courier?.is_available ?? nextAvailability);
     setActionMessage(nextAvailability ? 'Vous êtes maintenant en ligne.' : 'Vous êtes passé hors ligne.');
     setTimeout(() => setActionMessage(''), 3000);
@@ -154,51 +143,42 @@ export default function CoursierDashboard() {
         setAvailableMissions(Array.isArray(data.missions) ? data.missions : []);
       }
     } catch (error) {
-      console.error("Erreur chargement missions:", error);
+      console.error("Erreur missions:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadAvailable();
-  }, []);
+  useEffect(() => { loadAvailable(); }, []);
 
   const loadCourierMissions = async () => {
     const courierId = user?.id || (await supabase.auth.getSession()).data?.session?.user?.id;
     if (!courierId) return;
-
     try {
       const response = await fetch(`/api/delivery/missions/courier/${courierId}`);
       const data = await response.json().catch(() => ({}));
       if (!response.ok) return;
-
       const missions = Array.isArray(data.missions) ? data.missions : [];
       const active = missions.find((m) => m.status !== 'delivered') || null;
       const delivered = missions.filter((m) => m.status === 'delivered');
-
       setActiveMission(active);
       setDeliveredHistory(delivered);
     } catch (error) {
-      console.error('Erreur chargement missions coursier:', error);
+      console.error('Erreur missions coursier:', error);
     }
   };
 
-  useEffect(() => {
-    loadCourierMissions();
-  }, [user?.id]);
+  useEffect(() => { loadCourierMissions(); }, [user?.id]);
 
   const acceptMission = async (missionToAccept) => {
     setActionError('');
     setActionMessage('');
     try {
-      if (!isAvailable && !activeMission) {
-        throw new Error('Passe en ligne avant d’accepter une mission.');
-      }
+      if (!isAvailable && !activeMission) throw new Error('Passe en ligne avant d’accepter une mission.');
       const courierId = user?.id || (await supabase.auth.getSession()).data?.session?.user?.id;
-      if (!courierId) throw new Error('Authentification requise: veuillez vous reconnecter');
+      if (!courierId) throw new Error('Authentification requise');
       const orderId = missionToAccept?.order_id;
-      if (!orderId) throw new Error('Mission invalide: order_id manquant');
+      if (!orderId) throw new Error('Mission invalide');
 
       const response = await fetch(`/api/delivery/accept/${orderId}`, {
         method: 'POST',
@@ -208,7 +188,6 @@ export default function CoursierDashboard() {
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Erreur lors de l’acceptation');
 
-      // On garde les infos de mission enrichies (order/shop) si la réponse backend ne les retourne pas
       const mergedMission = {
         ...missionToAccept,
         ...(data.mission || {}),
@@ -229,14 +208,10 @@ export default function CoursierDashboard() {
     if (!activeMission?.order_id) return;
     const nextStatus = NEXT_STATUS[activeMission.status];
     if (!nextStatus) return;
-
-    // Si on passe à "delivered" (dernière étape), afficher la modale de confirmation
     if (nextStatus === 'delivered') {
       setShowConfirmDelivery(true);
       return;
     }
-
-    // Pour les autres étapes, continuer normalement
     try {
       const response = await fetch(`/api/delivery/status/${activeMission.order_id}`, {
         method: 'PATCH',
@@ -244,8 +219,7 @@ export default function CoursierDashboard() {
         body: JSON.stringify({ status: nextStatus }),
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Erreur mise à jour statut');
-      
+      if (!response.ok) throw new Error(data.error || 'Erreur mise à jour');
       setActiveMission(data.mission);
     } catch (error) {
       setActionError(error.message);
@@ -254,7 +228,6 @@ export default function CoursierDashboard() {
 
   const confirmDelivery = async () => {
     if (!activeMission?.order_id) return;
-
     try {
       const response = await fetch(`/api/delivery/status/${activeMission.order_id}`, {
         method: 'PATCH',
@@ -262,15 +235,12 @@ export default function CoursierDashboard() {
         body: JSON.stringify({ status: 'delivered' }),
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Erreur lors de la livraison');
-      
+      if (!response.ok) throw new Error(data.error || 'Erreur livraison');
       setActiveMission(data.mission);
       setShowConfirmDelivery(false);
-      setActionMessage('✨ Livraison confirmée! Bravo! 🎉');
-      
+      setActionMessage('✨ Livraison confirmée ! 🎉');
       loadCourierMissions();
       await fetchStats();
-      
       setTimeout(() => setActionMessage(''), 3000);
     } catch (error) {
       setActionError(error.message);
@@ -279,154 +249,125 @@ export default function CoursierDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pb-24">
       {/* Header Statut */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full animate-pulse ${presenceMeta.dot}`} />
-            <h1 className="text-lg font-bold text-slate-800">
+      <div className="bg-white border-b sticky top-0 z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className={`w-4 h-4 rounded-full animate-pulse ${presenceMeta.dot}`} />
+            <h1 className="text-2xl font-black text-slate-800 tracking-tight uppercase">
               {presenceMeta.label}
             </h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => {
-                if (!presenceMeta.actionDisabled) {
-                  persistAvailability(!isAvailable);
-                }
-              }}
+              onClick={() => { if (!presenceMeta.actionDisabled) persistAvailability(!isAvailable); }}
               disabled={presenceMeta.actionDisabled}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-sm transition-all ${
+              className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-base transition-all shadow-sm ${
                 presenceMeta.actionDisabled
-                  ? 'bg-amber-50 text-amber-700 cursor-not-allowed'
+                  ? 'bg-amber-50 text-amber-700 cursor-not-allowed opacity-75'
                   : isAvailable
-                    ? 'bg-red-50 text-red-600 hover:bg-red-100'
-                    : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+                    ? 'bg-red-50 text-red-600 hover:bg-red-100 hover:shadow-md'
+                    : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:shadow-md'
               }`}
             >
-              <Power size={16} />
+              <Power size={20} />
               {presenceMeta.actionLabel}
             </button>
             <button
-              onClick={async () => {
-                await logout();
-              }}
-              className="flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all"
+              onClick={async () => { await logout(); }}
+              className="flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-base bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all hover:shadow-md"
             >
-              <Power size={16} />
+              <Power size={20} />
               Déconnexion
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
         {/* Welcome Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h2 className="text-3xl font-serif text-slate-900">Bonjour, {userName} 👋</h2>
-            <p className="text-slate-500 mt-1">Prêt pour vos prochaines livraisons ?</p>
+            <h2 className="text-5xl font-serif text-slate-900 leading-tight">Bonjour, <span className="text-blue-600 font-bold italic">{userName}</span> 👋</h2>
+            <p className="text-xl text-slate-500 mt-2 font-medium">Votre centre de contrôle logistique est prêt.</p>
           </div>
           <button 
             onClick={loadAvailable}
-            className="flex items-center justify-center gap-2 bg-white border border-slate-200 px-5 py-2.5 rounded-xl text-slate-700 font-medium hover:bg-slate-50 transition-all shadow-sm"
+            className="flex items-center justify-center gap-3 bg-white border border-slate-200 px-8 py-4 rounded-2xl text-slate-700 font-bold text-lg hover:bg-slate-50 transition-all shadow-md hover:shadow-lg active:scale-95"
           >
-            <Clock size={18} className="text-blue-500" />
-            Actualiser les missions
+            <Clock size={24} className="text-blue-500" />
+            Rafraîchir les missions
           </button>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {statsArray.map((stat, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"
+              className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300"
             >
-              <div className={`${stat.bg} ${stat.color} w-10 h-10 rounded-xl flex items-center justify-center mb-3`}>
-                <stat.icon size={20} />
+              <div className={`${stat.bg} ${stat.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6`}>
+                <stat.icon size={32} />
               </div>
-              <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">{stat.label}</p>
-              <p className="text-2xl font-bold text-slate-900 mt-1">{stat.value}</p>
+              <p className="text-slate-400 text-sm font-black uppercase tracking-[0.2em]">{stat.label}</p>
+              <p className="text-4xl font-black text-slate-900 mt-2 tracking-tight">{stat.value}</p>
             </motion.div>
           ))}
         </div>
 
-        <div className={`rounded-2xl border p-4 ${presenceMeta.statusCard}`}>
-          <p className="text-sm font-semibold">{presenceMeta.label}</p>
-          <p className="text-sm mt-1 opacity-80">{presenceMeta.helper}</p>
+        <div className={`rounded-3xl border-2 p-6 flex items-center gap-4 ${presenceMeta.statusCard}`}>
+          <AlertCircle size={28} />
+          <div>
+            <p className="text-lg font-bold uppercase tracking-wider">{presenceMeta.label}</p>
+            <p className="text-base font-medium opacity-90">{presenceMeta.helper}</p>
+          </div>
         </div>
 
-        {/* Alerts */}
-        <AnimatePresence>
-          {actionMessage && (
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="bg-emerald-500 text-white p-4 rounded-xl shadow-lg flex items-center gap-3"
-            >
-              <CheckCircle size={20} />
-              <span className="font-medium">{actionMessage}</span>
-            </motion.div>
-          )}
-          {actionError && (
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="bg-red-500 text-white p-4 rounded-xl shadow-lg flex items-center gap-3"
-            >
-              <AlertCircle size={20} />
-              <span className="font-medium">{actionError}</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-12 gap-12">
           {/* Mission Active (Colonne Principale) */}
-          <div className="lg:col-span-2 space-y-6">
-            <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <Navigation size={22} className="text-blue-600" />
+          <div className="lg:col-span-8 space-y-8">
+            <h3 className="text-3xl font-black text-slate-800 flex items-center gap-3 tracking-tight uppercase">
+              <Navigation size={36} className="text-blue-600" />
               Mission en cours
             </h3>
 
             {!activeMission ? (
-              <div className="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-12 text-center space-y-4">
-                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
-                  <Truck size={32} className="text-slate-300" />
+              <div className="bg-white border-4 border-dashed border-slate-200 rounded-[3rem] p-20 text-center space-y-6">
+                <div className="bg-slate-50 w-32 h-32 rounded-full flex items-center justify-center mx-auto border-2 border-slate-100 shadow-inner">
+                  <Truck size={48} className="text-slate-300" />
                 </div>
-                <div className="max-w-xs mx-auto">
-                  <p className="text-slate-900 font-semibold">Aucune mission active</p>
-                  <p className="text-slate-500 text-sm mt-1">Acceptez une commande dans la liste de droite pour commencer votre tournée.</p>
+                <div className="max-w-md mx-auto">
+                  <p className="text-2xl font-bold text-slate-900">En attente de commande</p>
+                  <p className="text-lg text-slate-500 mt-2 font-medium">Les nouvelles missions apparaîtront dans la colonne de droite.</p>
                 </div>
               </div>
             ) : (
               <motion.div 
                 layoutId="active-mission"
-                className="bg-white rounded-3xl border border-blue-100 shadow-xl shadow-blue-500/5 overflow-hidden"
+                className="bg-white rounded-[3rem] border border-blue-100 shadow-2xl shadow-blue-500/10 overflow-hidden"
               >
-                <div className="bg-blue-600 p-6 text-white">
-                  <div className="flex justify-between items-start">
+                <div className="bg-blue-600 p-10 text-white">
+                  <div className="flex justify-between items-center">
                     <div>
-                      <span className="text-blue-100 text-xs font-bold uppercase tracking-widest">Commande active</span>
-                      <h4 className="text-xl font-bold mt-1">#{activeMission.order_id.slice(0, 8)}</h4>
+                      <span className="text-blue-100 text-sm font-black uppercase tracking-[0.3em]">Code Mission</span>
+                      <h4 className="text-4xl font-black mt-2 tracking-tight">#{activeMission.order_id.slice(0, 8).toUpperCase()}</h4>
                     </div>
-                    <div className="bg-white/20 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
+                    <div className="bg-white/20 px-6 py-2 rounded-2xl text-sm font-black backdrop-blur-md border border-white/30 uppercase tracking-widest">
                       {STATUS_LABELS[activeMission.status]}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-8 space-y-8">
+                <div className="p-12 space-y-12">
                   {/* Timeline de livraison */}
-                  <div className="relative flex justify-between">
-                    <div className="absolute top-5 left-0 w-full h-0.5 bg-slate-100 -z-0" />
-                    <div className="absolute top-5 left-0 h-0.5 bg-blue-500 transition-all duration-500 -z-0" 
+                  <div className="relative flex justify-between px-4">
+                    <div className="absolute top-8 left-0 w-full h-1 bg-slate-100 -z-0 rounded-full" />
+                    <div className="absolute top-8 left-0 h-1 bg-blue-500 transition-all duration-700 -z-0 rounded-full" 
                          style={{ width: activeMission.status === 'delivered' ? '100%' : activeMission.status === 'on_the_way' ? '66%' : activeMission.status === 'picked_up' ? '33%' : '0%' }} 
                     />
                     
@@ -441,46 +382,34 @@ export default function CoursierDashboard() {
                                     (idx === 1 && (activeMission.status === 'on_the_way' || activeMission.status === 'delivered')) ||
                                     (idx === 2 && activeMission.status === 'delivered');
                       return (
-                        <div key={idx} className="relative z-10 flex flex-col items-center gap-2">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isDone ? 'bg-blue-600 text-white' : 'bg-white border-2 border-slate-100 text-slate-300'}`}>
-                            <step.i size={18} />
+                        <div key={idx} className="relative z-10 flex flex-col items-center gap-4">
+                          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg ${isDone ? 'bg-blue-600 text-white scale-110' : 'bg-white border-4 border-slate-50 text-slate-300'}`}>
+                            <step.i size={28} />
                           </div>
-                          <span className={`text-[10px] font-bold uppercase tracking-tight ${isDone ? 'text-blue-600' : 'text-slate-400'}`}>{step.t}</span>
+                          <span className={`text-xs font-black uppercase tracking-widest ${isDone ? 'text-blue-600' : 'text-slate-400'}`}>{step.t}</span>
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8 pt-4">
-                    {/* Point de retrait (boutique) */}
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="bg-slate-100 p-2 rounded-lg text-slate-500"><MapPin size={20} /></div>
+                  <div className="grid md:grid-cols-2 gap-12 pt-6">
+                    <div className="bg-slate-50/50 p-8 rounded-[2rem] border border-slate-100 space-y-6">
+                      <div className="flex items-start gap-4">
+                        <div className="bg-white p-4 rounded-2xl shadow-sm text-slate-500 border border-slate-100"><MapPin size={28} /></div>
                         <div>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Point de retrait</p>
-                          <p className="text-slate-900 font-semibold mt-0.5">
-                            {activeMission?.orders?.shop?.name || 'Boutique inconnue'}
-                          </p>
-                          <p className="text-slate-500 text-sm">
-                            {activeMission?.orders?.shop?.address || 'Adresse inconnue'}
-                            {activeMission?.orders?.shop?.city ? `, ${activeMission.orders.shop.city}` : ''}
-                          </p>
+                          <p className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Expéditeur</p>
+                          <p className="text-2xl font-bold text-slate-900 mt-2">{activeMission?.orders?.shop?.name || 'Boutique'}</p>
+                          <p className="text-lg text-slate-600 mt-2 leading-relaxed">{activeMission?.orders?.shop?.address}</p>
                         </div>
                       </div>
                     </div>
-                    {/* Destination (client) */}
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="bg-blue-50 p-2 rounded-lg text-blue-600"><Navigation size={20} /></div>
+                    <div className="bg-blue-50/30 p-8 rounded-[2rem] border border-blue-100/50 space-y-6">
+                      <div className="flex items-start gap-4">
+                        <div className="bg-white p-4 rounded-2xl shadow-sm text-blue-600 border border-blue-100"><Navigation size={28} /></div>
                         <div>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Destination</p>
-                          <p className="text-slate-900 font-semibold mt-0.5">
-                            {activeMission?.orders?.customer_name || 'Client inconnu'}
-                          </p>
-                          <p className="text-slate-500 text-sm">
-                            {activeMission?.orders?.delivery_address || 'Adresse inconnue'}
-                            {activeMission?.orders?.delivery_city ? `, ${activeMission.orders.delivery_city}` : ''}
-                          </p>
+                          <p className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Destinataire</p>
+                          <p className="text-2xl font-bold text-slate-900 mt-2">{activeMission?.orders?.customer_name || 'Client'}</p>
+                          <p className="text-lg text-slate-600 mt-2 leading-relaxed">{activeMission?.orders?.delivery_address}</p>
                         </div>
                       </div>
                     </div>
@@ -490,70 +419,44 @@ export default function CoursierDashboard() {
                     <>
                       <button
                         onClick={moveToNextStatus}
-                        className="w-full py-5 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
+                        className="w-full py-8 bg-slate-900 text-white rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 hover:bg-blue-600 transition-all shadow-2xl shadow-slate-300 active:scale-[0.98] uppercase tracking-[0.2em]"
                       >
-                        <span className="uppercase tracking-widest text-sm">Valider l'étape : {STATUS_LABELS[NEXT_STATUS[activeMission.status]]}</span>
-                        <ChevronRight size={20} />
+                        Valider : {STATUS_LABELS[NEXT_STATUS[activeMission.status]]}
+                        <ChevronRight size={28} />
                       </button>
 
-                      {/* Modale de confirmation de livraison */}
                       <AnimatePresence>
                         {showConfirmDelivery && (
                           <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                             className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
                             onClick={() => setShowConfirmDelivery(false)}
                           >
                             <motion.div
-                              initial={{ scale: 0.9, y: 20 }}
-                              animate={{ scale: 1, y: 0 }}
-                              exit={{ scale: 0.9, y: 20 }}
+                              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-white rounded-3xl shadow-2xl max-w-md w-full"
+                              className="bg-white rounded-[3rem] shadow-2xl max-w-xl w-full overflow-hidden"
                             >
-                              <div className="bg-emerald-600 p-6 text-white rounded-t-3xl">
-                                <h3 className="text-2xl font-bold">Confirmer la livraison</h3>
-                                <p className="text-emerald-100 text-sm mt-1">Vérifiez l'identité du client avant de confirmer</p>
+                              <div className="bg-emerald-600 p-10 text-white">
+                                <h3 className="text-3xl font-black uppercase tracking-tight">Confirmer la livraison</h3>
+                                <p className="text-emerald-100 text-lg mt-2 font-medium">Vérifiez l'identité du client.</p>
                               </div>
-
-                              <div className="p-8 space-y-6">
-                                {/* Numéro de commande */}
-                                <div className="bg-slate-50 p-4 rounded-2xl">
-                                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Numéro de commande</p>
-                                  <p className="text-2xl font-bold text-slate-900 mt-2 font-mono">#{activeMission?.order_id?.slice(0, 8).toUpperCase()}</p>
+                              <div className="p-10 space-y-8">
+                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Référence</p>
+                                  <p className="text-4xl font-black text-slate-900 mt-3 font-mono">#{activeMission?.order_id?.slice(0, 8).toUpperCase()}</p>
                                 </div>
-
-                                {/* Nom du client */}
-                                <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Destinataire</p>
-                                  <p className="text-xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                    👤 {activeMission?.orders?.customer_name || 'Client inconnu'}
-                                  </p>
-                                </div>
-
-                                {/* Instructions */}
-                                <div className="bg-amber-50 p-4 rounded-2xl border border-amber-100">
-                                  <p className="text-amber-800 text-sm">
-                                    <strong>Note:</strong> Demandez au client de confirmer le numéro de commande avant de valider.
+                                <div className="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
+                                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Destinataire</p>
+                                  <p className="text-2xl font-bold text-slate-900 mt-3 flex items-center gap-3">
+                                    👤 {activeMission?.orders?.customer_name || 'Client'}
                                   </p>
                                 </div>
                               </div>
-
-                              <div className="p-6 border-t border-slate-100 flex gap-3">
-                                <button
-                                  onClick={() => setShowConfirmDelivery(false)}
-                                  className="flex-1 py-3 rounded-xl font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all"
-                                >
-                                  Annuler
-                                </button>
-                                <button
-                                  onClick={confirmDelivery}
-                                  className="flex-1 py-3 rounded-xl font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-all flex items-center justify-center gap-2"
-                                >
-                                  <CheckCircle size={18} />
-                                  Confirmer
+                              <div className="p-8 bg-slate-50/50 border-t border-slate-100 flex gap-4">
+                                <button onClick={() => setShowConfirmDelivery(false)} className="flex-1 py-4 rounded-2xl font-bold text-lg text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-all">Annuler</button>
+                                <button onClick={confirmDelivery} className="flex-1 py-4 rounded-2xl font-black text-lg text-white bg-emerald-600 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20">
+                                  <CheckCircle size={24} /> CONFIRMER
                                 </button>
                               </div>
                             </motion.div>
@@ -562,9 +465,8 @@ export default function CoursierDashboard() {
                       </AnimatePresence>
                     </>
                   ) : (
-                    <div className="bg-emerald-50 text-emerald-700 p-6 rounded-2xl text-center font-bold flex items-center justify-center gap-3 border border-emerald-100">
-                      <CheckCircle size={24} />
-                      Mission terminée avec succès !
+                    <div className="bg-emerald-50 text-emerald-700 p-10 rounded-[2rem] text-center font-black text-2xl flex items-center justify-center gap-4 border-2 border-emerald-100 shadow-inner">
+                      <CheckCircle size={36} /> LIVRAISON RÉUSSIE !
                     </div>
                   )}
                 </div>
@@ -572,90 +474,44 @@ export default function CoursierDashboard() {
             )}
           </div>
 
-          {/* Liste des Missions (Sidebar Droite) */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <TrendingUp size={22} className="text-emerald-500" />
-              Missions à proximité
+          <div className="lg:col-span-4 space-y-8">
+            <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3 tracking-tight uppercase">
+              <TrendingUp size={28} className="text-emerald-500" />
+              Disponibles
             </h3>
-
-            {!isAvailable && !activeMission && (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-                Vous êtes hors ligne pour le moment. Passez en ligne pour accepter une mission.
-              </div>
-            )}
-
-            {activeMission && (
-              <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">
-                Une mission est déjà en cours : vous êtes occupé jusqu’à la livraison.
-              </div>
-            )}
-
-            <div className="space-y-4">
+            <div className="space-y-6">
               {loading ? (
                 Array(3).fill(0).map((_, i) => (
-                  <div key={i} className="bg-white p-6 rounded-3xl border border-slate-100 animate-pulse space-y-4">
-                    <div className="h-4 bg-slate-100 rounded w-1/2"></div>
-                    <div className="h-10 bg-slate-50 rounded"></div>
-                  </div>
+                  <div key={i} className="bg-white p-8 rounded-[2rem] border border-slate-100 animate-pulse space-y-6"><div className="h-6 bg-slate-100 rounded-full w-2/3"></div><div className="h-12 bg-slate-50 rounded-2xl"></div></div>
                 ))
               ) : availableMissions.length === 0 ? (
-                <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 text-center">
-                  <p className="text-slate-400 text-sm italic">Aucune mission disponible pour le moment.</p>
-                </div>
+                <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-10 text-center"><p className="text-slate-400 font-bold text-lg italic">Calme plat sur le secteur...</p></div>
               ) : (
                 availableMissions.map((mission) => (
-                  <motion.div 
-                    key={mission.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                        Prêt pour retrait
-                      </div>
-                      <span className="text-slate-900 font-bold">{Number(mission?.orders?.total_amount || 0).toFixed(2)} €</span>
+                  <motion.div key={mission.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-md hover:shadow-2xl transition-all group relative overflow-hidden">
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border border-emerald-100">Mission</div>
+                      <span className="text-2xl font-black text-slate-900">{Number(mission?.orders?.total_amount || 0).toFixed(2)} €</span>
                     </div>
-                    
-                    <div className="space-y-3 mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        <p className="text-sm text-slate-600 truncate"><span className="font-bold text-slate-800">Shop:</span> {mission?.orders?.shop?.name || 'Boutique inconnue'}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                        <p className="text-sm text-slate-600 truncate"><span className="font-bold text-slate-800">Vers:</span> {mission?.orders?.delivery_postal_code || ''} {mission?.orders?.delivery_city || 'Adresse inconnue'}</p>
-                      </div>
+                    <div className="space-y-4 mb-8">
+                      <p className="text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">De :</span> {mission?.orders?.shop?.name}</p>
+                      <p className="text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">À :</span> {mission?.orders?.delivery_city}</p>
                     </div>
-
-                    <button
-                      onClick={() => acceptMission(mission)}
-                      disabled={!!activeMission || !isAvailable}
-                      className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
-                        activeMission || !isAvailable
-                          ? 'bg-slate-50 text-slate-300 cursor-not-allowed' 
-                          : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/20'
-                      }`}
-                    >
-                      Accepter
-                      <ChevronRight size={16} />
-                    </button>
+                    <button onClick={() => acceptMission(mission)} disabled={!!activeMission || !isAvailable} className={`w-full py-4 rounded-2xl font-black text-base transition-all flex items-center justify-center gap-3 ${activeMission || !isAvailable ? 'bg-slate-50 text-slate-300' : 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20'}`}>ACCEPTER <ChevronRight size={20} /></button>
                   </motion.div>
                 ))
               )}
             </div>
-
-            <div className="bg-white rounded-2xl border border-slate-100 p-4">
-              <h4 className="text-sm font-bold text-slate-800 mb-3">Historique des livraisons</h4>
+            <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
+              <h4 className="text-lg font-black text-slate-800 mb-6 uppercase tracking-widest flex items-center gap-2"><CheckCircle size={20} className="text-emerald-500" /> Dernières missions</h4>
               {deliveredHistory.length === 0 ? (
-                <p className="text-xs text-slate-400 italic">Aucune livraison terminée.</p>
+                <p className="text-sm text-slate-400 italic font-medium">Aucun historique récent.</p>
               ) : (
-                <div className="space-y-3 max-h-64 overflow-auto pr-1">
-                  {deliveredHistory.slice(0, 8).map((mission) => (
-                    <div key={mission.id} className="rounded-xl border border-slate-100 p-3">
-                      <p className="text-xs font-semibold text-slate-900">#{mission.order_id?.slice(0, 8)} • {mission?.orders?.shop?.name || 'Boutique'}</p>
-                      <p className="text-xs text-slate-500">{mission?.orders?.customer_name || 'Client'} — {mission?.orders?.delivery_city || 'Ville inconnue'}</p>
+                <div className="space-y-4 max-h-80 overflow-auto pr-2 custom-scrollbar">
+                  {deliveredHistory.slice(0, 5).map((m) => (
+                    <div key={m.id} className="rounded-2xl border border-slate-50 bg-slate-50/30 p-4 transition-colors hover:bg-white hover:border-slate-100">
+                      <p className="text-sm font-black text-slate-900">#{m.order_id?.slice(0, 8).toUpperCase()}</p>
+                      <p className="text-sm text-slate-500 mt-1 font-medium">{m?.orders?.shop?.name} ➝ {m?.orders?.delivery_city}</p>
                     </div>
                   ))}
                 </div>
