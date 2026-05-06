@@ -51,28 +51,28 @@ const Header = () => {
           </Link>
 
           {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-bold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-bold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-bold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
             >
               Catalogue
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6">
             <button
               type="button"
               onClick={toggleTheme}
@@ -80,16 +80,16 @@ const Header = () => {
               aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
             >
-              <span className="text-2xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
+              <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
             </button>
 
             {/* Panier */}
             <Link to="/cart" className="relative p-2 text-text-medium hover:text-green transition-colors">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -105,28 +105,28 @@ const Header = () => {
                   <img
                     src={getProfileImage()}
                     alt="Profile"
-                    className="w-10 h-10 rounded-full object-cover border border-neutral-medium"
+                    className="w-9 h-9 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
                 </button>
 
                 {/* Dropdown utilisateur */}
-                <div className={`absolute right-0 mt-2 w-56 bg-background rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
+                <div className={`absolute right-0 mt-2 w-52 bg-background rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
                   isUserMenuOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
                 }`}>
                   <div className="p-4 border-b border-neutral-light flex justify-center flex-col items-center">
                     <img
                       src={getProfileImage()}
                       alt="Profile"
-                      className="w-16 h-16 rounded-full object-cover border-2 border-neutral-medium mb-2"
+                      className="w-14 h-14 rounded-full object-cover border-2 border-neutral-medium mb-2"
                     />
-                    <p className="text-base font-semibold text-text-dark">{getUserName()}</p>
+                    <p className="text-sm font-semibold text-text-dark">{getUserName()}</p>
                     <p className="text-xs text-text-light uppercase tracking-widest">{getUserRole()}</p>
                   </div>
                   <div className="p-2 flex flex-col">
                     <Link
                       to="/compte_user"
-                      className="flex items-center space-x-2 px-3 py-3 text-text-medium hover:bg-neutral-light rounded-lg text-lg"
+                      className="flex items-center space-x-2 px-3 py-2.5 text-text-medium hover:bg-neutral-light rounded-lg text-base"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <span>👤</span> <span>Mon compte</span>
@@ -135,7 +135,7 @@ const Header = () => {
                     {getUserRole() === 'shop_owner' && (
                       <Link
                         to="/merchant/dashboard"
-                        className="flex items-center space-x-2 px-3 py-3 text-text-medium hover:bg-neutral-light rounded-lg text-lg"
+                        className="flex items-center space-x-2 px-3 py-2.5 text-text-medium hover:bg-neutral-light rounded-lg text-base"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         <span>🏬</span> <span>Dashboard Marchand</span>
@@ -144,7 +144,7 @@ const Header = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 w-full px-3 py-3 text-danger hover:bg-red-50 rounded-lg text-left text-lg"
+                      className="flex items-center space-x-2 w-full px-3 py-2.5 text-danger hover:bg-red-50 rounded-lg text-left text-base"
                     >
                       <span>🚪</span> <span>Déconnexion</span>
                     </button>
@@ -152,16 +152,16 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-green font-bold text-lg transition-colors"
+                  className="text-text-medium hover:text-green font-semibold text-base transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-green hover:bg-green-dark text-background px-8 py-3 rounded-xl font-bold text-lg transition-colors shadow-sm"
+                  className="bg-green hover:bg-green-dark text-background px-6 py-2 rounded-lg font-bold text-base transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>
