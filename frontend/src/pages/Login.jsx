@@ -76,7 +76,7 @@ const Login = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
+        className="w-full max-w-xl bg-card rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.05)] p-16 relative overflow-hidden border border-border"
       >
         {/* Subtle Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
@@ -86,37 +86,37 @@ const Login = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center mb-10"
+          className="text-center mb-12"
         >
-          <div className="mb-6 flex justify-center">
+          <div className="mb-8 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
               src={localStyleLogo} 
               alt="LocalStyle" 
-              className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
+              className="w-28 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>
-          <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
+          <h1 className="text-4xl font-serif tracking-tight text-text-dark mb-3">
             Localstyle
           </h1>
-          <p className="text-text-light text-sm uppercase tracking-widest font-medium">
-            Bienvenue
+          <p className="text-text-light text-sm uppercase tracking-[0.3em] font-bold">
+            Bienvenue dans l'Excellence
           </p>
         </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-10">
           {/* Email */}
-          <div className="space-y-2">
-            <label className="block text-sm md:text-base uppercase tracking-widest text-text-medium font-semibold">Email</label>
+          <div className="space-y-3">
+            <label className="block text-sm uppercase tracking-widest text-text-medium font-bold">Email</label>
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={20} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-9 py-4 bg-transparent border-b text-lg text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -124,32 +124,32 @@ const Login = () => {
               />
             </div>
             {errors.email && (
-              <p className="text-danger text-[13px] md:text-xs mt-1 flex items-center italic">
+              <p className="text-danger text-sm mt-1 flex items-center italic">
                 {errors.email}
               </p>
             )}
           </div>
 
           {/* Mot de passe */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="flex justify-between items-end">
-              <label className="block text-sm md:text-base uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
+              <label className="block text-sm uppercase tracking-widest text-text-medium font-bold">Mot de passe</label>
               <Link 
                 to="/forgot-password" 
-                className="text-[13px] md:text-xs text-text-light hover:text-green transition-colors uppercase tracking-wider"
+                className="text-xs text-text-light hover:text-green transition-colors uppercase tracking-widest"
               >
                 Oublié ?
               </Link>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={20} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-9 py-4 bg-transparent border-b text-lg text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -160,11 +160,11 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-danger text-[13px] md:text-xs mt-1 flex items-center italic">
+              <p className="text-danger text-sm mt-1 flex items-center italic">
                 {errors.password}
               </p>
             )}
@@ -172,30 +172,30 @@ const Login = () => {
 
           {/* Erreur de soumission */}
           {errors.submit && (
-            <div className="text-danger text-sm md:text-base bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
+            <div className="text-danger text-base bg-danger/5 p-4 rounded-sm border border-danger/10 text-center italic">
               {errors.submit}
             </div>
           )}
 
           {/* Bouton de connexion */}
           <motion.button
-            whileHover={{ y: -1 }}
+            whileHover={{ y: -2, shadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}
             whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-green text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+            className="w-full py-5 bg-green text-white text-base font-bold uppercase tracking-[0.25em] rounded-xl hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
           >
             {loading ? (
-              <Loader2 className="animate-spin w-4 h-4 mx-auto" />
+              <Loader2 className="animate-spin w-6 h-6 mx-auto" />
             ) : (
               "Se connecter"
             )}
           </motion.button>
 
           {/* Séparateur */}
-          <div className="relative flex items-center py-2">
+          <div className="relative flex items-center py-4">
             <div className="flex-grow border-t border-border"></div>
-            <span className="mx-4 text-[13px] md:text-xs text-text-light uppercase tracking-widest">ou</span>
+            <span className="mx-6 text-xs text-text-light uppercase tracking-[0.3em] font-bold">ou</span>
             <div className="flex-grow border-t border-border"></div>
           </div>
 
@@ -203,44 +203,44 @@ const Login = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-sm md:text-base text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300"
+            className="w-full py-4 border border-border rounded-xl flex items-center justify-center gap-4 text-sm text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300 font-bold"
           >
             <img 
               src="https://www.svgrepo.com/show/475656/google-color.svg" 
               alt="Google" 
-              className="w-4 h-4 grayscale opacity-70"
+              className="w-5 h-5 grayscale opacity-70"
             />
-            Google
+            Se connecter avec Google
           </button>
 
           {/* Lien vers l'inscription */}
-          <div className="text-center pt-4 space-y-4">
-            <p className="text-sm md:text-base text-text-light uppercase tracking-widest">
+          <div className="text-center pt-6 space-y-6">
+            <p className="text-sm text-text-light uppercase tracking-widest">
               Pas de compte ?{" "}
               <Link
                 to="/register"
-                className="text-green font-bold hover:text-green-dark transition-colors"
+                className="text-green font-black hover:text-green-dark transition-colors ml-2"
               >
                 S'inscrire
               </Link>
             </p>
             
-            <div className="pt-4 border-t border-border/50">
-              <p className="text-[13px] md:text-xs text-text-light uppercase tracking-[0.2em] mb-2">
-                Vous êtes un partenaire ?
+            <div className="pt-8 border-t border-border/50">
+              <p className="text-xs text-text-light uppercase tracking-[0.25em] mb-4 font-bold">
+                Espace Partenaires
               </p>
-              <div className="flex justify-center gap-6">
+              <div className="flex justify-center gap-10">
                 <Link
                   to="/coursier/login"
-                  className="text-[13px] md:text-xs text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                  className="text-xs text-text-dark font-black uppercase tracking-[0.2em] hover:text-green transition-colors border-b border-transparent hover:border-green pb-1"
                 >
-                  Espace Coursier
+                  Coursier
                 </Link>
                 <Link
                   to="/merchant/login"
-                  className="text-[13px] md:text-xs text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                  className="text-xs text-text-dark font-black uppercase tracking-[0.2em] hover:text-green transition-colors border-b border-transparent hover:border-green pb-1"
                 >
-                  Espace Marchand
+                  Marchand
                 </Link>
               </div>
             </div>
