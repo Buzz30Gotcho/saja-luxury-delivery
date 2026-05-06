@@ -36,6 +36,12 @@ html {
   font-size: 16px;
 }
 
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 .dark {
   color-scheme: dark;
   --background: 12 10 9;
@@ -67,7 +73,7 @@ html {
 body {
   @apply font-sans text-text-dark bg-background;
   /* Apply default font, text color, and background */
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 @layer base {
