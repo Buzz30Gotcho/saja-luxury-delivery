@@ -12,7 +12,7 @@ const defaultCenter = { lat: 48.8566, lng: 2.3522 }; // Paris par défaut
 const Maps = ({ shops = [], userLocation: externalUserLocation = null }) => {
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script-shops",
+    id: "google-map-script",
     googleMapsApiKey: googleMapsApiKey || "",
   });
 

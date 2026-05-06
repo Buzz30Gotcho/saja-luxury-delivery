@@ -10,7 +10,7 @@ export default function OrderTracking() {
     const [error, setError] = useState(null)
     const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
     const { isLoaded: isMapLoaded, loadError: mapLoadError } = useJsApiLoader({
-        id: 'google-map-script-tracking',
+        id: 'google-map-script',
         googleMapsApiKey: googleMapsApiKey || '',
     })
 
