@@ -88,7 +88,7 @@ const getCourierProfile = async (courierId) => {
 
     return supabase
         .from('delivery_persons')
-        .select('id, user_id, is_available')
+        .select('id, user_id, is_available, current_location_lat, current_location_lng')
         .eq('user_id', courierId)
         .maybeSingle()
 }
@@ -104,10 +104,19 @@ const ensureCourierProfile = async (courierId, defaultAvailability = true) => {
         return { data: existingProfile, error: null }
     }
 
+    // Récupérer les métadonnées de l'utilisateur pour avoir la position par défaut
+    const { data: { user }, error: userError } = await supabase.auth.admin.getUserById(courierId)
+    const metadata = user?.user_metadata || {}
+
     const { data: createdProfile, error: createProfileError } = await supabase
         .from('delivery_persons')
-        .insert([{ user_id: courierId, is_available: defaultAvailability }])
-        .select('id, user_id, is_available')
+        .insert([{ 
+            user_id: courierId, 
+            is_available: defaultAvailability,
+            current_location_lat: metadata.lat || null,
+            current_location_lng: metadata.lng || null
+        }])
+        .select('id, user_id, is_available, current_location_lat, current_location_lng')
         .single()
 
     return { data: createdProfile || null, error: createProfileError || null }
@@ -340,6 +349,8 @@ export const acceptMission = async (req, res) => {
                 courier_name: courierName,
                 delivery_person_id: deliveryPersonId,
                 status: DELIVERY_STATUS.assigned,
+                courier_lat: courierProfile.current_location_lat || mission.pickup_lat,
+                courier_lng: courierProfile.current_location_lng || mission.pickup_lng,
             })
             .eq('order_id', orderId)
             .eq('status', DELIVERY_STATUS.awaiting)
@@ -656,6 +667,52 @@ export const updateDeliveryStatus = async (req, res) => {
         return res.status(500).json({ error: 'Une erreur serveur est survenue.' })
     }
 }
+
+export const updateCourierLocation = async (req, res) => {
+    try {
+        const { courierId } = req.params;
+        const { lat, lng } = req.body;
+
+        if (lat == null || lng == null) {
+            return res.status(400).json({ error: 'Coordonnées lat/lng requises.' });
+        }
+
+        // 1. Mettre à jour le profil du coursier pour l'algorithme "plus proche"
+        const { error: profileError } = await supabase
+            .from('delivery_persons')
+            .update({
+                current_location_lat: lat,
+                current_location_lng: lng,
+                updated_at: new Date().toISOString()
+            })
+            .eq('user_id', courierId);
+
+        if (profileError) {
+            console.error('[delivery] Error updating courier profile location:', profileError);
+        }
+
+        // 2. Mettre à jour la mission active si elle existe
+        const { data: activeMission, error: missionError } = await supabase
+            .from('delivery_missions')
+            .update({
+                courier_lat: lat,
+                courier_lng: lng
+            })
+            .eq('delivery_person_id', courierId)
+            .neq('status', DELIVERY_STATUS.delivered)
+            .select()
+            .maybeSingle();
+
+        return res.status(200).json({ 
+            success: true, 
+            message: 'Position mise à jour.',
+            mission: activeMission || null
+        });
+    } catch (error) {
+        console.error('updateCourierLocation error:', error);
+        return res.status(500).json({ error: 'Une erreur serveur est survenue.' });
+    }
+};
 
 export const simulateDeliveryStep = async (req, res) => {
     try {

@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 import { Loader2, Truck, MapPin, Phone, UserCircle } from "lucide-react";
 import localStyleLogo from "/localstyle.png";
 
+const ALLOWED_CITIES = {
+  "Bordeaux": { lat: 44.8378, lng: -0.5792 },
+  "Paris": { lat: 48.8566, lng: 2.3522 },
+  "Cannes": { lat: 43.5528, lng: 7.0174 }
+};
+
 const RegisterCoursier = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -14,9 +20,9 @@ const RegisterCoursier = () => {
     confirmPassword: "",
     phone: "",
     vehicleType: "bike", // bike, scooter, car
-    city: ""
+    city: "Bordeaux"
   });
-  
+
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -44,7 +50,7 @@ const RegisterCoursier = () => {
     if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
     
-    if (!formData.city.trim()) newErrors.city = "Ville requise";
+    if (!formData.city) newErrors.city = "Ville requise";
     if (!formData.phone.trim()) newErrors.phone = "Téléphone requis";
 
     setErrors(newErrors);
@@ -57,6 +63,8 @@ const RegisterCoursier = () => {
     
     setLoading(true);
     try {
+      const cityCoords = ALLOWED_CITIES[formData.city] || { lat: 48.8566, lng: 2.3522 };
+
       const result = await register(formData.email, formData.password, {
         role: 'delivery_person',
         firstName: formData.firstName,
@@ -64,6 +72,9 @@ const RegisterCoursier = () => {
         display_name: `${formData.firstName} ${formData.lastName}`,
         phone: formData.phone,
         location: formData.city,
+        city: formData.city,
+        lat: cityCoords.lat,
+        lng: cityCoords.lng,
         vehicleType: formData.vehicleType
       });
 
@@ -178,16 +189,18 @@ const RegisterCoursier = () => {
 
             <div>
               <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Ville</label>
-              <input
-                type="text"
+              <select
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                placeholder="..."
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-text-dark focus:outline-none transition-all duration-300 ${
                   errors.city ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
-              />
+              >
+                {Object.keys(ALLOWED_CITIES).map(city => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
               {errors.city && <p className="text-danger text-[9px] mt-1 italic">{errors.city}</p>}
             </div>
 

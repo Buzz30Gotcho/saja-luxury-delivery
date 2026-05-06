@@ -209,7 +209,7 @@ export default function OrderTracking() {
                                         {hasCourierCoords && (
                                             <Marker
                                                 position={{ lat: courierLat, lng: courierLng }}
-                                                title={`📦 Livreur (${courierLat.toFixed(4)}, ${courierLng.toFixed(4)})`}
+                                                title={`📦 Livreur en route`}
                                                 icon={{
                                                     path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z',
                                                     fillColor: '#3B82F6',
@@ -226,7 +226,7 @@ export default function OrderTracking() {
                                         {hasCustomerCoords && (
                                             <Marker
                                                 position={{ lat: customerLat, lng: customerLng }}
-                                                title={`🏁 Destination (${customerLat.toFixed(4)}, ${customerLng.toFixed(4)})`}
+                                                title={`🏁 Destination de livraison`}
                                                 icon={{
                                                     path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z',
                                                     fillColor: '#EF4444',
@@ -258,35 +258,15 @@ export default function OrderTracking() {
                                         <span className="text-lg">🔵</span>
                                         <div>
                                             <p className="text-xs text-blue-600 font-bold">LIVREUR</p>
-                                            <p className="text-xs text-slate-600">{courierLat.toFixed(4)}, {courierLng.toFixed(4)}</p>
+                                            <p className="text-xs text-slate-600 italic">En mouvement</p>
                                         </div>
                                     </div>
                                     <div className="rounded-xl bg-red-50 border border-red-200 p-3 flex items-start gap-2">
                                         <span className="text-lg">🔴</span>
                                         <div>
                                             <p className="text-xs text-red-600 font-bold">CLIENT</p>
-                                            <p className="text-xs text-slate-600">{customerLat.toFixed(4)}, {customerLng.toFixed(4)}</p>
+                                            <p className="text-xs text-slate-600 italic">Destination</p>
                                         </div>
-                                    </div>
-                                </div>
-                                
-                                {/* Grille de toutes les coordonnées */}
-                                <div className="mt-3 grid grid-cols-2 gap-3">
-                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                                        <p className="text-xs text-slate-500">Latitude coursier</p>
-                                        <p className="text-sm font-semibold text-slate-800">{courierLat.toFixed(4)}</p>
-                                    </div>
-                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                                        <p className="text-xs text-slate-500">Longitude coursier</p>
-                                        <p className="text-sm font-semibold text-slate-800">{courierLng.toFixed(4)}</p>
-                                    </div>
-                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                                        <p className="text-xs text-slate-500">Latitude client</p>
-                                        <p className="text-sm font-semibold text-slate-800">{customerLat.toFixed(4)}</p>
-                                    </div>
-                                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                                        <p className="text-xs text-slate-500">Longitude client</p>
-                                        <p className="text-sm font-semibold text-slate-800">{customerLng.toFixed(4)}</p>
                                     </div>
                                 </div>
                             </>

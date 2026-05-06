@@ -170,6 +170,42 @@ export default function CoursierDashboard() {
 
   useEffect(() => { loadCourierMissions(); }, [user?.id]);
 
+  // Géolocalisation en temps réel quand le coursier est en ligne
+  useEffect(() => {
+    let watchId = null;
+
+    if (isAvailable && user?.id) {
+      if ("geolocation" in navigator) {
+        watchId = navigator.geolocation.watchPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              await fetch(`/api/delivery/courier/${user.id}/location`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ lat: latitude, lng: longitude }),
+              });
+            } catch (err) {
+              console.error("Erreur mise à jour position GPS:", err);
+            }
+          },
+          (error) => {
+            console.error("Erreur GPS:", error);
+          },
+          {
+            enableHighAccuracy: true,
+            maximumAge: 10000,
+            timeout: 5000,
+          }
+        );
+      }
+    }
+
+    return () => {
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+    };
+  }, [isAvailable, user?.id]);
+
   const acceptMission = async (missionToAccept) => {
     setActionError('');
     setActionMessage('');

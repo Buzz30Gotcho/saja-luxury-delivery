@@ -6,6 +6,7 @@ import {
     getCourierMissions,
     getCourierStats,
     updateCourierAvailability,
+    updateCourierLocation,
     getDeliveryTracking,
     updateDeliveryStatus,
     simulateDeliveryStep,
@@ -31,6 +32,9 @@ router.get('/courier/:courierId/stats', getCourierStats)
 
 // Mettre à jour la disponibilité du coursier
 router.patch('/courier/:courierId/availability', updateCourierAvailability)
+
+// Mettre à jour la position du coursier
+router.patch('/courier/:courierId/location', updateCourierLocation)
 
 // Récupérer le tracking d'une livraison
 router.get('/track/:orderId', getDeliveryTracking)
