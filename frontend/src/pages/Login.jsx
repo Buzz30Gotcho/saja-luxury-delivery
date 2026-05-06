@@ -214,7 +214,7 @@ const Login = () => {
           </button>
 
           {/* Lien vers l'inscription */}
-          <div className="text-center pt-4">
+          <div className="text-center pt-4 space-y-4">
             <p className="text-[11px] text-text-light uppercase tracking-widest">
               Pas de compte ?{" "}
               <Link
@@ -224,6 +224,26 @@ const Login = () => {
                 S'inscrire
               </Link>
             </p>
+            
+            <div className="pt-4 border-t border-border/50">
+              <p className="text-[10px] text-text-light uppercase tracking-[0.2em] mb-2">
+                Vous êtes un partenaire ?
+              </p>
+              <div className="flex justify-center gap-6">
+                <Link
+                  to="/coursier/login"
+                  className="text-[10px] text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                >
+                  Espace Coursier
+                </Link>
+                <Link
+                  to="/merchant/login"
+                  className="text-[10px] text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                >
+                  Espace Marchand
+                </Link>
+              </div>
+            </div>
           </div>
         </form>
       </motion.div>

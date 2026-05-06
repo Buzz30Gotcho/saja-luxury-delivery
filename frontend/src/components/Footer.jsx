@@ -54,9 +54,16 @@ const Footer = () => {
           <div className="space-y-8">
             <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-text-dark">Partenaires</h4>
             <ul className="space-y-4">
-              {['Devenir Partenaire', 'Accès Créateur'].map((item) => (
+              {['Devenir Partenaire', 'Accès Créateur', 'Espace Coursier'].map((item) => (
                 <li key={item}>
-                  <Link to={item === 'Devenir Partenaire' ? '/merchant/register' : '/merchant/login'} className="text-[12px] text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
+                  <Link 
+                    to={
+                      item === 'Devenir Partenaire' ? '/merchant/register' : 
+                      item === 'Accès Créateur' ? '/merchant/login' : 
+                      '/coursier/login'
+                    } 
+                    className="text-[12px] text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors"
+                  >
                     {item}
                   </Link>
                 </li>
