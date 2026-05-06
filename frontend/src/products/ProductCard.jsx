@@ -58,20 +58,20 @@ const ProductCard = ({ product }) => {
 
         {/* Informations produit */}
         <div className="p-4">
-          <h4 className="font-semibold text-text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+          <h4 className="font-semibold text-lg text-text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">
             {product.name}
           </h4>
-          <p className="text-sm md:text-base mb-3 line-clamp-2">
+          <p className="text-base md:text-lg mb-3 line-clamp-2 text-text-medium leading-relaxed">
             {product.description}
           </p>
           
           <div className="flex items-center justify-between">
-            <div className="text-lg font-bold text-primary">
+            <div className="text-xl font-bold text-primary">
               {product.price}€
             </div>
             
             {/* Badge livraison */}
-            <div className="flex items-center space-x-1 text-xs text-primary-dark bg-primary-light px-2 py-1 rounded-full">
+            <div className="flex items-center space-x-1 text-sm text-primary-dark bg-primary-light px-3 py-1 rounded-full font-bold">
               <span>🚗</span>
               <span>30min</span>
             </div>
@@ -81,10 +81,10 @@ const ProductCard = ({ product }) => {
           {product.shop && (
             <div className="mt-3 pt-3 border-t border-neutral-light">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-neutral-light rounded-full flex items-center justify-center text-xs">
+                <div className="w-7 h-7 bg-neutral-light rounded-full flex items-center justify-center text-sm">
                   🏪
                 </div>
-                <span className="text-xs text-text-medium">{product.shop.name}</span>
+                <span className="text-sm font-medium text-text-medium">{product.shop.name}</span>
               </div>
             </div>
           )}

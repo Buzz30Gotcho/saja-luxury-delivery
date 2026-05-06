@@ -64,20 +64,20 @@ const ShopCard = ({ shop }) => {
         </div>
         
         {description && (
-          <p className="text-text-medium text-[13px] leading-relaxed mb-8 line-clamp-2 font-light italic">
+          <p className="text-text-medium text-[15px] leading-relaxed mb-8 line-clamp-2 font-light italic">
             {description}
           </p>
         )}
 
         <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
           <div className="flex items-center gap-2 text-text-light">
-            <MapPin size={12} className="text-green" />
-            <p className="text-xs md:text-sm font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
+            <MapPin size={14} className="text-green" />
+            <p className="text-sm md:text-base font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
           </div>
           
           <Link 
             to={`/shop/${id}`} 
-            className="text-xs md:text-sm font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
+            className="text-sm md:text-base font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
           >
             Découvrir
           </Link>

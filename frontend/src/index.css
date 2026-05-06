@@ -33,7 +33,19 @@
 }
 
 html {
-  font-size: 17px;
+  font-size: 16px; /* Base mobile */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px; /* Tablette */
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 20px; /* Grand écran Web */
+  }
 }
 
 .dark {
