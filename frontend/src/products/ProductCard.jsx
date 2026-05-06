@@ -61,7 +61,7 @@ const ProductCard = ({ product }) => {
           <h4 className="font-semibold text-text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">
             {product.name}
           </h4>
-          <p className="text-text-medium text-sm mb-3 line-clamp-2">
+          <p className="text-sm md:text-base mb-3 line-clamp-2">
             {product.description}
           </p>
           

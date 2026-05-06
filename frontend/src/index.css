@@ -67,7 +67,7 @@ html {
 body {
   @apply font-sans text-text-dark bg-background;
   /* Apply default font, text color, and background */
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 @layer base {

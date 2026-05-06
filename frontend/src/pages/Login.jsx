@@ -107,7 +107,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Email */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Email</label>
+            <label className="block text-sm md:text-base uppercase tracking-widest text-text-medium font-semibold">Email</label>
             <div className="relative group">
               <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
               <input
@@ -124,7 +124,7 @@ const Login = () => {
               />
             </div>
             {errors.email && (
-              <p className="text-danger text-[10px] mt-1 flex items-center italic">
+              <p className="text-danger text-[13px] md:text-xs mt-1 flex items-center italic">
                 {errors.email}
               </p>
             )}
@@ -133,10 +133,10 @@ const Login = () => {
           {/* Mot de passe */}
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
+              <label className="block text-sm md:text-base uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
               <Link 
                 to="/forgot-password" 
-                className="text-[10px] text-text-light hover:text-green transition-colors uppercase tracking-wider"
+                className="text-[13px] md:text-xs text-text-light hover:text-green transition-colors uppercase tracking-wider"
               >
                 Oublié ?
               </Link>
@@ -164,7 +164,7 @@ const Login = () => {
               </button>
             </div>
             {errors.password && (
-              <p className="text-danger text-[10px] mt-1 flex items-center italic">
+              <p className="text-danger text-[13px] md:text-xs mt-1 flex items-center italic">
                 {errors.password}
               </p>
             )}
@@ -172,7 +172,7 @@ const Login = () => {
 
           {/* Erreur de soumission */}
           {errors.submit && (
-            <div className="text-danger text-[11px] bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
+            <div className="text-danger text-sm md:text-base bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
               {errors.submit}
             </div>
           )}
@@ -195,7 +195,7 @@ const Login = () => {
           {/* Séparateur */}
           <div className="relative flex items-center py-2">
             <div className="flex-grow border-t border-border"></div>
-            <span className="mx-4 text-[10px] text-text-light uppercase tracking-widest">ou</span>
+            <span className="mx-4 text-[13px] md:text-xs text-text-light uppercase tracking-widest">ou</span>
             <div className="flex-grow border-t border-border"></div>
           </div>
 
@@ -203,7 +203,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-[11px] text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300"
+            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-sm md:text-base text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300"
           >
             <img 
               src="https://www.svgrepo.com/show/475656/google-color.svg" 
@@ -215,7 +215,7 @@ const Login = () => {
 
           {/* Lien vers l'inscription */}
           <div className="text-center pt-4 space-y-4">
-            <p className="text-[11px] text-text-light uppercase tracking-widest">
+            <p className="text-sm md:text-base text-text-light uppercase tracking-widest">
               Pas de compte ?{" "}
               <Link
                 to="/register"
@@ -226,19 +226,19 @@ const Login = () => {
             </p>
             
             <div className="pt-4 border-t border-border/50">
-              <p className="text-[10px] text-text-light uppercase tracking-[0.2em] mb-2">
+              <p className="text-[13px] md:text-xs text-text-light uppercase tracking-[0.2em] mb-2">
                 Vous êtes un partenaire ?
               </p>
               <div className="flex justify-center gap-6">
                 <Link
                   to="/coursier/login"
-                  className="text-[10px] text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                  className="text-[13px] md:text-xs text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
                 >
                   Espace Coursier
                 </Link>
                 <Link
                   to="/merchant/login"
-                  className="text-[10px] text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
+                  className="text-[13px] md:text-xs text-text-dark font-black uppercase tracking-widest hover:text-green transition-colors"
                 >
                   Espace Marchand
                 </Link>
