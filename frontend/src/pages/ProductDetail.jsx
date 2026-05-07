@@ -205,4 +205,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;oductDetail;
+export default ProductDetail;
