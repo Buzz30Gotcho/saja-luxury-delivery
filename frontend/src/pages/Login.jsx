@@ -88,21 +88,27 @@ const Login = () => {
           transition={{ delay: 0.2 }}
           className="text-center mb-12"
         >
-          <div className="mb-8 flex justify-center">
-            <motion.img 
-              whileHover={{ scale: 1.05 }}
-              src={dripSwiftLogo} 
-              alt="Dripswift" 
-              className="w-28 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
-            />
-          </div>
-          <h1 className="text-4xl font-serif tracking-tight text-text-dark mb-3">
-            Dripswift
-          </h1>
-          <p className="text-text-light text-sm uppercase tracking-[0.3em] font-bold">
-            Bienvenue dans l'Excellence
-          </p>
-        </motion.div>
+          <div className="mb-12 flex flex-col items-center">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: -5 }}
+              className="relative mb-6"
+            >
+              <img
+                src={dripSwiftLogo}
+                alt="Dripswift"
+                className="w-32 h-auto drop-shadow-xl transition-all duration-500"
+              />
+              <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
+            </motion.div>
+
+            <h1 className="text-5xl font-black italic tracking-tighter flex items-center leading-none mb-3">
+              <span className="text-primary-dark dark:text-white">DRIP</span>
+              <span className="text-green dark:text-green-light">SWIFT</span>
+            </h1>
+            <p className="text-text-light text-xs uppercase tracking-[0.4em] font-bold">
+              Bienvenue dans l'Excellence
+            </p>
+          </div>        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
           {/* Email */}

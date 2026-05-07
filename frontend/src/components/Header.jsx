@@ -46,8 +46,28 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 hover:scale-105 transform transition-transform duration-200 min-w-0">
-            <img src="/dripswift.png" alt="Dripswift Logo" className="h-12 w-auto object-contain" />
+          <Link to="/" className="flex items-center group py-2 transition-all duration-300">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img 
+                  src="/dripswift.png" 
+                  alt="Dripswift" 
+                  className="h-14 md:h-16 w-auto object-contain transform group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 drop-shadow-md"
+                />
+                <div className="absolute -inset-2 bg-green/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+              </div>
+              
+              <div className="flex flex-col justify-center">
+                <h1 className="text-2xl md:text-4xl font-black italic tracking-tighter flex items-center leading-none">
+                  <span className="text-primary-dark dark:text-white group-hover:text-primary transition-colors duration-300">DRIP</span>
+                  <span className="text-green dark:text-green-light group-hover:translate-x-1 transition-transform duration-300">SWIFT</span>
+                </h1>
+                <div className="flex items-center gap-1 mt-1">
+                  <div className="h-[2px] w-0 group-hover:w-full bg-green transition-all duration-500 rounded-full" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-light whitespace-nowrap">Elite Delivery</span>
+                </div>
+              </div>
+            </div>
           </Link>
 
           {/* Navigation Desktop */}

@@ -172,21 +172,27 @@ const handleSubmit = async (e) => {
           transition={{ delay: 0.2 }}
           className="text-center mb-10"
         >
-          <div className="mb-6 flex justify-center">
-            <motion.img 
-              whileHover={{ scale: 1.05 }}
-              src={dripSwiftLogo} 
-              alt="Dripswift" 
-              className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
-            />
-          </div>
-          <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
-            Dripswift
-          </h1>
-          <p className="text-text-light text-sm uppercase tracking-widest font-medium">
-            Créer votre compte
-          </p>
-        </motion.div>
+          <div className="mb-10 flex flex-col items-center">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: -5 }}
+              className="relative mb-4"
+            >
+              <img
+                src={dripSwiftLogo}
+                alt="Dripswift"
+                className="w-24 h-auto drop-shadow-xl transition-all duration-500"
+              />
+              <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
+            </motion.div>
+
+            <h1 className="text-4xl font-black italic tracking-tighter flex items-center leading-none mb-3">
+              <span className="text-primary-dark dark:text-white">DRIP</span>
+              <span className="text-green dark:text-green-light">SWIFT</span>
+            </h1>
+            <p className="text-text-light text-[10px] uppercase tracking-[0.4em] font-bold">
+              Créer votre compte d'élite
+            </p>
+          </div>        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-7 relative z-10">
           {/* Nom d'affichage */}

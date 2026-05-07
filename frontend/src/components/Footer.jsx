@@ -13,7 +13,17 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <img src="/dripswift.png" alt="Dripswift Logo" className="h-10 w-auto object-contain mb-4" />
+            <Link to="/" className="flex items-center gap-3 group">
+              <img 
+                src="/dripswift.png" 
+                alt="Dripswift" 
+                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" 
+              />
+              <h1 className="text-2xl font-black italic tracking-tighter flex items-center leading-none">
+                <span className="text-primary-dark dark:text-white">DRIP</span>
+                <span className="text-green dark:text-green-light">SWIFT</span>
+              </h1>
+            </Link>
             <div className="space-y-3">
               <p className="text-xs md:text-sm text-text-medium font-light italic leading-relaxed">
                 "L'élégance n'est pas de se faire remarquer, <br />mais de se faire remarquer."
