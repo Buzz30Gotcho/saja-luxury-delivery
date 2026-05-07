@@ -47,26 +47,26 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200 min-w-0">
-            <span className="font-serif font-bold text-green tracking-wider truncate text-xl sm:text-2xl md:text-3xl max-w-[140px] sm:max-w-xs">Shop In Line</span>
+            <span className="font-serif font-bold text-green tracking-wider truncate text-lg sm:text-xl md:text-2xl max-w-[140px] sm:max-w-xs uppercase">Shop In Line</span>
           </Link>
 
           {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-10">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-semibold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-semibold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-semibold text-xl transition-colors"
+              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
             >
               Catalogue
             </Link>
@@ -80,16 +80,16 @@ const Header = () => {
               aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
             >
-              <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
+              <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
             </button>
 
             {/* Panier */}
             <Link to="/cart" className="relative p-2 text-text-medium hover:text-green transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-green text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -100,12 +100,12 @@ const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="p-2 rounded-lg hover:bg-neutral-light transition-colors"
+                  className="p-1 rounded-full hover:bg-neutral-light transition-colors"
                 >
                   <img
                     src={getProfileImage()}
                     alt="Profile"
-                    className="w-9 h-9 rounded-full object-cover border border-neutral-medium"
+                    className="w-8 h-8 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
                 </button>
@@ -118,15 +118,15 @@ const Header = () => {
                     <img
                       src={getProfileImage()}
                       alt="Profile"
-                      className="w-14 h-14 rounded-full object-cover border-2 border-neutral-medium mb-2"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-neutral-medium mb-2"
                     />
-                    <p className="text-base font-semibold text-text-dark">{getUserName()}</p>
-                    <p className="text-sm text-text-light uppercase tracking-widest">{getUserRole()}</p>
+                    <p className="text-sm font-bold text-text-dark">{getUserName()}</p>
+                    <p className="text-[10px] text-text-light uppercase tracking-[0.2em]">{getUserRole()}</p>
                   </div>
-                  <div className="p-2 flex flex-col">
+                  <div className="p-1 flex flex-col">
                     <Link
                       to="/compte_user"
-                      className="flex items-center space-x-2 px-3 py-2.5 text-text-medium hover:bg-neutral-light rounded-lg text-lg"
+                      className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-md text-sm"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <span>👤</span> <span>Mon compte</span>
@@ -135,7 +135,7 @@ const Header = () => {
                     {getUserRole() === 'shop_owner' && (
                       <Link
                         to="/merchant/dashboard"
-                        className="flex items-center space-x-2 px-3 py-2.5 text-text-medium hover:bg-neutral-light rounded-lg text-lg"
+                        className="flex items-center space-x-2 px-3 py-2 text-text-medium hover:bg-neutral-light rounded-md text-sm"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
                         <span>🏬</span> <span>Dashboard Marchand</span>
@@ -144,7 +144,7 @@ const Header = () => {
 
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 w-full px-3 py-2.5 text-danger hover:bg-red-50 rounded-lg text-left text-lg"
+                      className="flex items-center space-x-2 w-full px-3 py-2 text-danger hover:bg-red-50 rounded-md text-left text-sm"
                     >
                       <span>🚪</span> <span>Déconnexion</span>
                     </button>
@@ -155,13 +155,13 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-green font-semibold text-lg transition-colors"
+                  className="text-text-medium hover:text-green font-bold text-xs uppercase tracking-[0.15em] transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-green hover:bg-green-dark text-background px-6 py-2 rounded-lg font-bold text-lg transition-colors shadow-sm"
+                  className="bg-text-dark hover:bg-green text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>

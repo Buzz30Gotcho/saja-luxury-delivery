@@ -48,36 +48,36 @@ const ShopCard = ({ shop }) => {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-white/90 backdrop-blur-md text-text-dark text-xs md:text-sm font-bold px-3 py-1 uppercase tracking-wider shadow-sm">
+          <span className="bg-white/90 backdrop-blur-md text-text-dark text-[10px] md:text-xs font-bold px-3 py-1 uppercase tracking-wider shadow-sm">
             {category}
           </span>
         </div>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-200" />
       </div>
-      
-      <div className="p-8 flex flex-col flex-1">
+
+      <div className="p-6 flex flex-col flex-1">
         <div className="mb-4">
-          <h3 className="text-xl font-serif text-text-dark tracking-tight">
+          <h3 className="text-lg md:text-xl font-serif text-text-dark tracking-tight">
             {name}
           </h3>
           <div className="w-8 h-[1px] bg-green mt-3 group-hover:w-12 transition-[width] duration-200" />
         </div>
-        
+
         {description && (
-          <p className="text-text-medium text-[15px] leading-relaxed mb-8 line-clamp-2 font-light italic">
+          <p className="text-text-medium text-sm leading-relaxed mb-6 line-clamp-2 font-light italic">
             {description}
           </p>
         )}
 
-        <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
+        <div className="mt-auto pt-4 border-t border-border flex items-center justify-between">
           <div className="flex items-center gap-2 text-text-light">
-            <MapPin size={14} className="text-green" />
-            <p className="text-sm md:text-base font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
+            <MapPin size={12} className="text-green" />
+            <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
           </div>
-          
+
           <Link 
             to={`/shop/${id}`} 
-            className="text-sm md:text-base font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
+            className="text-[10px] md:text-xs font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
           >
             Découvrir
           </Link>
@@ -85,7 +85,7 @@ const ShopCard = ({ shop }) => {
       </div>
     </div>
   );
-};
+  };
 
 export default ShopCard;
 

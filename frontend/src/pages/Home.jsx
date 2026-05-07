@@ -29,47 +29,36 @@ const Home = () => {
   const { shops, loading: shopsLoading } = useShops();
   const { products, loading: productsLoading } = useProducts();
 
-  console.log('--- Home Render Status ---');
-  console.log('authLoading:', authLoading);
-  console.log('shopsLoading:', shopsLoading);
-  console.log('shopsCount:', shops?.length || 0);
-
   const featuredShops = shops ? shops.slice(0, 3) : [];
   const signatureProducts = products ? products.slice(0, 4) : [];
-
-  // TEMPORAIREMENT COMMENTÉ POUR DÉBUGGER
-  /*
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-  */
 
   return (
     <div className="min-h-screen bg-background">
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
+      
       {/* Hero Section */}
-      <section className="relative h-[85vh] overflow-hidden">
+      <section className="relative h-[75vh] overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroImage} alt="Shop In Line" className="w-full h-full object-cover" />
+          <img 
+            src={heroImage} 
+            alt="Shop In Line" 
+            className="w-full h-full object-cover object-[center_25%]" 
+          />
           <div className="absolute inset-0 bg-black/30" />
         </div>
 
         <div className="relative z-10 container mx-auto px-6 md:px-12 h-full flex items-center">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-2xl">
             <motion.div variants={fadeUp} custom={0} className="mb-6">
-              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase">LocalStyle — La Sélection</span>
+              <span className="text-white/90 text-xs md:text-sm font-bold tracking-[0.35em] uppercase">LocalStyle — La Sélection</span>
             </motion.div>
-            <motion.h1 variants={fadeUp} custom={1} className="text-5xl md:text-7xl font-serif text-white leading-tight mb-8">
+            <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
               L'élégance locale, <br />
               <span className="italic text-white/90 font-light">réinventée.</span>
             </motion.h1>
             <motion.div variants={fadeUp} custom={2} className="flex gap-6 items-center">
-              <Link to="/shops" className="bg-white text-text-dark px-10 py-4 text-sm md:text-base font-bold uppercase tracking-[0.18em] hover:bg-green hover:text-white transition-colors duration-200 shadow-sm">
+              <Link to="/shops" className="bg-white text-text-dark px-8 py-3.5 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green hover:text-white transition-colors duration-200 shadow-sm">
                 Explorer l'écosystème
               </Link>
             </motion.div>
@@ -78,9 +67,9 @@ const Home = () => {
       </section>
 
       {/* 1. Brand Values - Immediate Reassurance */}
-      <section className="py-24 border-b border-border/50 bg-card">
+      <section className="py-16 md:py-24 border-b border-border/50 bg-card">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             {[
               { icon: <Star size={18} strokeWidth={1.5} />, title: "L'Excellence", desc: "Maisons sélectionnées pour leur savoir-faire d'exception." },
               { icon: <Truck size={18} strokeWidth={1.5} />, title: "La Proximité", desc: "Un service de livraison premium au cœur de votre ville." },
@@ -88,8 +77,8 @@ const Home = () => {
             ].map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center text-center space-y-4">
                 <div className="text-green mb-2">{item.icon}</div>
-                <h4 className="text-base md:text-lg font-black uppercase tracking-[0.35em] text-text-dark">{item.title}</h4>
-                <p className="text-base text-text-light font-light italic max-w-[280px]">{item.desc}</p>
+                <h4 className="text-sm md:text-base font-black uppercase tracking-[0.35em] text-text-dark">{item.title}</h4>
+                <p className="text-sm text-text-light font-light italic max-w-[280px]">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -97,15 +86,15 @@ const Home = () => {
       </section>
 
       {/* 2. Featured Houses - Exclusive curation */}
-      <section className="py-32 bg-background overflow-hidden">
+      <section className="py-20 md:py-28 bg-background overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="space-y-4">
-              <span className="text-base md:text-lg text-green uppercase tracking-[0.45em] font-black italic">La Sélection</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-text-dark tracking-tight">Maisons de Prestige</h2>
+              <span className="text-sm md:text-base text-green uppercase tracking-[0.45em] font-black italic">La Sélection</span>
+              <h2 className="text-3xl md:text-4xl font-serif text-text-dark tracking-tight">Maisons de Prestige</h2>
               <div className="w-12 h-[1px] bg-green" />
             </div>
-            <Link to="/shops" className="text-base md:text-lg font-bold uppercase tracking-[0.18em] text-text-light hover:text-green transition-colors border-b border-border pb-1">
+            <Link to="/shops" className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-light hover:text-green transition-colors border-b border-border pb-1">
               Voir toutes les maisons
             </Link>
           </div>
@@ -113,7 +102,7 @@ const Home = () => {
           {shopsLoading ? (
             <div className="py-20 flex justify-center"><LoadingSpinner /></div>
           ) : (
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {featuredShops.map((shop, i) => (
                 <motion.div key={shop.id} variants={fadeUp} custom={i}>
                   <ShopCard shop={shop} />
@@ -125,33 +114,33 @@ const Home = () => {
       </section>
 
       {/* 3. Signature Pieces - Trending items */}
-      <section className="py-32 bg-card border-y border-border">
+      <section className="py-20 md:py-28 bg-card border-y border-border">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="text-center mb-20 space-y-4">
-            <span className="text-base md:text-lg text-text-light uppercase tracking-[0.45em] font-bold">L'Art de Vivre</span>
-            <h2 className="text-4xl font-serif text-text-dark tracking-tight">Pièces Signatures</h2>
+          <div className="text-center mb-16 space-y-4">
+            <span className="text-sm md:text-base text-text-light uppercase tracking-[0.45em] font-bold">L'Art de Vivre</span>
+            <h2 className="text-3xl md:text-4xl font-serif text-text-dark tracking-tight">Pièces Signatures</h2>
             <div className="w-12 h-[1px] bg-green mx-auto" />
           </div>
 
           {productsLoading ? (
             <div className="py-20 flex justify-center"><LoadingSpinner /></div>
           ) : (
-            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {signatureProducts.map((product, i) => (
                 <motion.div key={product.id} variants={fadeUp} custom={i}>
                   <Link to={`/product/${product.id}`} className="group block">
-                    <div className="relative aspect-[4/5] overflow-hidden bg-white mb-6">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-white mb-4">
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-200" />
                       <div className="absolute bottom-4 left-4">
-                        <span className="bg-white/90 backdrop-blur-sm text-text-dark px-4 py-2 text-base font-bold uppercase tracking-wider shadow-sm">
+                        <span className="bg-white/90 backdrop-blur-sm text-text-dark px-3 py-1.5 text-sm font-bold uppercase tracking-wider shadow-sm">
                           {product.price}€
                         </span>
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm md:text-base text-text-light uppercase tracking-[0.18em] font-medium">{product.category}</p>
-                      <h3 className="text-base md:text-lg font-bold text-text-dark uppercase tracking-wider group-hover:text-green transition-colors">{product.name}</h3>
+                      <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.18em] font-medium">{product.category}</p>
+                      <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-wider group-hover:text-green transition-colors">{product.name}</h3>
                     </div>
                   </Link>
                 </motion.div>
@@ -159,8 +148,8 @@ const Home = () => {
             </motion.div>
           )}
           
-          <div className="mt-20 text-center">
-            <Link to="/catalogue" className="inline-block px-12 py-5 border border-border text-sm md:text-base font-black uppercase tracking-[0.25em] hover:bg-text-dark hover:text-white transition-colors duration-200">
+          <div className="mt-16 text-center">
+            <Link to="/catalogue" className="inline-block px-10 py-4 border border-border text-xs md:text-sm font-black uppercase tracking-[0.25em] hover:bg-text-dark hover:text-white transition-colors duration-200">
               Découvrir le catalogue
             </Link>
           </div>
@@ -168,7 +157,7 @@ const Home = () => {
       </section>
 
       {/* 4. Premium Delivery - Luxury Service */}
-      <section className="relative py-32 bg-background overflow-hidden border-y border-border">
+      <section className="relative py-20 md:py-28 bg-background overflow-hidden border-y border-border">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{ 
             backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0,0,0,0.15) 1px, transparent 0)', 
@@ -177,12 +166,12 @@ const Home = () => {
         </div>
 
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="text-center mb-20 space-y-4">
+          <div className="text-center mb-16 space-y-4">
             <motion.span 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-sm md:text-base text-green uppercase tracking-[0.45em] font-black italic"
+              className="text-xs md:text-sm text-green uppercase tracking-[0.45em] font-black italic"
             >
               Service Conciergerie
             </motion.span>
@@ -191,7 +180,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl font-serif text-text-dark tracking-tight"
+              className="text-3xl md:text-4xl font-serif text-text-dark tracking-tight"
             >
               Livraison d'Exception
             </motion.h2>
@@ -207,7 +196,7 @@ const Home = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-text-light italic text-sm max-w-xl mx-auto"
+              className="text-text-light italic text-[13px] max-w-xl mx-auto"
             >
               Un service de livraison premium où chaque détail compte
             </motion.p>
@@ -218,26 +207,26 @@ const Home = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
           >
             {[
               {
-                icon: <Package size={24} strokeWidth={1.2} />,
+                icon: <Package size={20} strokeWidth={1.2} />,
                 title: "Emballage Signature",
                 desc: "Packaging luxueux avec ruban satin et carte manuscrite personnalisée"
               },
               {
-                icon: <Clock size={24} strokeWidth={1.2} />,
+                icon: <Clock size={20} strokeWidth={1.2} />,
                 title: "Express Premium",
                 desc: "Livraison en 2h dans les zones privilégiées, créneaux sur-mesure"
               },
               {
-                icon: <Shield size={24} strokeWidth={1.2} />,
+                icon: <Shield size={20} strokeWidth={1.2} />,
                 title: "Assurance Totale",
                 desc: "Protection intégrale de vos acquisitions jusqu'à votre domicile"
               },
               {
-                icon: <Truck size={24} strokeWidth={1.2} />,
+                icon: <Truck size={20} strokeWidth={1.2} />,
                 title: "White Glove",
                 desc: "Service concierge avec installation et débalnage par nos experts"
               }
@@ -246,25 +235,23 @@ const Home = () => {
                 key={service.title}
                 variants={fadeUp}
                 custom={i}
-                className="group relative bg-white p-8 border border-border hover:border-green transition-colors duration-200"
+                className="group relative bg-white p-6 border border-border hover:border-green transition-colors duration-200"
               >
                 <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-green/0 via-green to-green/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 
-                <div className="flex flex-col items-start space-y-6">
+                <div className="flex flex-col items-start space-y-4">
                   <div className="text-green group-hover:scale-110 transition-transform duration-200">
                     {service.icon}
                   </div>
-                  <div className="space-y-3">
-                    <h3 className="text-sm md:text-base font-black uppercase tracking-[0.25em] text-text-dark">
+                  <div className="space-y-2">
+                    <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-text-dark">
                       {service.title}
                     </h3>
-                    <p className="text-[13px] text-text-light leading-relaxed font-light">
+                    <p className="text-[12px] text-text-light leading-relaxed font-light">
                       {service.desc}
                     </p>
                   </div>
                 </div>
-
-                <div className="absolute bottom-0 right-0 w-24 h-24 bg-green/5 rounded-tl-full transform translate-x-12 translate-y-12 group-hover:translate-x-8 group-hover:translate-y-8 transition-transform duration-300" />
               </motion.div>
             ))}
           </motion.div>
@@ -276,22 +263,22 @@ const Home = () => {
             transition={{ delay: 0.5 }}
             className="text-center"
           >
-            <div className="inline-block bg-card border border-border p-8">
-              <div className="flex items-center gap-8">
-                <div className="text-left space-y-2">
-                  <p className="text-xs md:text-sm text-text-light uppercase tracking-[0.3em] font-bold">
+            <div className="inline-block bg-card border border-border p-6 md:p-8">
+              <div className="flex items-center gap-6 md:gap-12">
+                <div className="text-left space-y-1">
+                  <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.3em] font-bold">
                     Livraison offerte
                   </p>
-                  <p className="text-2xl font-serif text-text-dark">
+                  <p className="text-xl md:text-2xl font-serif text-text-dark">
                     Dès 150€ d'achat
                   </p>
                 </div>
-                <div className="w-px h-12 bg-border" />
-                <div className="text-left space-y-2">
-                  <p className="text-xs md:text-sm text-text-light uppercase tracking-[0.3em] font-bold">
+                <div className="w-px h-10 bg-border" />
+                <div className="text-left space-y-1">
+                  <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.3em] font-bold">
                     Retours gratuits
                   </p>
-                  <p className="text-2xl font-serif text-text-dark">
+                  <p className="text-xl md:text-2xl font-serif text-text-dark">
                     Sous 30 jours
                   </p>
                 </div>
@@ -302,43 +289,43 @@ const Home = () => {
       </section>
 
       {/* 5. Merchant CTA - High Luxury Minimalist */}
-      <section className="py-40 bg-background overflow-hidden">
+      <section className="py-24 md:py-32 bg-background overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="relative bg-stone-900 dark:bg-black min-h-[500px] flex items-center">
+          <div className="relative bg-stone-900 dark:bg-black min-h-[400px] flex items-center">
             <div className="absolute inset-0 opacity-20 dark:opacity-10">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green/20 dark:bg-green/10 rounded-full blur-[120px]" />
+              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green/20 dark:bg-green/10 rounded-full blur-[100px]" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 w-full relative z-10">
-              <div className="lg:col-span-3 p-12 md:p-24 space-y-10 text-left">
+              <div className="lg:col-span-3 p-10 md:p-20 space-y-8 text-left">
                 <div className="space-y-4">
-                  <span className="text-sm md:text-base text-green uppercase tracking-[0.5em] font-black">Partenariat Privé</span>
-                  <h3 className="text-4xl md:text-5xl font-serif text-white leading-tight tracking-tight">
+                  <span className="text-xs md:text-sm text-green uppercase tracking-[0.5em] font-black">Partenariat Privé</span>
+                  <h3 className="text-3xl md:text-4xl font-serif text-white leading-tight tracking-tight">
                     Votre Maison, <br />
                     <span className="italic font-light opacity-90 dark:opacity-80">notre écrin digital.</span>
                   </h3>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-8 pt-6">
-                  <Link to="/merchant/register" className="group relative px-12 py-5 bg-white dark:bg-zinc-900 text-black dark:text-white text-sm md:text-base font-black uppercase tracking-[0.25em] overflow-hidden transition-colors duration-200 text-center">
+                <div className="flex flex-col sm:flex-row gap-6 pt-4">
+                  <Link to="/merchant/register" className="group relative px-10 py-4 bg-white dark:bg-zinc-900 text-black dark:text-white text-xs md:text-sm font-black uppercase tracking-[0.25em] overflow-hidden transition-colors duration-200 text-center">
                     <span className="relative z-10 text-black dark:text-white group-hover:text-white dark:group-hover:text-white transition-colors duration-200">Devenir Partenaire</span>
                     <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </Link>
-                  <Link to="/merchant/login" className="px-12 py-5 border border-white/20 dark:border-white/30 text-white text-sm md:text-base font-black uppercase tracking-[0.25em] hover:bg-white dark:hover:bg-white hover:text-text-dark dark:hover:text-black transition-colors duration-200 text-center">
+                  <Link to="/merchant/login" className="px-10 py-4 border border-white/20 dark:border-white/30 text-white text-xs md:text-sm font-black uppercase tracking-[0.25em] hover:bg-white dark:hover:bg-white hover:text-text-dark dark:hover:text-black transition-colors duration-200 text-center">
                     Espace Créateur
                   </Link>
                 </div>
               </div>
-              <div className="hidden lg:flex lg:col-span-2 items-center justify-center border-l border-white/5 dark:border-text-dark/20 bg-white/5 dark:bg-text-dark/5 backdrop-blur-sm p-12">
-                <div className="text-center space-y-12">
+              <div className="hidden lg:flex lg:col-span-2 items-center justify-center border-l border-white/5 dark:border-text-dark/20 bg-white/5 dark:bg-text-dark/5 backdrop-blur-sm p-10">
+                <div className="text-center space-y-10">
                   {[
                     { label: "Commission", value: "08%" },
                     { label: "Visibilité", value: "100k+" },
                     { label: "Support", value: "24/7" },
                   ].map((stat, i) => (
                     <motion.div key={stat.label} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 + (i * 0.1) }} className="space-y-1">
-                      <div className="text-4xl font-serif text-white dark:text-text-dark">{stat.value}</div>
-                      <div className="text-xs md:text-sm text-green uppercase tracking-[0.3em] font-bold">{stat.label}</div>
+                      <div className="text-3xl font-serif text-white dark:text-text-dark">{stat.value}</div>
+                      <div className="text-[10px] md:text-xs text-green uppercase tracking-[0.3em] font-bold">{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>

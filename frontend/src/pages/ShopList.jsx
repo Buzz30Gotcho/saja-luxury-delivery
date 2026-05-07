@@ -160,26 +160,26 @@ const ShopList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-24">
+    <div className="min-h-screen bg-background pt-24 md:pt-32 pb-20">
       {/* Header Section */}
       <section className="container mx-auto px-6 md:px-12">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="max-w-3xl mx-auto text-center mb-24"
+          className="max-w-3xl mx-auto text-center mb-16 md:mb-20"
         >
           <motion.div variants={fadeUp} custom={0} className="mb-6">
-            <span className="text-text-light text-xs md:text-sm font-bold tracking-[0.35em] uppercase">Partenaires</span>
+            <span className="text-text-light text-[10px] md:text-xs font-bold tracking-[0.35em] uppercase">Partenaires</span>
           </motion.div>
-          <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-serif text-text-dark mb-6">
+          <motion.h1 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-serif text-text-dark mb-6 tracking-tight">
             L'Écosystème Local
           </motion.h1>
           <motion.div variants={fadeUp} className="w-12 h-[1px] bg-green mx-auto mb-8" />
-          <motion.p variants={fadeUp} custom={2} className="text-sm md:text-base uppercase tracking-wide text-text-medium max-w-2xl mx-auto leading-relaxed font-medium">
+          <motion.p variants={fadeUp} custom={2} className="text-xs md:text-sm uppercase tracking-wide text-text-medium max-w-xl mx-auto leading-relaxed font-medium">
             Découvrez les maisons indépendantes sélectionnées pour leur excellence et leur savoir-faire unique.
           </motion.p>
-          <motion.p variants={fadeUp} custom={3} className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light mt-4">
+          <motion.p variants={fadeUp} custom={3} className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light mt-4">
             Villes partenaires : {ALLOWED_SHOP_CITIES.join(' • ')}
           </motion.p>
         </motion.div>
@@ -187,19 +187,19 @@ const ShopList = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-20"
+          className="mb-16"
         >
           <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <h2 className="text-2xl md:text-3xl font-serif text-text-dark">Carte des boutiques</h2>
+            <h2 className="text-xl md:text-2xl font-serif text-text-dark">Carte des boutiques</h2>
             <div className="flex items-center gap-3">
-              <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light font-bold">
+              <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light font-bold">
                 {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
               </p>
               {geoStatus !== 'granted' && (
                 <button
                   type="button"
                   onClick={requestUserLocation}
-                  className="rounded border border-border px-3 py-2 text-xs md:text-sm uppercase tracking-[0.18em] text-text-dark hover:bg-card transition-colors"
+                  className="rounded border border-border px-3 py-1.5 text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-dark hover:bg-card transition-colors"
                 >
                   {geoStatus === 'loading' ? 'Localisation…' : 'Activer ma position'}
                 </button>
@@ -208,24 +208,26 @@ const ShopList = () => {
           </div>
 
           {shopsWithCoordinates.length > 0 ? (
-            <Maps
-              shops={shopsWithCoordinates}
-              userLocation={
-                userLocation
-                  ? { lat: userLocation.latitude, lng: userLocation.longitude }
-                  : null
-              }
-            />
+            <div className="rounded-xl overflow-hidden shadow-sm border border-border">
+              <Maps
+                shops={shopsWithCoordinates}
+                userLocation={
+                  userLocation
+                    ? { lat: userLocation.latitude, lng: userLocation.longitude }
+                    : null
+                }
+              />
+            </div>
           ) : (
-            <div className="w-full h-[220px] bg-card border border-border flex items-center justify-center p-6 text-center">
-              <p className="text-xs md:text-sm uppercase tracking-[0.18em] text-text-light">
+            <div className="w-full h-[200px] bg-card border border-border flex items-center justify-center p-6 text-center rounded-xl">
+              <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light">
                 Aucune boutique n&apos;a encore de coordonnées GPS.
               </p>
             </div>
           )}
 
           {(geoStatus === 'idle' || geoStatus === 'unsupported' || geoStatus === 'denied') && (
-            <p className="mt-4 text-xs md:text-sm uppercase tracking-[0.18em] text-text-light">
+            <p className="mt-4 text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light">
               Position non active. Cliquez sur « Activer ma position » pour afficher distance et ETA.
             </p>
           )}
@@ -235,7 +237,7 @@ const ShopList = () => {
         {shops && shops.length > 0 ? (
           <>
           {geoStatus === 'granted' && (
-            <p className="mb-6 text-xs md:text-sm uppercase tracking-[0.18em] text-text-light font-bold">
+            <p className="mb-6 text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light font-bold">
               Boutiques triées par distance
             </p>
           )}
@@ -244,12 +246,12 @@ const ShopList = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16"
           >
             {shopsWithDistanceAndEta.map((shop, i) => (
               <motion.div key={shop.id} variants={fadeUp} custom={i}>
                 <Link to={`/shop/${shop.id}`} className="group block">
-                  <div className="relative aspect-[16/10] overflow-hidden bg-white mb-8 shadow-sm">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-white mb-6 shadow-sm rounded-sm">
                     <img
                       src={shop.image || heroImage}
                       alt={shop.name}
@@ -257,22 +259,22 @@ const ShopList = () => {
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
                     <div className="absolute top-4 left-4">
-                       <span className="bg-white/90 backdrop-blur-sm px-4 py-2 text-xs font-bold uppercase tracking-wider text-text-dark shadow-sm">
+                       <span className="bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-dark shadow-sm">
                          {shop.category}
                        </span>
                     </div>
                   </div>
                   
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-serif text-text-dark group-hover:text-green transition-colors duration-300">
+                  <div className="space-y-2 px-1">
+                    <h3 className="text-lg md:text-xl font-serif text-text-dark group-hover:text-green transition-colors duration-300">
                       {shop.name}
                     </h3>
                     <div className="flex items-center justify-between">
-                      <p className="text-xs md:text-sm text-text-light uppercase tracking-[0.18em] font-bold">
+                      <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.18em] font-bold">
                          📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : (shop.normalizedCity || 'Ville partenaire')}
                       </p>
-                      <span className="text-xs md:text-sm text-green uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Visiter la boutique
+                      <span className="text-[10px] md:text-xs text-green uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Visiter
                       </span>
                     </div>
                   </div>
@@ -285,7 +287,7 @@ const ShopList = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-32 border border-dashed border-border"
+            className="text-center py-24 border border-dashed border-border rounded-xl"
           >
              <p className="text-xs md:text-sm uppercase tracking-wider text-text-light">Aucune boutique disponible pour le moment.</p>
           </motion.div>
