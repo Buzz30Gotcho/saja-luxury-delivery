@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock, AlertCircle, Check } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
-import localStyleLogo from "/localstyle.png";
+import dripSwiftLogo from "/dripswift.png";
 
 
 const Register = () => {
@@ -175,13 +175,13 @@ const handleSubmit = async (e) => {
           <div className="mb-6 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src={localStyleLogo} 
-              alt="LocalStyle" 
+              src={dripSwiftLogo} 
+              alt="Dripswift" 
               className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>
           <h1 className="text-3xl font-serif tracking-tight text-text-dark mb-2">
-            LocalStyle
+            Dripswift
           </h1>
           <p className="text-text-light text-sm uppercase tracking-widest font-medium">
             Créer votre compte
@@ -414,4 +414,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default Register;
+export default Register;;

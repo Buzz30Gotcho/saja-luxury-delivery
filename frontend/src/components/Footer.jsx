@@ -13,7 +13,7 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <h3 className="text-xl font-serif text-text-dark tracking-tighter uppercase font-bold">Shop In Line.</h3>
+            <img src="/dripswift.png" alt="Dripswift Logo" className="h-10 w-auto object-contain mb-4" />
             <div className="space-y-3">
               <p className="text-xs md:text-sm text-text-medium font-light italic leading-relaxed">
                 "L'élégance n'est pas de se faire remarquer, <br />mais de se faire remarquer."
@@ -84,7 +84,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[11px] md:text-[10px] text-text-light uppercase tracking-[0.4em] font-black">
-            © {new Date().getFullYear()} Shop In Line International.
+            © {new Date().getFullYear()} Dripswift International.
           </p>
           <div className="flex gap-8 text-[11px] md:text-[10px] text-text-light uppercase tracking-[0.4em] font-black">
             <Link to="/privacy" className="hover:text-green transition-colors">Confidentialité</Link>

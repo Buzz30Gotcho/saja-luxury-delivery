@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, Truck, MapPin, Phone, UserCircle } from "lucide-react";
-import localStyleLogo from "/localstyle.png";
+import dripSwiftLogo from "/dripswift.png";
 
 const ALLOWED_CITIES = {
   "Bordeaux": { lat: 44.8378, lng: -0.5792 },
@@ -112,8 +112,8 @@ const RegisterCoursier = () => {
           <div className="mb-6 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src={localStyleLogo} 
-              alt="LocalStyle" 
+              src={dripSwiftLogo} 
+              alt="Dripswift" 
               className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>
@@ -121,7 +121,7 @@ const RegisterCoursier = () => {
             Devenir Coursier
           </h1>
           <p className="text-text-light text-[10px] uppercase tracking-[0.3em] font-bold">
-            Livrez avec LocalStyle
+            Livrez avec Dripswift
           </p>
         </motion.div>
 
@@ -274,3 +274,4 @@ const RegisterCoursier = () => {
 };
 
 export default RegisterCoursier;
+

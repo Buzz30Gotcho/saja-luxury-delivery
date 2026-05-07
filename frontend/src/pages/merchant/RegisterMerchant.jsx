@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, ShoppingBag, Building, MapPin, Phone, User, UserCircle } from "lucide-react";
-import localStyleLogo from "/localstyle.png";
+import dripSwiftLogo from "/dripswift.png";
 
 const ALLOWED_CITIES = ["Bordeaux", "Paris", "Cannes"];
 
@@ -181,8 +181,8 @@ const RegisterMerchant = () => {
           <div className="mb-6 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src={localStyleLogo} 
-              alt="LocalStyle" 
+              src={dripSwiftLogo} 
+              alt="Dripswift" 
               className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>

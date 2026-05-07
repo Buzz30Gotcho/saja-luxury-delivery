@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Loader2, Eye, EyeOff, Truck } from "lucide-react";
 
 // Import de l'image locale
-import localStyleLogo from "/localstyle.png";
+import dripSwiftLogo from "/dripswift.png";
 
 const LoginCoursier = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -72,8 +72,8 @@ const LoginCoursier = () => {
           <div className="mb-6 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src={localStyleLogo} 
-              alt="LocalStyle" 
+              src={dripSwiftLogo} 
+              alt="Dripswift" 
               className="w-20 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>

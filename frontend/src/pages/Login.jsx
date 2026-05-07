@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
-import localStyleLogo from "/localstyle.png";
+import dripSwiftLogo from "/dripswift.png";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -91,13 +91,13 @@ const Login = () => {
           <div className="mb-8 flex justify-center">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src={localStyleLogo} 
-              alt="LocalStyle" 
+              src={dripSwiftLogo} 
+              alt="Dripswift" 
               className="w-28 h-auto grayscale brightness-90 hover:grayscale-0 transition-all duration-500"
             />
           </div>
           <h1 className="text-4xl font-serif tracking-tight text-text-dark mb-3">
-            Localstyle
+            Dripswift
           </h1>
           <p className="text-text-light text-sm uppercase tracking-[0.3em] font-bold">
             Bienvenue dans l'Excellence
@@ -231,4 +231,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;;

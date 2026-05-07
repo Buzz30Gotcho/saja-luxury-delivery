@@ -46,8 +46,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200 min-w-0">
-            <span className="font-serif font-bold text-green tracking-wider truncate text-xl sm:text-2xl md:text-3xl max-w-[140px] sm:max-w-xs uppercase">Shop In Line</span>
+          <Link to="/" className="flex items-center space-x-3 hover:scale-105 transform transition-transform duration-200 min-w-0">
+            <img src="/dripswift.png" alt="Dripswift Logo" className="h-12 w-auto object-contain" />
           </Link>
 
           {/* Navigation Desktop */}

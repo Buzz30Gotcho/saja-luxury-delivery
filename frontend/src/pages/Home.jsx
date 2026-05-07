@@ -42,7 +42,7 @@ const Home = () => {
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
-            alt="Shop In Line" 
+            alt="Dripswift" 
             className="w-full h-full object-cover object-[center_25%]" 
           />
           <div className="absolute inset-0 bg-black/30" />
@@ -51,7 +51,7 @@ const Home = () => {
         <div className="relative z-10 container mx-auto px-6 md:px-12 h-full flex items-center">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-2xl">
             <motion.div variants={fadeUp} custom={0} className="mb-6">
-              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase">LocalStyle — La Sélection</span>
+              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase">Dripswift — La Sélection</span>
             </motion.div>
             <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
               L'élégance locale, <br />
