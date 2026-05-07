@@ -110,14 +110,11 @@ const RegisterCoursier = () => {
           className="mb-12 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-24 h-auto drop-shadow-xl transition-all duration-500" />
+            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200" />
             <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
           </motion.div>
-          <h1 className="text-4xl font-black italic tracking-tighter flex items-center leading-none mb-3">
-            <span className="text-primary-dark dark:text-white">DRIP</span>
-            <span className="text-green dark:text-green-light">SWIFT</span>
-          </h1>
-          <p className="text-text-light text-[10px] uppercase tracking-[0.4em] font-bold">
+          
+          <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold text-center">
             Livrez avec Dripswift
           </p>
         </motion.div>
@@ -125,72 +122,72 @@ const RegisterCoursier = () => {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Prénom</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Prénom</label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="..."
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.firstName ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.firstName && <p className="text-danger text-[9px] mt-1 italic">{errors.firstName}</p>}
+              {errors.firstName && <p className="text-danger text-lg mt-1 italic">{errors.firstName}</p>}
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Nom</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Nom</label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="..."
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.lastName ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.lastName && <p className="text-danger text-[9px] mt-1 italic">{errors.lastName}</p>}
+              {errors.lastName && <p className="text-danger text-lg mt-1 italic">{errors.lastName}</p>}
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Email</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Email</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="..."
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.email ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.email && <p className="text-danger text-[9px] mt-1 italic">{errors.email}</p>}
+              {errors.email && <p className="text-danger text-lg mt-1 italic">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Téléphone</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Téléphone</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="..."
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.phone ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.phone && <p className="text-danger text-[9px] mt-1 italic">{errors.phone}</p>}
+              {errors.phone && <p className="text-danger text-lg mt-1 italic">{errors.phone}</p>}
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Ville</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Ville</label>
               <select
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                className={`w-full py-2 bg-transparent border-b text-text-dark focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark focus:outline-none transition-all duration-300 ${
                   errors.city ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               >
@@ -198,16 +195,16 @@ const RegisterCoursier = () => {
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>
-              {errors.city && <p className="text-danger text-[9px] mt-1 italic">{errors.city}</p>}
+              {errors.city && <p className="text-danger text-lg mt-1 italic">{errors.city}</p>}
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Type de véhicule</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Type de véhicule</label>
               <select
                 name="vehicleType"
                 value={formData.vehicleType}
                 onChange={handleChange}
-                className="w-full py-2 bg-transparent border-b text-text-dark focus:outline-none border-border focus:border-blue-500"
+                className="w-full py-2 bg-transparent border-b text-2xl text-text-dark focus:outline-none border-border focus:border-blue-500"
               >
                 <option value="bike">Vélo</option>
                 <option value="scooter">Scooter</option>
@@ -216,33 +213,33 @@ const RegisterCoursier = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Mot de passe</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Mot de passe</label>
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.password ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.password && <p className="text-danger text-[9px] mt-1 italic">{errors.password}</p>}
+              {errors.password && <p className="text-danger text-lg mt-1 italic">{errors.password}</p>}
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-text-medium font-bold mb-2">Confirmez</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold mb-2">Confirmez</label>
               <input
                 type="password"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full py-2 bg-transparent border-b text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
                   errors.confirmPassword ? "border-danger" : "border-border focus:border-blue-500"
                 }`}
               />
-              {errors.confirmPassword && <p className="text-danger text-[9px] mt-1 italic">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && <p className="text-danger text-lg mt-1 italic">{errors.confirmPassword}</p>}
             </div>
           </div>
 
@@ -251,13 +248,13 @@ const RegisterCoursier = () => {
             whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-5 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-blue-600 transition-all duration-500 disabled:opacity-50 mt-8 shadow-sm"
+            className="w-full py-5 bg-text-dark text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-blue-600 transition-all duration-500 disabled:opacity-50 mt-8 shadow-sm"
           >
             {loading ? "Traitement..." : "Créer mon compte coursier"}
           </motion.button>
 
           <div className="text-center pt-6">
-            <p className="text-[11px] text-text-light uppercase tracking-widest">
+            <p className="text-sm text-text-light uppercase tracking-widest">
               Déjà coursier ?{" "}
               <Link to="/coursier/login" className="text-blue-500 font-bold hover:text-blue-700">
                 Se connecter

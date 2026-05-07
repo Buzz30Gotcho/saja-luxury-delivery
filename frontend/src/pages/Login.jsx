@@ -90,22 +90,20 @@ const Login = () => {
         >
           <div className="mb-12 flex flex-col items-center">
             <motion.div
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              className="relative mb-6"
+              whileHover={{ scale: 1.05 }}
+              className="relative mb-8"
             >
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-32 h-auto drop-shadow-xl transition-all duration-500"
+                className="w-48 md:w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200"
               />
-              <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
             </motion.div>
 
-            <h1 className="text-5xl font-black italic tracking-tighter flex items-center leading-none mb-3">
-              <span className="text-primary-dark dark:text-white">DRIP</span>
-              <span className="text-green dark:text-green-light">SWIFT</span>
+            <h1 className="text-5xl md:text-6xl font-serif tracking-tight text-text-dark mb-4 text-center">
+              Dripswift
             </h1>
-            <p className="text-text-light text-xs uppercase tracking-[0.4em] font-bold">
+            <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.3em] font-bold text-center">
               Bienvenue dans l'Excellence
             </p>
           </div>        </motion.div>
@@ -113,16 +111,16 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-10">
           {/* Email */}
           <div className="space-y-3">
-            <label className="block text-sm uppercase tracking-widest text-text-medium font-bold">Email</label>
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-bold">Email</label>
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={20} />
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full pl-9 py-4 bg-transparent border-b text-lg text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-11 py-4 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -130,7 +128,7 @@ const Login = () => {
               />
             </div>
             {errors.email && (
-              <p className="text-danger text-sm mt-1 flex items-center italic">
+              <p className="text-danger text-lg mt-1 flex items-center italic">
                 {errors.email}
               </p>
             )}
@@ -139,23 +137,23 @@ const Login = () => {
           {/* Mot de passe */}
           <div className="space-y-3">
             <div className="flex justify-between items-end">
-              <label className="block text-sm uppercase tracking-widest text-text-medium font-bold">Mot de passe</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-bold">Mot de passe</label>
               <Link 
                 to="/forgot-password" 
-                className="text-xs text-text-light hover:text-green transition-colors uppercase tracking-widest"
+                className="text-lg text-text-light hover:text-green transition-colors uppercase tracking-widest"
               >
                 Oublié ?
               </Link>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={20} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full pl-9 py-4 bg-transparent border-b text-lg text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-11 py-4 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -166,11 +164,11 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-danger text-sm mt-1 flex items-center italic">
+              <p className="text-danger text-lg mt-1 flex items-center italic">
                 {errors.password}
               </p>
             )}

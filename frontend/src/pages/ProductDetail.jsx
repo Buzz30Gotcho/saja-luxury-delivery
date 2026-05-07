@@ -75,7 +75,7 @@ const ProductDetail = () => {
     <div className="product-detail-page bg-background min-h-screen pt-32 pb-24">
       <div className="container mx-auto px-6 md:px-12">
         {/* Breadcrumbs */}
-        <div className="mb-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-text-light font-bold">
+        <div className="mb-12 flex items-center gap-2 text-base md:text-lg uppercase tracking-[0.2em] text-text-light font-bold">
           <Link to="/" className="hover:text-green transition-colors">Accueil</Link>
           <span>/</span>
           <Link to="/shops" className="hover:text-green transition-colors">Boutiques</Link>
@@ -96,8 +96,8 @@ const ProductDetail = () => {
                 to={`/shop/${product.shops.id}`}
                 className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm flex items-center gap-3 hover:bg-white transition-colors duration-150"
               >
-                <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-6 h-6 rounded-full object-cover" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
+                <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-8 h-8 rounded-full object-cover" />
+                <span className="text-sm md:text-base font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
               </Link>
             )}
           </div>
@@ -105,7 +105,7 @@ const ProductDetail = () => {
           {/* Détails du produit */}
           <div className="flex flex-col">
             <div className="mb-8">
-              <p className="text-[10px] text-green uppercase tracking-[0.3em] font-bold mb-4">
+              <p className="text-lg text-green uppercase tracking-[0.3em] font-bold mb-4">
                 {product.category || 'Édition Limitée'}
               </p>
               <h1 className="text-4xl md:text-5xl font-serif text-text-dark mb-6 leading-tight">
@@ -118,7 +118,7 @@ const ProductDetail = () => {
 
             <div className="mb-12 space-y-6">
               <div className="w-12 h-[1px] bg-border"></div>
-              <p className="text-[16px] text-text-medium leading-relaxed font-light">
+              <p className="text-xl text-text-medium leading-relaxed font-light">
                 {product.description}
               </p>
             </div>
@@ -126,7 +126,7 @@ const ProductDetail = () => {
             {/* Sélecteur de quantité et bouton ajouter */}
             <div className="space-y-8 pt-8 border-t border-border">
               <div className="flex items-center justify-between">
-                <span className="text-[12px] uppercase tracking-widest text-text-medium font-bold">Quantité</span>
+                <span className="text-lg uppercase tracking-widest text-text-medium font-bold">Quantité</span>
                 <div className="flex items-center border border-border px-4 py-2">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -180,14 +180,14 @@ const ProductDetail = () => {
             {/* Livraison / Stock Infos */}
             <div className="mt-12 grid grid-cols-2 gap-8 py-8 border-y border-border">
               <div>
-                <span className="block text-[11px] uppercase tracking-widest text-text-light mb-2">Disponibilité</span>
-                <span className="text-[13px] font-bold text-text-dark uppercase tracking-wider">
+                <span className="block text-lg uppercase tracking-widest text-text-light mb-2">Disponibilité</span>
+                <span className="text-xl font-bold text-text-dark uppercase tracking-wider">
                   {product.stock && product.stock > 0 ? `${product.stock} Pièces` : 'Sur Commande'}
                 </span>
               </div>
               <div>
-                <span className="block text-[11px] uppercase tracking-widest text-text-light mb-2">Livraison</span>
-                <span className="text-[13px] font-bold text-text-dark uppercase tracking-wider">
+                <span className="block text-lg uppercase tracking-widest text-text-light mb-2">Livraison</span>
+                <span className="text-xl font-bold text-text-dark uppercase tracking-wider">
                   {product.shops?.delivery_time || 'Standard (2-4 jours)'}
                 </span>
               </div>
@@ -205,4 +205,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetail;oductDetail;

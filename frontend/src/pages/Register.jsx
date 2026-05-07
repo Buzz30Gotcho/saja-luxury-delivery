@@ -180,16 +180,12 @@ const handleSubmit = async (e) => {
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-24 h-auto drop-shadow-xl transition-all duration-500"
+                className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200"
               />
               <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
             </motion.div>
 
-            <h1 className="text-4xl font-black italic tracking-tighter flex items-center leading-none mb-3">
-              <span className="text-primary-dark dark:text-white">DRIP</span>
-              <span className="text-green dark:text-green-light">SWIFT</span>
-            </h1>
-            <p className="text-text-light text-[10px] uppercase tracking-[0.4em] font-bold">
+            <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold text-center">
               Créer votre compte d'élite
             </p>
           </div>        </motion.div>
@@ -197,7 +193,7 @@ const handleSubmit = async (e) => {
         <form onSubmit={handleSubmit} className="space-y-7 relative z-10">
           {/* Nom d'affichage */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">
               Nom d'affichage <span className="text-text-light lowercase font-normal italic">(optionnel)</span>
             </label>
             <input
@@ -206,25 +202,25 @@ const handleSubmit = async (e) => {
               value={formData.displayName}
               onChange={handleChange}
               placeholder="Votre nom"
-              className="w-full py-3 bg-transparent border-b border-border text-text-dark placeholder:text-text-light/50 focus:outline-none focus:border-green transition-all duration-300"
+              className="w-full py-3 bg-transparent border-b border-border text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none focus:border-green transition-all duration-300"
               disabled={loading}
             />
           </div>
 
           {/* Email */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">
               Email
             </label>
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -234,24 +230,24 @@ const handleSubmit = async (e) => {
               />
             </div>
             {errors.email && (
-              <p className="text-danger text-[10px] mt-1 italic">{errors.email}</p>
+              <p className="text-danger text-lg mt-1 italic">{errors.email}</p>
             )}
           </div>
 
           {/* Mot de passe */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">
               Mot de passe
             </label>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -264,7 +260,7 @@ const handleSubmit = async (e) => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
             </div>
             
@@ -278,31 +274,31 @@ const handleSubmit = async (e) => {
                     }`}></div>
                   ))}
                 </div>
-                <p className="text-[9px] uppercase tracking-wider text-text-light">
+                <p className="text-sm uppercase tracking-wider text-text-light">
                   {passwordStrengthText()}
                 </p>
               </div>
             )}
             
             {errors.password && (
-              <p className="text-danger text-[10px] mt-1 italic">{errors.password}</p>
+              <p className="text-danger text-lg mt-1 italic">{errors.password}</p>
             )}
           </div>
 
           {/* Confirmation */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">
               Confirmer
             </label>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={16} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full pl-7 py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.confirmPassword 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -315,11 +311,11 @@ const handleSubmit = async (e) => {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-danger text-[10px] mt-1 italic">{errors.confirmPassword}</p>
+              <p className="text-danger text-lg mt-1 italic">{errors.confirmPassword}</p>
             )}
           </div>
 
@@ -331,10 +327,10 @@ const handleSubmit = async (e) => {
                 name="acceptTerms"
                 checked={formData.acceptTerms}
                 onChange={handleChange}
-                className="mt-1 w-3.5 h-3.5 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-green text-green"
                 required
               />
-              <span className="text-[10px] text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
+              <span className="text-sm text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
                 J'accepte les <Link to="/terms" className="underline font-bold">conditions</Link> et la <Link to="/privacy" className="underline font-bold">politique de confidentialité</Link>.
               </span>
             </label>
@@ -345,22 +341,22 @@ const handleSubmit = async (e) => {
                 name="newsletter"
                 checked={formData.newsletter}
                 onChange={handleChange}
-                className="mt-1 w-3.5 h-3.5 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-green text-green"
               />
-              <span className="text-[10px] text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
+              <span className="text-sm text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
                 S'abonner à la newsletter exclusive.
               </span>
             </label>
             
             {errors.acceptTerms && (
-              <p className="text-danger text-[10px] italic">{errors.acceptTerms}</p>
+              <p className="text-danger text-lg italic">{errors.acceptTerms}</p>
             )}
           </div>
 
           {/* Submit */}
           <div className="pt-4">
             {errors.submit && (
-              <div className="mb-4 text-danger text-[11px] bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
+              <div className="mb-4 text-danger text-base bg-danger/5 p-3 rounded-sm border border-danger/10 text-center italic">
                 {errors.submit}
               </div>
             )}
@@ -370,10 +366,10 @@ const handleSubmit = async (e) => {
               whileTap={{ y: 0 }}
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-green text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              className="w-full py-4 bg-green text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
               {loading ? (
-                <Loader2 className="animate-spin w-4 h-4 mx-auto" />
+                <Loader2 className="animate-spin w-5 h-5 mx-auto" />
               ) : (
                 "Créer mon compte"
               )}
@@ -383,7 +379,7 @@ const handleSubmit = async (e) => {
           {/* Separator */}
           <div className="relative flex items-center py-2">
             <div className="flex-grow border-t border-border"></div>
-            <span className="mx-4 text-[10px] text-text-light uppercase tracking-widest">ou</span>
+            <span className="mx-4 text-sm text-text-light uppercase tracking-widest">ou</span>
             <div className="flex-grow border-t border-border"></div>
           </div>
 
@@ -392,19 +388,19 @@ const handleSubmit = async (e) => {
             type="button"
             onClick={handleGoogleRegister}
             disabled={googleLoading}
-            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-[11px] text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300 disabled:opacity-50"
+            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-sm text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300 disabled:opacity-50"
           >
             <img 
               src="https://www.svgrepo.com/show/475656/google-color.svg" 
               alt="Google" 
-              className="w-4 h-4 grayscale opacity-70"
+              className="w-5 h-5 grayscale opacity-70"
             />
             Google
           </button>
 
           {/* Footer Link */}
           <div className="text-center pt-4">
-            <p className="text-[11px] text-text-light uppercase tracking-widest">
+            <p className="text-sm text-text-light uppercase tracking-widest">
               Déjà un compte ?{" "}
               <Link
                 to="/login"

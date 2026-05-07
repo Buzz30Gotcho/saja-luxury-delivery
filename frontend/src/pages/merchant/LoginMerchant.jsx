@@ -69,14 +69,11 @@ const LoginMerchant = () => {
           className="mb-10 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-24 h-auto drop-shadow-xl transition-all duration-500" />
+            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200" />
             <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
           </motion.div>
-          <h1 className="text-4xl font-black italic tracking-tighter flex items-center leading-none mb-3">
-            <span className="text-primary-dark dark:text-white">DRIP</span>
-            <span className="text-green dark:text-green-light">SWIFT</span>
-          </h1>
-          <p className="text-text-light text-[10px] uppercase tracking-[0.4em] font-bold">
+          
+          <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold">
             Gérer votre boutique
           </p>
         </motion.div>
@@ -84,28 +81,28 @@ const LoginMerchant = () => {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Email */}
           <div className="space-y-2">
-            <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Email Professionnel</label>
+            <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">Email Professionnel</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="votre@boutique.com"
-              className={`w-full py-3 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+              className={`w-full py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                 errors.email 
                   ? "border-danger" 
                   : "border-border focus:border-green"
               }`}
             />
             {errors.email && (
-              <p className="text-danger text-[10px] mt-1 italic">{errors.email}</p>
+              <p className="text-danger text-lg mt-1 italic">{errors.email}</p>
             )}
           </div>
 
           {/* Mot de passe */}
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="block text-[11px] uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
+              <label className="block text-xl uppercase tracking-widest text-text-medium font-semibold">Mot de passe</label>
             </div>
             <div className="relative group">
               <input
@@ -114,7 +111,7 @@ const LoginMerchant = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full py-3 pr-10 bg-transparent border-b text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                className={`w-full py-3 pr-10 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
                     ? "border-danger" 
                     : "border-border focus:border-green"
@@ -125,11 +122,11 @@ const LoginMerchant = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-danger text-[10px] mt-1 italic">{errors.password}</p>
+              <p className="text-danger text-lg mt-1 italic">{errors.password}</p>
             )}
           </div>
 
@@ -139,10 +136,10 @@ const LoginMerchant = () => {
             whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-text-dark text-white text-[12px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green transition-all duration-500 disabled:opacity-50 shadow-sm"
+            className="w-full py-4 bg-text-dark text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green transition-all duration-500 disabled:opacity-50 shadow-sm"
           >
             {loading ? (
-              <Loader2 className="animate-spin w-4 h-4 mx-auto" />
+              <Loader2 className="animate-spin w-5 h-5 mx-auto" />
             ) : (
               "Accéder au Dashboard"
             )}
@@ -150,7 +147,7 @@ const LoginMerchant = () => {
 
           {/* Lien vers l'inscription */}
           <div className="text-center pt-4">
-            <p className="text-[11px] text-text-light uppercase tracking-widest">
+            <p className="text-sm text-text-light uppercase tracking-widest">
               Pas encore partenaire ?{" "}
               <Link
                 to="/merchant/register"

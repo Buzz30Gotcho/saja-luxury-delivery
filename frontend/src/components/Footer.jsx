@@ -13,19 +13,15 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="inline-block group">
               <img 
                 src="/dripswift.png" 
                 alt="Dripswift" 
-                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" 
+                className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 dark:brightness-200" 
               />
-              <h1 className="text-2xl font-black italic tracking-tighter flex items-center leading-none">
-                <span className="text-primary-dark dark:text-white">DRIP</span>
-                <span className="text-green dark:text-green-light">SWIFT</span>
-              </h1>
             </Link>
             <div className="space-y-3">
-              <p className="text-xs md:text-sm text-text-medium font-light italic leading-relaxed">
+              <p className="text-sm md:text-lg text-text-medium font-medium italic leading-relaxed">
                 "L'élégance n'est pas de se faire remarquer, <br />mais de se faire remarquer."
               </p>
             </div>
@@ -44,11 +40,11 @@ const Footer = () => {
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-[11px] md:text-[10px] font-black uppercase tracking-[0.4em] text-text-dark">Explore</h4>
+            <h4 className="text-lg font-black uppercase tracking-[0.4em] text-text-dark">Explore</h4>
             <ul className="space-y-3">
               {['Boutiques', 'Catalogue', 'Nouveautés'].map((item) => (
                 <li key={item}>
-                  <Link to={item === 'Boutiques' ? '/shops' : '/catalogue'} className="text-[12px] md:text-[11px] text-text-light uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
+                  <Link to={item === 'Boutiques' ? '/shops' : '/catalogue'} className="text-base text-text-light uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -57,7 +53,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-[11px] md:text-[10px] font-black uppercase tracking-[0.4em] text-text-dark">Partenaires</h4>
+            <h4 className="text-lg font-black uppercase tracking-[0.4em] text-text-dark">Partenaires</h4>
             <ul className="space-y-3">
               {['Devenir Partenaire', 'Accès Créateur', 'Espace Coursier'].map((item) => (
                 <li key={item}>
@@ -67,7 +63,7 @@ const Footer = () => {
                       item === 'Accès Créateur' ? '/merchant/login' : 
                       '/coursier/login'
                     } 
-                    className="text-[12px] md:text-[11px] text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors"
+                    className="text-base text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors"
                   >
                     {item}
                   </Link>
@@ -77,13 +73,13 @@ const Footer = () => {
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-[11px] md:text-[10px] font-black uppercase tracking-[0.4em] text-text-dark">Contact</h4>
+            <h4 className="text-lg font-black uppercase tracking-[0.4em] text-text-dark">Contact</h4>
             <div className="space-y-3">
               <a 
                 href="https://github.com/Buzz30Gotcho?tab=repositories" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block text-[12px] md:text-[11px] text-text-medium uppercase tracking-widest font-bold hover:text-green transition-colors"
+                className="block text-base text-text-medium uppercase tracking-widest font-bold hover:text-green transition-colors"
               >
                 Frédéric Sar
               </a>
