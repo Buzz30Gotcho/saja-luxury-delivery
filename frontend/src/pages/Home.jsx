@@ -51,14 +51,14 @@ const Home = () => {
         <div className="relative z-10 container mx-auto px-6 md:px-12 h-full flex items-center">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-2xl">
             <motion.div variants={fadeUp} custom={0} className="mb-6">
-              <span className="text-white/90 text-xs md:text-sm font-bold tracking-[0.35em] uppercase">LocalStyle — La Sélection</span>
+              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase">LocalStyle — La Sélection</span>
             </motion.div>
             <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
               L'élégance locale, <br />
               <span className="italic text-white/90 font-light">réinventée.</span>
             </motion.h1>
             <motion.div variants={fadeUp} custom={2} className="flex gap-6 items-center">
-              <Link to="/shops" className="bg-white text-text-dark px-8 py-3.5 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green hover:text-white transition-colors duration-200 shadow-sm">
+              <Link to="/shops" className="bg-white text-text-dark px-10 py-4 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green hover:text-white transition-colors duration-200 shadow-sm">
                 Explorer l'écosystème
               </Link>
             </motion.div>
@@ -77,8 +77,8 @@ const Home = () => {
             ].map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center text-center space-y-4">
                 <div className="text-green mb-2">{item.icon}</div>
-                <h4 className="text-sm md:text-base font-black uppercase tracking-[0.35em] text-text-dark">{item.title}</h4>
-                <p className="text-sm text-text-light font-light italic max-w-[280px]">{item.desc}</p>
+                <h4 className="text-base md:text-lg font-black uppercase tracking-[0.35em] text-text-dark">{item.title}</h4>
+                <p className="text-sm md:text-base text-text-light font-light italic max-w-[280px]">{item.desc}</p>
               </motion.div>
             ))}
           </div>

@@ -47,26 +47,26 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:scale-100 transform transition-transform duration-200 min-w-0">
-            <span className="font-serif font-bold text-green tracking-wider truncate text-lg sm:text-xl md:text-2xl max-w-[140px] sm:max-w-xs uppercase">Shop In Line</span>
+            <span className="font-serif font-bold text-green tracking-wider truncate text-xl sm:text-2xl md:text-3xl max-w-[140px] sm:max-w-xs uppercase">Shop In Line</span>
           </Link>
 
           {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center space-x-10">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-green font-bold text-base uppercase tracking-[0.15em] transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-green font-bold text-base uppercase tracking-[0.15em] transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-bold text-sm uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-green font-bold text-base uppercase tracking-[0.15em] transition-colors"
             >
               Catalogue
             </Link>
