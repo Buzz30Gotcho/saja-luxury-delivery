@@ -46,10 +46,12 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center group py-1">
-            <span className="text-2xl md:text-3xl font-serif tracking-[0.4em] text-text-dark group-hover:text-green transition-colors duration-300 uppercase">
-              Dripswift
-            </span>
+          <Link to="/" className="flex items-center group py-1 transition-all duration-300">
+            <img 
+              src="/dripswift.png" 
+              alt="Dripswift" 
+              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 drop-shadow-md dark:brightness-200 dark:contrast-150"
+            />
           </Link>
 
           {/* Navigation Desktop */}
