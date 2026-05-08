@@ -52,15 +52,15 @@ const LoginCoursier = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
+    <div className="min-h-screen flex items-center justify-center bg-white p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
+        className="w-full max-w-md bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-12 relative overflow-hidden border border-border"
       >
         {/* Decorative Element */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-black/5 to-transparent" />
         
         {/* Header */}
         <motion.div
@@ -70,8 +70,7 @@ const LoginCoursier = () => {
           className="mb-10 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200" />
-            <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
+            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-sm transition-all duration-500 mix-blend-multiply" />
           </motion.div>
           
           <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold">

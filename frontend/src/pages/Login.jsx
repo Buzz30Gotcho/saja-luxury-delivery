@@ -71,15 +71,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
+    <div className="min-h-screen flex items-center justify-center bg-white p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-xl bg-card rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.05)] p-16 relative overflow-hidden border border-border"
+        className="w-full max-w-xl bg-white rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.02)] p-16 relative overflow-hidden border border-border"
       >
         {/* Subtle Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-black/5 to-transparent" />
         
         {/* Header */}
         <motion.div
@@ -96,7 +96,7 @@ const Login = () => {
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-48 md:w-64 h-auto drop-shadow-xl transition-all duration-500 mix-blend-multiply"
+                className="w-48 md:w-64 h-auto drop-shadow-sm transition-all duration-500 mix-blend-multiply"
               />
             </motion.div>
           </div>        </motion.div>
@@ -106,17 +106,17 @@ const Login = () => {
           <div className="space-y-3">
             <label className="block text-xl uppercase tracking-widest text-text-medium font-bold">Email</label>
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-black transition-colors" size={24} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="votre@email.com"
-                className={`w-full pl-11 py-4 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
-                  errors.email 
+                className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                  errors.email || errors.password
                     ? "border-danger" 
-                    : "border-border focus:border-green"
+                    : "border-border focus:border-black"
                 }`}
               />
             </div>
@@ -139,17 +139,17 @@ const Login = () => {
               </Link>
             </div>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-black transition-colors" size={24} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full pl-11 py-4 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
-                  errors.password 
+                className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
+                  errors.email || errors.password
                     ? "border-danger" 
-                    : "border-border focus:border-green"
+                    : "border-border focus:border-black"
                 }`}
               />
               <button
@@ -216,7 +216,7 @@ const Login = () => {
               Pas de compte ?{" "}
               <Link
                 to="/register"
-                className="text-green font-black hover:text-green-dark transition-colors ml-2"
+                className="text-black font-black hover:underline transition-all ml-2"
               >
                 S'inscrire
               </Link>

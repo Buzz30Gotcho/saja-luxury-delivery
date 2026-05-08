@@ -266,14 +266,14 @@ const ShopList = () => {
                   </div>
                   
                   <div className="space-y-2 px-1">
-                    <h3 className="text-lg md:text-xl font-serif text-text-dark group-hover:text-green transition-colors duration-300">
+                    <h3 className="text-lg md:text-xl font-serif text-text-dark group-hover:text-black transition-colors duration-300">
                       {shop.name}
                     </h3>
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.18em] font-bold">
                          📍 {shop.distanceKm != null ? `${shop.distanceKm} km • ~${shop.etaMin} min` : (shop.normalizedCity || 'Ville partenaire')}
                       </p>
-                      <span className="text-[10px] md:text-xs text-green uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-[10px] md:text-xs text-text-dark uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Visiter
                       </span>
                     </div>

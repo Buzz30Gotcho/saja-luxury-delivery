@@ -76,9 +76,9 @@ const ProductDetail = () => {
       <div className="container mx-auto px-6 md:px-12">
         {/* Breadcrumbs */}
         <div className="mb-12 flex items-center gap-2 text-base md:text-lg uppercase tracking-[0.2em] text-text-light font-bold">
-          <Link to="/" className="hover:text-green transition-colors">Accueil</Link>
+          <Link to="/" className="hover:text-black transition-colors">Accueil</Link>
           <span>/</span>
-          <Link to="/shops" className="hover:text-green transition-colors">Boutiques</Link>
+          <Link to="/shops" className="hover:text-black transition-colors">Boutiques</Link>
           <span>/</span>
           <span className="text-text-medium">{product.name}</span>
         </div>
@@ -105,7 +105,7 @@ const ProductDetail = () => {
           {/* Détails du produit */}
           <div className="flex flex-col">
             <div className="mb-8">
-              <p className="text-lg text-green uppercase tracking-[0.3em] font-bold mb-4">
+              <p className="text-lg text-text-light uppercase tracking-[0.3em] font-bold mb-4">
                 {product.category || 'Édition Limitée'}
               </p>
               <h1 className="text-4xl md:text-5xl font-serif text-text-dark mb-6 leading-tight">
@@ -130,7 +130,7 @@ const ProductDetail = () => {
                 <div className="flex items-center border border-border px-4 py-2">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 text-text-light hover:text-green transition-colors disabled:opacity-30"
+                    className="w-8 h-8 text-text-light hover:text-black transition-colors disabled:opacity-30"
                     disabled={isAdded || quantity <= 1}
                   >
                     -
@@ -138,7 +138,7 @@ const ProductDetail = () => {
                   <span className="w-12 text-center text-[14px] font-bold text-text-dark">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 text-text-light hover:text-green transition-colors disabled:opacity-30"
+                    className="w-8 h-8 text-text-light hover:text-black transition-colors disabled:opacity-30"
                     disabled={isAdded || (product.stock && quantity >= product.stock)}
                   >
                     +
@@ -151,10 +151,10 @@ const ProductDetail = () => {
                 disabled={isAdded || (product.stock && product.stock === 0)}
                 className={`w-full py-5 text-[13px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
                   isAdded
-                    ? 'bg-success text-white cursor-not-allowed'
+                    ? 'bg-black text-white cursor-not-allowed'
                     : (product.stock && product.stock === 0) 
                     ? 'bg-muted text-text-light cursor-not-allowed'
-                    : 'bg-text-dark text-white hover:bg-green'
+                    : 'bg-text-dark text-white hover:bg-black'
                 }`}
               >
                 {isAdded ? (

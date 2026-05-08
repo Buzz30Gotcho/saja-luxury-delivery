@@ -43,11 +43,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`${
-      isHomePage 
-        ? "bg-[#0a0a0a] border-none shadow-none" 
-        : "bg-[#ffffff] border-b border-neutral-light shadow-sm"
-    } sticky top-0 z-50 transition-colors duration-500`}>
+    <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm transition-colors duration-500">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
 
@@ -56,9 +52,7 @@ const Header = () => {
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className={`h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 ${
-                isHomePage ? "brightness-[10] contrast-[100]" : "mix-blend-multiply"
-              }`}
+              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>
 
@@ -66,25 +60,19 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-10">
             <Link
               to="/"
-              className={`${
-                isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-              } font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors`}
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className={`${
-                isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-              } font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors`}
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className={`${
-                isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-              } font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors`}
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Catalogue
             </Link>
@@ -94,9 +82,7 @@ const Header = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className={`p-2 transition-colors ${
-                isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-              }`}
+              className="p-2 text-text-medium hover:text-black transition-colors"
               aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
             >
@@ -104,16 +90,12 @@ const Header = () => {
             </button>
 
             {/* Panier */}
-            <Link to="/cart" className={`relative p-2 transition-colors ${
-              isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-            }`}>
+            <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className={`absolute top-0 right-0 ${
-                  isHomePage ? "bg-white text-black" : "bg-black text-white"
-                } text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center`}>
+                <span className="absolute top-0 right-0 bg-black text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -124,16 +106,12 @@ const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className={`p-1 rounded-full transition-colors ${
-                    isHomePage ? "hover:bg-white/10" : "hover:bg-neutral-light"
-                  }`}
+                  className="p-1 rounded-full hover:bg-neutral-light transition-colors"
                 >
                   <img
                     src={getProfileImage()}
                     alt="Profile"
-                    className={`w-10 h-10 rounded-full object-cover border ${
-                      isHomePage ? "border-white/20" : "border-neutral-medium"
-                    }`}
+                    className="w-10 h-10 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
                 </button>
@@ -183,17 +161,13 @@ const Header = () => {
               <div className="flex items-center space-x-6">
                 <Link
                   to="/login"
-                  className={`font-bold text-sm md:text-base uppercase tracking-[0.15em] transition-colors ${
-                    isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-                  }`}
+                  className="font-bold text-sm md:text-base uppercase tracking-[0.15em] transition-colors text-text-medium hover:text-black"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className={`${
-                    isHomePage ? "bg-white text-black hover:bg-neutral-200" : "bg-text-dark text-white hover:bg-black"
-                  } px-6 py-3 text-sm md:text-base font-bold uppercase tracking-[0.15em] transition-colors shadow-sm`}
+                  className="bg-text-dark text-white hover:bg-black px-6 py-3 text-sm md:text-base font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>
@@ -202,9 +176,7 @@ const Header = () => {
 
             {/* Menu Mobile Button */}
             <button
-              className={`md:hidden p-2 transition-colors ${
-                isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-              }`}
+              className="md:hidden p-2 text-text-medium hover:text-black transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,18 +188,10 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className={`md:hidden mt-2 ${
-            isHomePage ? "bg-[#1a1a1a]" : "bg-white"
-          } border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in`}>
-            <Link to="/" className={`block py-2.5 text-lg transition-colors ${
-              isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-            }`} onClick={() => setIsMenuOpen(false)}>Accueil</Link>
-            <Link to="/shops" className={`block py-2.5 text-lg transition-colors ${
-              isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-            }`} onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
-            <Link to="/catalogue" className={`block py-2.5 text-lg transition-colors ${
-              isHomePage ? "text-white/60 hover:text-white" : "text-text-medium hover:text-black"
-            }`} onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
+          <div className="md:hidden mt-2 bg-white border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
+            <Link to="/" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
+            <Link to="/shops" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
+            <Link to="/catalogue" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
           </div>
         )}
       </div>

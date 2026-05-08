@@ -120,7 +120,7 @@ const ShopDetail = () => {
             <div>
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <p className="text-[12px] text-green uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
+                  <p className="text-[12px] text-text-light uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
                   <h1 className="text-4xl md:text-6xl font-serif text-text-dark tracking-tight">{shop.name}</h1>
                 </div>
                 <motion.button
@@ -131,7 +131,7 @@ const ShopDetail = () => {
                   <Heart className="w-5 h-5" />
                 </motion.button>
               </div>
-              <div className="w-12 h-[1px] bg-green mb-8"></div>
+              <div className="w-12 h-[1px] bg-text-dark mb-8"></div>
               <p className="text-[17px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
             </div>
 
@@ -139,7 +139,7 @@ const ShopDetail = () => {
               <div className="space-y-2 text-center md:text-left">
                 <span className="block text-[11px] uppercase tracking-widest text-text-light">Avis Client</span>
                 <div className="flex items-center justify-center md:justify-start gap-2">
-                  <Star className="w-3 h-3 text-green" fill="currentColor" />
+                  <Star className="w-3 h-3 text-text-dark" fill="currentColor" />
                   <span className="text-[13px] font-bold text-text-dark uppercase tracking-widest">{shop.rating ?? '5.0'}</span>
                 </div>
               </div>
@@ -174,13 +174,13 @@ const ShopDetail = () => {
           <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
             <div className="flex items-center gap-12 w-full lg:w-auto">
               <div className="relative group min-w-[240px]">
-                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={14} />
+                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-text-dark transition-colors" size={14} />
                 <input
                   type="text"
                   placeholder="RECHERCHER..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-6 py-2 bg-transparent border-b border-transparent focus:border-green text-[10px] uppercase tracking-[0.2em] focus:outline-none transition-all"
+                  className="w-full pl-6 py-2 bg-transparent border-b border-transparent focus:border-text-dark text-[10px] uppercase tracking-[0.2em] focus:outline-none transition-all"
                 />
               </div>
               
@@ -190,7 +190,7 @@ const ShopDetail = () => {
                     key={g}
                     onClick={() => setGenderFilter(g)}
                     className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${
-                      genderFilter === g ? 'text-green border-b border-green' : 'text-text-light hover:text-text-dark'
+                      genderFilter === g ? 'text-text-dark border-b border-text-dark' : 'text-text-light hover:text-text-dark'
                     }`}
                   >
                     {g === 'all' ? 'Univers' : g}
@@ -223,8 +223,8 @@ const ShopDetail = () => {
               </select>
 
               <div className="flex gap-4">
-                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-green' : 'text-text-light'}`}><Grid size={18} /></button>
-                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-green' : 'text-text-light'}`}><List size={18} /></button>
+                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-text-dark' : 'text-text-light'}`}><Grid size={18} /></button>
+                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-text-dark' : 'text-text-light'}`}><List size={18} /></button>
               </div>
             </div>
           </div>
@@ -311,7 +311,7 @@ const ProductCard = ({ product, index, isFavorite, onToggleFavorite, onAddToCart
 
     <div className="space-y-1 text-center lg:text-left">
       <p className="text-[9px] text-text-light uppercase tracking-[0.2em] font-medium">{product.category}</p>
-      <h3 className="text-[12px] font-bold text-text-dark uppercase tracking-wider group-hover:text-green transition-colors">{product.name}</h3>
+      <h3 className="text-[12px] font-bold text-text-dark uppercase tracking-wider group-hover:text-black transition-colors">{product.name}</h3>
     </div>
   </motion.div>
 );
@@ -331,7 +331,7 @@ const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart,
     <div className="flex-1 flex flex-col justify-center">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <p className="text-[10px] text-green uppercase tracking-[0.3em] font-bold mb-2">{product.category}</p>
+          <p className="text-[10px] text-text-light uppercase tracking-[0.3em] font-bold mb-2">{product.category}</p>
           <h3 className="text-2xl font-serif text-text-dark mb-4">{product.name}</h3>
           <p className="text-[13px] text-text-medium leading-relaxed font-light line-clamp-2 max-w-xl italic">{product.description}</p>
         </div>
@@ -348,7 +348,7 @@ const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart,
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Star className="w-3 h-3 text-green" fill="currentColor" />
+        <Star className="w-3 h-3 text-text-dark" fill="currentColor" />
         <span className="text-[10px] font-bold text-text-dark uppercase tracking-widest">{product.rating ?? '5.0'}</span>
       </div>
     </div>

@@ -155,15 +155,15 @@ const handleSubmit = async (e) => {
 
   // ... (le reste du JSX reste inchangé)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-white p-6 py-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
+        className="w-full max-w-md bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-12 relative overflow-hidden border border-border"
       >
         {/* Subtle Decorative Line */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-black/5 to-transparent" />
 
         {/* Header */}
         <motion.div
@@ -180,9 +180,8 @@ const handleSubmit = async (e) => {
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-64 h-auto drop-shadow-xl transition-all duration-500 mix-blend-multiply"
+                className="w-64 h-auto drop-shadow-sm transition-all duration-500 mix-blend-multiply"
               />
-              <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
             </motion.div>
 
             <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold text-center">
@@ -202,7 +201,7 @@ const handleSubmit = async (e) => {
               value={formData.displayName}
               onChange={handleChange}
               placeholder="Votre nom"
-              className="w-full py-3 bg-transparent border-b border-border text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none focus:border-green transition-all duration-300"
+              className="w-full py-3 bg-transparent border-b border-border text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none focus:border-black transition-all duration-300"
               disabled={loading}
             />
           </div>
@@ -213,7 +212,7 @@ const handleSubmit = async (e) => {
               Email
             </label>
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
+              <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-black transition-colors" size={24} />
               <input
                 type="email"
                 name="email"
@@ -223,7 +222,7 @@ const handleSubmit = async (e) => {
                 className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.email 
                     ? "border-danger" 
-                    : "border-border focus:border-green"
+                    : "border-border focus:border-black"
                 }`}
                 required
                 disabled={loading}
@@ -240,7 +239,7 @@ const handleSubmit = async (e) => {
               Mot de passe
             </label>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-black transition-colors" size={24} />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -250,7 +249,7 @@ const handleSubmit = async (e) => {
                 className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.password 
                     ? "border-danger" 
-                    : "border-border focus:border-green"
+                    : "border-border focus:border-black"
                 }`}
                 required
                 disabled={loading}
@@ -258,7 +257,7 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-black transition-colors"
               >
                 {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
@@ -270,7 +269,7 @@ const handleSubmit = async (e) => {
                 <div className="flex gap-1 mb-1">
                   {[1, 2, 3].map((s) => (
                     <div key={s} className={`h-[2px] flex-1 transition-colors duration-500 ${
-                      passwordStrength() >= s ? 'bg-green' : 'bg-border'
+                      passwordStrength() >= s ? 'bg-black' : 'bg-border'
                     }`}></div>
                   ))}
                 </div>
@@ -291,7 +290,7 @@ const handleSubmit = async (e) => {
               Confirmer
             </label>
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-green transition-colors" size={24} />
+              <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-black transition-colors" size={24} />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
@@ -301,7 +300,7 @@ const handleSubmit = async (e) => {
                 className={`w-full pl-11 py-3 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/50 focus:outline-none transition-all duration-300 ${
                   errors.confirmPassword 
                     ? "border-danger" 
-                    : "border-border focus:border-green"
+                    : "border-border focus:border-black"
                 }`}
                 required
                 disabled={loading}
@@ -309,7 +308,7 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-black transition-colors"
               >
                 {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
@@ -327,7 +326,7 @@ const handleSubmit = async (e) => {
                 name="acceptTerms"
                 checked={formData.acceptTerms}
                 onChange={handleChange}
-                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-black text-black"
                 required
               />
               <span className="text-sm text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
@@ -341,7 +340,7 @@ const handleSubmit = async (e) => {
                 name="newsletter"
                 checked={formData.newsletter}
                 onChange={handleChange}
-                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-green text-green"
+                className="mt-1 w-4 h-4 border-border rounded-none focus:ring-0 checked:bg-black text-black"
               />
               <span className="text-sm text-text-medium uppercase tracking-wider leading-relaxed group-hover:text-text-dark transition-colors">
                 S'abonner à la newsletter exclusive.
@@ -366,7 +365,7 @@ const handleSubmit = async (e) => {
               whileTap={{ y: 0 }}
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-green text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              className="w-full py-4 bg-black text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-black-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
               {loading ? (
                 <Loader2 className="animate-spin w-5 h-5 mx-auto" />
@@ -404,7 +403,7 @@ const handleSubmit = async (e) => {
               Déjà un compte ?{" "}
               <Link
                 to="/login"
-                className="text-green font-bold hover:text-green-dark transition-colors"
+                className="text-black font-bold hover:text-black-dark transition-colors"
               >
                 Se connecter
               </Link>

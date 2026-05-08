@@ -161,15 +161,15 @@ const RegisterMerchant = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6 py-16">
+    <div className="min-h-screen flex items-center justify-center bg-white p-6 py-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-2xl bg-card rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-12 relative overflow-hidden border border-border"
+        className="w-full max-w-2xl bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] p-12 relative overflow-hidden border border-border"
       >
         {/* Subtle Decorative Element */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green/20 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-black/5 to-transparent" />
         
         {/* Header */}
         <motion.div
@@ -179,8 +179,7 @@ const RegisterMerchant = () => {
           className="mb-12 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200" />
-            <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
+            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto drop-shadow-sm transition-all duration-500 mix-blend-multiply" />
           </motion.div>
           
           <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold">
@@ -193,7 +192,7 @@ const RegisterMerchant = () => {
           <button
             onClick={() => setAccountType("independent")}
             className={`pb-4 text-center transition-all border-b-2 ${
-              accountType === "independent" ? "border-green text-green" : "border-transparent text-text-light hover:text-text-medium"
+              accountType === "independent" ? "border-black text-text-dark" : "border-transparent text-text-light hover:text-text-medium"
             }`}
           >
             <span className="text-xl font-bold uppercase tracking-[0.2em]">Indépendant</span>
@@ -201,7 +200,7 @@ const RegisterMerchant = () => {
           <button
             onClick={() => setAccountType("professional")}
             className={`pb-4 text-center transition-all border-b-2 ${
-              accountType === "professional" ? "border-green text-green" : "border-transparent text-text-light hover:text-text-medium"
+              accountType === "professional" ? "border-black text-text-dark" : "border-transparent text-text-light hover:text-text-medium"
             }`}
           >
             <span className="text-xl font-bold uppercase tracking-[0.2em]">Professionnel</span>
@@ -221,7 +220,7 @@ const RegisterMerchant = () => {
                     value={formData[field.name]}
                     onChange={handleChange}
                     className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark focus:outline-none transition-all duration-300 ${
-                      errors[field.name] ? "border-danger" : "border-border focus:border-green"
+                      errors[field.name] ? "border-danger" : "border-border focus:border-black"
                     }`}
                   >
                     <option value="">Choisir une ville</option>
@@ -239,7 +238,7 @@ const RegisterMerchant = () => {
                     onChange={handleChange}
                     placeholder="..."
                     className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
-                      errors[field.name] ? "border-danger" : "border-border focus:border-green"
+                      errors[field.name] ? "border-danger" : "border-border focus:border-black"
                     }`}
                   />
                 )}
@@ -259,7 +258,7 @@ const RegisterMerchant = () => {
                   onChange={handleChange}
                   placeholder="14 chiffres"
                   className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
-                    errors.siret ? "border-danger" : "border-border focus:border-green"
+                    errors.siret ? "border-danger" : "border-border focus:border-black"
                   }`}
                 />
               </motion.div>
@@ -277,7 +276,7 @@ const RegisterMerchant = () => {
                   onChange={handleChange}
                   placeholder="••••••••"
                   className={`w-full py-2 bg-transparent border-b text-2xl text-text-dark placeholder:text-text-light/30 focus:outline-none transition-all duration-300 ${
-                    errors[field.name] ? "border-danger" : "border-border focus:border-green"
+                    errors[field.name] ? "border-danger" : "border-border focus:border-black"
                   }`}
                 />
               </div>
@@ -289,7 +288,7 @@ const RegisterMerchant = () => {
             whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-5 bg-text-dark text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-green transition-all duration-500 disabled:opacity-50 mt-8 shadow-sm"
+            className="w-full py-5 bg-text-dark text-white text-lg font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-black transition-all duration-500 disabled:opacity-50 mt-8 shadow-sm"
           >
             {loading ? "Traitement..." : "Créer mon compte partenaire"}
           </motion.button>
@@ -297,7 +296,7 @@ const RegisterMerchant = () => {
           <div className="text-center pt-6">
             <p className="text-sm text-text-light uppercase tracking-widest">
               Déjà partenaire ?{" "}
-              <Link to="/merchant/login" className="text-green font-bold hover:text-green-dark">
+              <Link to="/merchant/login" className="text-text-dark font-bold hover:underline transition-colors">
                 Se connecter
               </Link>
             </p>

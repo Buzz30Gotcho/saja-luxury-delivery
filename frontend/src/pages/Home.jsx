@@ -37,12 +37,12 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-white/20 animate-pulse z-[9999]" />}
       
-      {/* New Reinvented Hero - Bold Minimalism */}
-      <section className="relative min-h-[75vh] flex items-center bg-[#0a0a0a] overflow-hidden">
-        {/* Abstract Background Elements */}
+      {/* New Reinvented Hero - Light Luxury Minimalism */}
+      <section className="relative min-h-[60vh] flex items-center bg-white overflow-hidden border-b border-neutral-light">
+        {/* Abstract Background Elements - Subtle Grey Shadows */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-neutral-100 blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-neutral-50 blur-[120px] rounded-full" />
         </div>
 
         <div className="container mx-auto px-6 md:px-12 relative z-10">
@@ -60,34 +60,34 @@ const Home = () => {
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="inline-block text-white/40 font-bold tracking-[0.5em] uppercase text-xs md:text-sm"
+                    className="inline-block text-text-light font-bold tracking-[0.5em] uppercase text-xs md:text-sm"
                   >
                     L'Excellence à votre porte
                   </motion.span>
                 </div>
                 
-                <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white leading-[0.9] tracking-tighter mb-8">
+                <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-text-dark leading-[0.9] tracking-tighter mb-8">
                   Drip <br />
-                  <span className="italic font-light text-white/40">Swift.</span>
+                  <span className="italic font-light text-text-light">Swift.</span>
                 </h1>
                 
-                <p className="text-white/60 text-lg md:text-xl max-w-lg mb-12 font-light leading-relaxed">
+                <p className="text-text-medium text-lg md:text-xl max-w-lg mb-12 font-light leading-relaxed">
                   Plus qu'une livraison, une signature. Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une élégance absolue.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-6">
-                  <Link to="/shops" className="group relative bg-white text-black px-10 py-5 text-sm font-bold uppercase tracking-widest overflow-hidden transition-all duration-300">
+                  <Link to="/shops" className="group relative bg-text-dark text-white px-10 py-5 text-sm font-bold uppercase tracking-widest overflow-hidden transition-all duration-300">
                     <span className="relative z-10">Explorer l'Excellence</span>
-                    <div className="absolute inset-0 bg-neutral-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </Link>
-                  <Link to="/catalogue" className="px-10 py-5 text-sm font-bold uppercase tracking-widest border border-white/20 text-white hover:border-white transition-colors duration-300">
+                  <Link to="/catalogue" className="px-10 py-5 text-sm font-bold uppercase tracking-widest border border-neutral-light text-text-dark hover:border-text-dark transition-colors duration-300">
                     Voir le catalogue
                   </Link>
                 </div>
               </motion.div>
             </div>
 
-            {/* Right side: Modern Visual Element (Replacement for hero image) */}
+            {/* Right side: Modern Visual Element */}
             <div className="lg:col-span-5 relative hidden lg:block">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -96,24 +96,24 @@ const Home = () => {
                 className="relative aspect-[4/5] flex items-center justify-center"
               >
                 {/* Logo Floating in a Premium Frame */}
-                <div className="absolute inset-0 border border-white/10 rounded-[40px] rotate-3 translate-x-4" />
-                <div className="absolute inset-0 border border-white/5 rounded-[40px] -rotate-3 -translate-x-4" />
+                <div className="absolute inset-0 border border-neutral-light rounded-[40px] rotate-3 translate-x-4" />
+                <div className="absolute inset-0 border border-neutral-100 rounded-[40px] -rotate-3 -translate-x-4" />
                 
-                <div className="relative w-full h-full bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col items-center justify-center p-12">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-black" />
+                <div className="relative w-full h-full bg-white rounded-[40px] shadow-xl overflow-hidden flex flex-col items-center justify-center p-12">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-text-dark" />
                   
                   <motion.img 
                     src="/dripswift.png" 
                     alt="Logo Dripswift" 
-                    className="w-full h-auto mb-12"
+                    className="w-full h-auto mb-12 mix-blend-multiply"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   />
                   
                   <div className="text-center space-y-4">
                     <div className="h-[1px] w-12 bg-black/20 mx-auto" />
-                    <p className="font-serif italic text-2xl text-black">Édition Limitée</p>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-bold">Paris — 2024</p>
+                    <p className="font-serif italic text-2xl text-text-dark">Édition Limitée</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-text-light font-bold">Paris — 2024</p>
                   </div>
                 </div>
               </motion.div>
@@ -133,7 +133,7 @@ const Home = () => {
               { icon: <ShieldCheck size={18} strokeWidth={1.5} />, title: "L'Authenticité", desc: "Traçabilité totale et transactions 100% sécurisées." },
             ].map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center text-center space-y-4">
-                <div className="text-green mb-2">{item.icon}</div>
+                <div className="text-text-dark mb-2">{item.icon}</div>
                 <h4 className="text-base md:text-lg font-black uppercase tracking-[0.35em] text-text-dark">{item.title}</h4>
                 <p className="text-sm md:text-base text-text-light font-light italic max-w-[280px]">{item.desc}</p>
               </motion.div>
