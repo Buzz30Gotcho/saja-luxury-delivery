@@ -37,49 +37,90 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
       
-      {/* Hero Section - Luxury Editorial Style */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image with subtle parallax effect */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="Dripswift Lifestyle" 
-            className="w-full h-full object-cover scale-105" 
-          />
-          <div className="absolute inset-0 bg-black/20" />
+      {/* New Reinvented Hero - Bold Minimalism */}
+      <section className="relative min-h-[90vh] flex items-center bg-[#0a0a0a] overflow-hidden">
+        {/* Abstract Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green/10 blur-[120px] rounded-full animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full" />
         </div>
 
-        {/* Floating Luxury Card */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 bg-white p-10 md:p-20 shadow-[0_20px_50px_rgba(0,0,0,0.15)] max-w-2xl mx-6 text-center"
-        >
-          <motion.div variants={fadeUp} custom={0} className="mb-8 flex justify-center">
-            <img 
-              src="/dripswift.png" 
-              alt="Dripswift" 
-              className="w-48 md:w-64 h-auto" 
-            />
-          </motion.div>
-          
-          <div className="space-y-6">
-            <h1 className="text-3xl md:text-5xl font-serif text-text-dark leading-tight">
-              L'élégance locale, <br />
-              <span className="italic font-light text-neutral-500">réinventée.</span>
-            </h1>
-            <p className="text-text-medium text-xs md:text-sm uppercase tracking-[0.4em] font-bold">
-              Bienvenue dans l'Excellence
-            </p>
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <div className="pt-8">
-              <Link to="/shops" className="inline-block bg-text-dark text-white px-12 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-300 transform hover:-translate-y-1">
-                Explorer la collection
-              </Link>
+            {/* Left side: Typography focus */}
+            <div className="lg:col-span-7">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <div className="mb-6 overflow-hidden">
+                  <motion.span 
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                    className="inline-block text-green font-bold tracking-[0.5em] uppercase text-xs md:text-sm"
+                  >
+                    L'Excellence à votre porte
+                  </motion.span>
+                </div>
+                
+                <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white leading-[0.9] tracking-tighter mb-8">
+                  Drip <br />
+                  <span className="italic font-light text-white/40">Swift.</span>
+                </h1>
+                
+                <p className="text-white/60 text-lg md:text-xl max-w-lg mb-12 font-light leading-relaxed">
+                  Plus qu'une livraison, une signature. Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une élégance absolue.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <Link to="/shops" className="group relative bg-white text-black px-10 py-5 text-sm font-bold uppercase tracking-widest overflow-hidden transition-all duration-300">
+                    <span className="relative z-10">Explorer l'Excellence</span>
+                    <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </Link>
+                  <Link to="/catalogue" className="px-10 py-5 text-sm font-bold uppercase tracking-widest border border-white/20 text-white hover:border-white transition-colors duration-300">
+                    Voir le catalogue
+                  </Link>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Right side: Modern Visual Element (Replacement for hero image) */}
+            <div className="lg:col-span-5 relative hidden lg:block">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative aspect-[4/5] flex items-center justify-center"
+              >
+                {/* Logo Floating in a Premium Frame */}
+                <div className="absolute inset-0 border border-white/10 rounded-[40px] rotate-3 translate-x-4" />
+                <div className="absolute inset-0 border border-white/5 rounded-[40px] -rotate-3 -translate-x-4" />
+                
+                <div className="relative w-full h-full bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col items-center justify-center p-12">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-green" />
+                  
+                  <motion.img 
+                    src="/dripswift.png" 
+                    alt="Logo Dripswift" 
+                    className="w-full h-auto mb-12"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  
+                  <div className="text-center space-y-4">
+                    <div className="h-[1px] w-12 bg-black/20 mx-auto" />
+                    <p className="font-serif italic text-2xl text-black">Édition Limitée</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-bold">Paris — 2024</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* 1. Brand Values - Immediate Reassurance */}
