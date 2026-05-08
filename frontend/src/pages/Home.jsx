@@ -37,46 +37,49 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
       
-      {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex flex-col md:flex-row overflow-hidden bg-white">
-        {/* Logo & Content Side */}
-        <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 bg-white order-2 md:order-1 border-r border-neutral-light">
-          <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-xl flex flex-col items-center text-center">
-            <motion.div variants={fadeUp} custom={0} className="mb-8">
-              <img 
-                src="/dripswift.png" 
-                alt="Dripswift Logo" 
-                className="w-48 md:w-72 h-auto drop-shadow-sm" 
-              />
-            </motion.div>
-            
-            <motion.div variants={fadeUp} custom={1} className="space-y-4">
-              <span className="text-text-medium text-xs md:text-sm font-bold tracking-[0.4em] uppercase block">
-                L'Excellence Locale
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-text-dark leading-tight">
-                L'élégance <br />
-                <span className="italic text-green font-light">réinventée.</span>
-              </h1>
-            </motion.div>
-            
-            <motion.div variants={fadeUp} custom={2} className="pt-8 w-full">
-              <Link to="/shops" className="bg-text-dark text-white px-10 py-4 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green transition-colors duration-200 shadow-lg inline-block w-full md:w-auto">
-                Explorer l'écosystème
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Image Side */}
-        <div className="w-full md:w-1/2 h-[40vh] md:h-auto relative order-1 md:order-2">
+      {/* Hero Section - Luxury Editorial Style */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image with subtle parallax effect */}
+        <div className="absolute inset-0 z-0">
           <img 
             src={heroImage} 
-            alt="Dripswift" 
-            className="w-full h-full object-cover" 
+            alt="Dripswift Lifestyle" 
+            className="w-full h-full object-cover scale-105" 
           />
-          <div className="absolute inset-0 bg-black/5" />
+          <div className="absolute inset-0 bg-black/20" />
         </div>
+
+        {/* Floating Luxury Card */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 bg-white p-10 md:p-20 shadow-[0_20px_50px_rgba(0,0,0,0.15)] max-w-2xl mx-6 text-center"
+        >
+          <motion.div variants={fadeUp} custom={0} className="mb-8 flex justify-center">
+            <img 
+              src="/dripswift.png" 
+              alt="Dripswift" 
+              className="w-48 md:w-64 h-auto" 
+            />
+          </motion.div>
+          
+          <div className="space-y-6">
+            <h1 className="text-3xl md:text-5xl font-serif text-text-dark leading-tight">
+              L'élégance locale, <br />
+              <span className="italic font-light text-neutral-500">réinventée.</span>
+            </h1>
+            <p className="text-text-medium text-xs md:text-sm uppercase tracking-[0.4em] font-bold">
+              Bienvenue dans l'Excellence
+            </p>
+            
+            <div className="pt-8">
+              <Link to="/shops" className="inline-block bg-text-dark text-white px-12 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-300 transform hover:-translate-y-1">
+                Explorer la collection
+              </Link>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* 1. Brand Values - Immediate Reassurance */}
