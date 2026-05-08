@@ -38,7 +38,7 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
       
       {/* Hero Section */}
-      <section className="relative h-[75vh] overflow-hidden">
+      <section className="relative h-[60vh] overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
@@ -50,8 +50,15 @@ const Home = () => {
 
         <div className="relative z-10 container mx-auto px-6 md:px-12 h-full flex items-center">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-2xl">
-            <motion.div variants={fadeUp} custom={0} className="mb-6">
-              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase">Dripswift — La Sélection</span>
+            <motion.div variants={fadeUp} custom={0} className="mb-6 flex items-center gap-4">
+              <img 
+                src="/dripswift.png" 
+                alt="Dripswift Logo" 
+                className="h-16 md:h-20 w-auto brightness-200 drop-shadow-lg" 
+              />
+              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase border-l border-white/30 pl-4 pt-1">
+                La Sélection
+              </span>
             </motion.div>
             <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
               L'élégance locale, <br />

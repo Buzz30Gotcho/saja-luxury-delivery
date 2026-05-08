@@ -99,13 +99,6 @@ const Login = () => {
                 className="w-48 md:w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200"
               />
             </motion.div>
-
-            <h1 className="text-5xl md:text-6xl font-serif tracking-tight text-text-dark mb-4 text-center">
-              Dripswift
-            </h1>
-            <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.3em] font-bold text-center">
-              Bienvenue dans l'Excellence
-            </p>
           </div>        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
