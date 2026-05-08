@@ -38,38 +38,44 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
       
       {/* Hero Section */}
-      <section className="relative h-[60vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src={heroImage} 
-            alt="Dripswift" 
-            className="w-full h-full object-cover object-[center_25%]" 
-          />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-
-        <div className="relative z-10 container mx-auto px-6 md:px-12 h-full flex items-center">
-          <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-2xl">
-            <motion.div variants={fadeUp} custom={0} className="mb-6 flex items-center gap-4">
+      <section className="relative min-h-[60vh] flex flex-col md:flex-row overflow-hidden bg-white">
+        {/* Logo & Content Side */}
+        <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 bg-white order-2 md:order-1 border-r border-neutral-light">
+          <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-xl flex flex-col items-center text-center">
+            <motion.div variants={fadeUp} custom={0} className="mb-8">
               <img 
                 src="/dripswift.png" 
                 alt="Dripswift Logo" 
-                className="h-16 md:h-20 w-auto brightness-200 drop-shadow-lg" 
+                className="w-48 md:w-72 h-auto drop-shadow-sm" 
               />
-              <span className="text-white/90 text-sm md:text-base font-bold tracking-[0.35em] uppercase border-l border-white/30 pl-4 pt-1">
-                La Sélection
-              </span>
             </motion.div>
-            <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-serif text-white leading-tight mb-8">
-              L'élégance locale, <br />
-              <span className="italic text-white/90 font-light">réinventée.</span>
-            </motion.h1>
-            <motion.div variants={fadeUp} custom={2} className="flex gap-6 items-center">
-              <Link to="/shops" className="bg-white text-text-dark px-10 py-4 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green hover:text-white transition-colors duration-200 shadow-sm">
+            
+            <motion.div variants={fadeUp} custom={1} className="space-y-4">
+              <span className="text-text-medium text-xs md:text-sm font-bold tracking-[0.4em] uppercase block">
+                L'Excellence Locale
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-text-dark leading-tight">
+                L'élégance <br />
+                <span className="italic text-green font-light">réinventée.</span>
+              </h1>
+            </motion.div>
+            
+            <motion.div variants={fadeUp} custom={2} className="pt-8 w-full">
+              <Link to="/shops" className="bg-text-dark text-white px-10 py-4 text-xs md:text-sm font-bold uppercase tracking-[0.18em] hover:bg-green transition-colors duration-200 shadow-lg inline-block w-full md:w-auto">
                 Explorer l'écosystème
               </Link>
             </motion.div>
           </motion.div>
+        </div>
+
+        {/* Image Side */}
+        <div className="w-full md:w-1/2 h-[40vh] md:h-auto relative order-1 md:order-2">
+          <img 
+            src={heroImage} 
+            alt="Dripswift" 
+            className="w-full h-full object-cover" 
+          />
+          <div className="absolute inset-0 bg-black/5" />
         </div>
       </section>
 

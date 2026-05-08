@@ -84,16 +84,16 @@ const Header = () => {
               aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
             >
-              <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+              <span className="text-2xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
             </button>
 
             {/* Panier */}
             <Link to="/cart" className="relative p-2 text-text-medium hover:text-green transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-green text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-green text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -109,7 +109,7 @@ const Header = () => {
                   <img
                     src={getProfileImage()}
                     alt="Profile"
-                    className="w-8 h-8 rounded-full object-cover border border-neutral-medium"
+                    className="w-10 h-10 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
                 </button>
@@ -156,16 +156,16 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-6">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-green font-bold text-xs uppercase tracking-[0.15em] transition-colors"
+                  className="text-text-medium hover:text-green font-bold text-sm md:text-base uppercase tracking-[0.15em] transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-text-dark hover:bg-green text-white px-5 py-2 text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
+                  className="bg-text-dark hover:bg-green text-white px-6 py-3 text-sm md:text-base font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>
@@ -177,7 +177,7 @@ const Header = () => {
               className="md:hidden p-2 text-text-medium hover:text-green transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
