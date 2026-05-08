@@ -96,7 +96,7 @@ const Login = () => {
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-48 md:w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200"
+                className="w-48 md:w-64 h-auto drop-shadow-xl transition-all duration-500 mix-blend-multiply"
               />
             </motion.div>
           </div>        </motion.div>

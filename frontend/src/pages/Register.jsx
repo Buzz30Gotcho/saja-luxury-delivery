@@ -180,7 +180,7 @@ const handleSubmit = async (e) => {
               <img
                 src={dripSwiftLogo}
                 alt="Dripswift"
-                className="w-64 h-auto drop-shadow-xl transition-all duration-500 dark:brightness-200"
+                className="w-64 h-auto drop-shadow-xl transition-all duration-500 mix-blend-multiply"
               />
               <div className="absolute -inset-4 bg-green/10 rounded-full blur-2xl opacity-0 hover:opacity-100 transition-opacity duration-500 -z-10" />
             </motion.div>

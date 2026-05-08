@@ -35,10 +35,10 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
-      {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-green animate-pulse z-[9999]" />}
+      {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-white/20 animate-pulse z-[9999]" />}
       
       {/* New Reinvented Hero - Bold Minimalism */}
-      <section className="relative min-h-[90vh] flex items-center bg-[#0a0a0a] overflow-hidden">
+      <section className="relative min-h-[75vh] flex items-center bg-[#0a0a0a] overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full animate-pulse" />
