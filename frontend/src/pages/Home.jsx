@@ -122,20 +122,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-                  />
-                  
-                  <div className="text-center space-y-4">
-                    <div className="h-[1px] w-12 bg-black/20 mx-auto" />
-                    <p className="font-serif italic text-2xl text-black">Édition Limitée</p>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-bold">Paris — 2024</p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* 1. Brand Values - Immediate Reassurance */}
       <section className="py-16 md:py-24 border-b border-border/50 bg-card">
