@@ -143,7 +143,7 @@ const Checkout = () => {
           </p>
           <button 
             onClick={() => navigate('/')} 
-            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm"
+            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all duration-500 shadow-sm"
           >
             Retour au catalogue
           </button>
@@ -162,7 +162,7 @@ const Checkout = () => {
           </p>
           <button 
             onClick={() => navigate('/')} 
-            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm"
+            className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all duration-500 shadow-sm"
           >
             Découvrir la sélection
           </button>
@@ -184,7 +184,7 @@ const Checkout = () => {
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="bg-card border border-border p-10 shadow-sm">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-green mb-10 pb-4 border-b border-border/50">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-dark mb-10 pb-4 border-b border-border/50">
                 1. Adresse de livraison
               </h2>
               <form className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
@@ -196,7 +196,7 @@ const Checkout = () => {
                     placeholder="..."
                     value={shippingDetails.fullName}
                     onChange={handleShippingChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -208,7 +208,7 @@ const Checkout = () => {
                     placeholder="..."
                     value={shippingDetails.address}
                     onChange={handleShippingChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -220,7 +220,7 @@ const Checkout = () => {
                     placeholder="..."
                     value={shippingDetails.city}
                     onChange={handleShippingChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -232,7 +232,7 @@ const Checkout = () => {
                     placeholder="..."
                     value={shippingDetails.postalCode}
                     onChange={handleShippingChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -244,7 +244,7 @@ const Checkout = () => {
                     placeholder="..."
                     value={shippingDetails.country}
                     onChange={handleShippingChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -252,7 +252,7 @@ const Checkout = () => {
             </div>
 
             <div className="bg-card border border-border p-10 shadow-sm">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-green mb-10 pb-4 border-b border-border/50">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-dark mb-10 pb-4 border-b border-border/50">
                 2. Informations de paiement
               </h2>
               <form id="payment-form" onSubmit={handlePlaceOrder} className="space-y-8">
@@ -264,7 +264,7 @@ const Checkout = () => {
                     placeholder="Nom Prénom"
                     value={paymentDetails.cardHolder}
                     onChange={handlePaymentChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -279,7 +279,7 @@ const Checkout = () => {
                     placeholder="4242424242424242"
                     value={paymentDetails.cardNumber}
                     onChange={handlePaymentChange}
-                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                    className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                     required
                   />
                 </div>
@@ -295,7 +295,7 @@ const Checkout = () => {
                       placeholder="MM/AA"
                       value={paymentDetails.expiry}
                       onChange={handlePaymentChange}
-                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                       required
                     />
                   </div>
@@ -309,7 +309,7 @@ const Checkout = () => {
                       placeholder="123"
                       value={paymentDetails.cvc}
                       onChange={handlePaymentChange}
-                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-green transition-all"
+                      className="w-full py-2 bg-transparent border-b border-border text-text-dark focus:outline-none focus:border-black transition-all"
                       required
                     />
                   </div>

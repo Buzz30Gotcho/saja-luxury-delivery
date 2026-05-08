@@ -41,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm">
+    <header className="bg-[#ffffff] border-b border-neutral-light sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
 
@@ -58,19 +58,19 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-10">
             <Link
               to="/"
-              className="text-text-medium hover:text-green font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Accueil
             </Link>
             <Link
               to="/shops"
-              className="text-text-medium hover:text-green font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Boutiques
             </Link>
             <Link
               to="/catalogue"
-              className="text-text-medium hover:text-green font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
+              className="text-text-medium hover:text-black font-bold text-lg md:text-xl uppercase tracking-[0.15em] transition-colors"
             >
               Catalogue
             </Link>
@@ -80,7 +80,7 @@ const Header = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-2 text-text-medium hover:text-green transition-colors"
+              className="p-2 text-text-medium hover:text-black transition-colors"
               aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
             >
@@ -88,12 +88,12 @@ const Header = () => {
             </button>
 
             {/* Panier */}
-            <Link to="/cart" className="relative p-2 text-text-medium hover:text-green transition-colors">
+            <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-green text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-black text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -115,7 +115,7 @@ const Header = () => {
                 </button>
 
                 {/* Dropdown utilisateur */}
-                <div className={`absolute right-0 mt-2 w-52 bg-background rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
+                <div className={`absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-neutral-light z-50 transition-all duration-200 origin-top-right ${
                   isUserMenuOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
                 }`}>
                   <div className="p-4 border-b border-neutral-light flex justify-center flex-col items-center">
@@ -159,13 +159,13 @@ const Header = () => {
               <div className="flex items-center space-x-6">
                 <Link
                   to="/login"
-                  className="text-text-medium hover:text-green font-bold text-sm md:text-base uppercase tracking-[0.15em] transition-colors"
+                  className="text-text-medium hover:text-black font-bold text-sm md:text-base uppercase tracking-[0.15em] transition-colors"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-text-dark hover:bg-green text-white px-6 py-3 text-sm md:text-base font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
+                  className="bg-text-dark hover:bg-black text-white px-6 py-3 text-sm md:text-base font-bold uppercase tracking-[0.15em] transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>
@@ -174,7 +174,7 @@ const Header = () => {
 
             {/* Menu Mobile Button */}
             <button
-              className="md:hidden p-2 text-text-medium hover:text-green transition-colors"
+              className="md:hidden p-2 text-text-medium hover:text-black transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,10 +186,10 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-2 bg-background border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
-            <Link to="/" className="block py-2.5 text-lg text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
-            <Link to="/shops" className="block py-2.5 text-lg text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
-            <Link to="/catalogue" className="block py-2.5 text-lg text-text-medium hover:text-green transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
+          <div className="md:hidden mt-2 bg-white border-t border-neutral-light shadow-lg rounded-b-lg p-4 animate-fade-in">
+            <Link to="/" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
+            <Link to="/shops" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Boutiques</Link>
+            <Link to="/catalogue" className="block py-2.5 text-lg text-text-medium hover:text-black transition-colors" onClick={() => setIsMenuOpen(false)}>Catalogue</Link>
           </div>
         )}
       </div>

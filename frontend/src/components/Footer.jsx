@@ -30,7 +30,7 @@ const Footer = () => {
                 <motion.a
                   key={i}
                   href="#"
-                  whileHover={{ y: -2, color: '#15803d' }}
+                  whileHover={{ y: -2, color: '#000000' }}
                   className="text-text-light transition-colors"
                 >
                   <Icon size={16} strokeWidth={1.5} />
@@ -44,7 +44,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {['Boutiques', 'Catalogue', 'Nouveautés'].map((item) => (
                 <li key={item}>
-                  <Link to={item === 'Boutiques' ? '/shops' : '/catalogue'} className="text-base text-text-light uppercase tracking-[0.2em] font-bold hover:text-green transition-colors">
+                  <Link to={item === 'Boutiques' ? '/shops' : '/catalogue'} className="text-base text-text-light uppercase tracking-[0.2em] font-bold hover:text-text-dark transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -63,7 +63,7 @@ const Footer = () => {
                       item === 'Accès Créateur' ? '/merchant/login' : 
                       '/coursier/login'
                     } 
-                    className="text-base text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-green transition-colors"
+                    className="text-base text-text-dark dark:text-white uppercase tracking-[0.2em] font-bold hover:text-text-dark transition-colors"
                   >
                     {item}
                   </Link>
@@ -79,7 +79,7 @@ const Footer = () => {
                 href="https://github.com/Buzz30Gotcho?tab=repositories" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block text-base text-text-medium uppercase tracking-widest font-bold hover:text-green transition-colors"
+                className="block text-base text-text-medium uppercase tracking-widest font-bold hover:text-text-dark transition-colors"
               >
                 Frédéric Sar
               </a>
@@ -93,8 +93,8 @@ const Footer = () => {
             © {new Date().getFullYear()} Dripswift International.
           </p>
           <div className="flex gap-8 text-[11px] md:text-[10px] text-text-light uppercase tracking-[0.4em] font-black">
-            <Link to="/privacy" className="hover:text-green transition-colors">Confidentialité</Link>
-            <Link to="/terms" className="hover:text-green transition-colors">Conditions</Link>
+            <Link to="/privacy" className="hover:text-text-dark transition-colors">Confidentialité</Link>
+            <Link to="/terms" className="hover:text-text-dark transition-colors">Conditions</Link>
           </div>
         </div>
       </div>

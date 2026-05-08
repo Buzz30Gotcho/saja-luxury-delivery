@@ -52,7 +52,7 @@ const ProductCatalogue = () => {
           <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-serif text-text-dark mb-8 tracking-tight">
             Le Catalogue
           </motion.h1>
-          <motion.div variants={fadeUp} className="w-16 h-[1px] bg-green mx-auto mb-8" />
+          <motion.div variants={fadeUp} className="w-16 h-[1px] bg-text-dark mx-auto mb-8" />
           <motion.p variants={fadeUp} custom={2} className="text-sm md:text-base uppercase tracking-[0.25em] text-text-medium max-w-xl mx-auto leading-relaxed font-medium">
             Une sélection rigoureuse de pièces d'exception issues des meilleures boutiques locales.
           </motion.p>
@@ -91,15 +91,15 @@ const ProductCatalogue = () => {
                     <p className="text-[10px] text-text-light uppercase tracking-[0.3em] font-black">
                       {product.category}
                     </p>
-                    <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-widest group-hover:text-green transition-colors duration-500">
+                    <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-widest group-hover:text-black transition-colors duration-500">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-3 pt-2 border-t border-transparent group-hover:border-slate-100 transition-colors">
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] text-text-medium tracking-[0.2em] font-bold">4.8 / 5.0</span>
                       </div>
-                      <span className="w-6 h-[1px] bg-border group-hover:bg-green transition-colors"></span>
-                      <span className="text-[10px] text-green uppercase font-black tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
+                      <span className="w-6 h-[1px] bg-border group-hover:bg-black transition-colors"></span>
+                      <span className="text-[10px] text-text-dark uppercase font-black tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
                         Voir
                       </span>
                     </div>

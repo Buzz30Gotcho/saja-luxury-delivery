@@ -40,7 +40,7 @@ const ShopCard = ({ shop }) => {
     'Ville partenaire';
 
   return (
-    <div className="bg-card group rounded-none border border-border/40 hover:border-green/30 transition-colors duration-200 h-full flex flex-col relative overflow-hidden">
+    <div className="bg-card group rounded-none border border-border/40 hover:border-black/30 transition-colors duration-200 h-full flex flex-col relative overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden bg-background">
         <img 
           src={image} 
@@ -60,7 +60,7 @@ const ShopCard = ({ shop }) => {
           <h3 className="text-lg md:text-xl font-serif text-text-dark tracking-tight">
             {name}
           </h3>
-          <div className="w-8 h-[1px] bg-green mt-3 group-hover:w-12 transition-[width] duration-200" />
+          <div className="w-8 h-[1px] bg-text-dark mt-3 group-hover:w-12 transition-[width] duration-200" />
         </div>
 
         {description && (
@@ -71,13 +71,13 @@ const ShopCard = ({ shop }) => {
 
         <div className="mt-auto pt-4 border-t border-border flex items-center justify-between">
           <div className="flex items-center gap-2 text-text-light">
-            <MapPin size={12} className="text-green" />
+            <MapPin size={12} className="text-text-dark" />
             <p className="text-[10px] md:text-xs font-bold uppercase tracking-wider truncate max-w-[140px]">{displayLocation}</p>
           </div>
 
           <Link 
             to={`/shop/${id}`} 
-            className="text-[10px] md:text-xs font-bold text-green uppercase tracking-[0.18em] border-b border-transparent hover:border-green transition-[color,border-color] duration-150 pb-1"
+            className="text-[10px] md:text-xs font-bold text-text-dark uppercase tracking-[0.18em] border-b border-transparent hover:border-black transition-[color,border-color] duration-150 pb-1"
           >
             Découvrir
           </Link>

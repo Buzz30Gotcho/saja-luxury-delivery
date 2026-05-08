@@ -58,22 +58,22 @@ const ProductCard = ({ product }) => {
 
         {/* Informations produit */}
         <div className="p-4">
-          <h4 className="font-semibold text-lg text-text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+          <h4 className="font-semibold text-lg text-text-dark mb-2 line-clamp-2 group-hover:text-black transition-colors">
             {product.name}
           </h4>
-          <p className="text-base md:text-lg mb-3 line-clamp-2 text-text-medium leading-relaxed">
+          <p className="text-base md:text-lg mb-3 line-clamp-2 text-text-medium leading-relaxed font-light italic">
             {product.description}
           </p>
           
           <div className="flex items-center justify-between">
-            <div className="text-xl font-bold text-primary">
+            <div className="text-xl font-bold text-text-dark">
               {product.price}€
             </div>
             
             {/* Badge livraison */}
-            <div className="flex items-center space-x-1 text-sm text-primary-dark bg-primary-light px-3 py-1 rounded-full font-bold">
+            <div className="flex items-center space-x-1 text-[10px] uppercase tracking-widest text-text-medium bg-neutral-100 px-3 py-1 rounded-none font-bold">
               <span>🚗</span>
-              <span>30min</span>
+              <span>Express</span>
             </div>
           </div>
 

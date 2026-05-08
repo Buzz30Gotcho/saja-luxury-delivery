@@ -147,11 +147,11 @@ const Home = () => {
         <div className="container mx-auto px-6 md:px-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="space-y-4">
-              <span className="text-sm md:text-base text-green uppercase tracking-[0.45em] font-black italic">La Sélection</span>
+              <span className="text-sm md:text-base text-text-dark uppercase tracking-[0.45em] font-black italic">La Sélection</span>
               <h2 className="text-3xl md:text-4xl font-serif text-text-dark tracking-tight">Maisons de Prestige</h2>
-              <div className="w-12 h-[1px] bg-green" />
+              <div className="w-12 h-[1px] bg-text-dark" />
             </div>
-            <Link to="/shops" className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-light hover:text-green transition-colors border-b border-border pb-1">
+            <Link to="/shops" className="text-sm md:text-base font-bold uppercase tracking-[0.18em] text-text-light hover:text-text-dark transition-colors border-b border-border pb-1">
               Voir toutes les maisons
             </Link>
           </div>
@@ -176,7 +176,7 @@ const Home = () => {
           <div className="text-center mb-16 space-y-4">
             <span className="text-sm md:text-base text-text-light uppercase tracking-[0.45em] font-bold">L'Art de Vivre</span>
             <h2 className="text-3xl md:text-4xl font-serif text-text-dark tracking-tight">Pièces Signatures</h2>
-            <div className="w-12 h-[1px] bg-green mx-auto" />
+            <div className="w-12 h-[1px] bg-text-dark mx-auto" />
           </div>
 
           {productsLoading ? (
@@ -197,7 +197,7 @@ const Home = () => {
                     </div>
                     <div className="space-y-1">
                       <p className="text-[10px] md:text-xs text-text-light uppercase tracking-[0.18em] font-medium">{product.category}</p>
-                      <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-wider group-hover:text-green transition-colors">{product.name}</h3>
+                      <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-wider group-hover:text-black transition-colors">{product.name}</h3>
                     </div>
                   </Link>
                 </motion.div>
@@ -228,7 +228,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-xs md:text-sm text-green uppercase tracking-[0.45em] font-black italic"
+              className="text-xs md:text-sm text-text-dark uppercase tracking-[0.45em] font-black italic"
             >
               Service Conciergerie
             </motion.span>
@@ -246,7 +246,7 @@ const Home = () => {
               whileInView={{ width: 48 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="h-[1px] bg-green mx-auto"
+              className="h-[1px] bg-text-dark mx-auto"
             />
             <motion.p 
               initial={{ opacity: 0 }}
@@ -292,12 +292,12 @@ const Home = () => {
                 key={service.title}
                 variants={fadeUp}
                 custom={i}
-                className="group relative bg-white p-6 border border-border hover:border-green transition-colors duration-200"
+                className="group relative bg-white p-6 border border-border hover:border-text-dark transition-colors duration-200"
               >
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-green/0 via-green to-green/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-text-dark/0 via-text-dark to-text-dark/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 
                 <div className="flex flex-col items-start space-y-4">
-                  <div className="text-green group-hover:scale-110 transition-transform duration-200">
+                  <div className="text-text-dark group-hover:scale-110 transition-transform duration-200">
                     {service.icon}
                   </div>
                   <div className="space-y-2">
@@ -351,13 +351,13 @@ const Home = () => {
           <div className="relative bg-stone-900 dark:bg-black min-h-[400px] flex items-center">
             <div className="absolute inset-0 opacity-20 dark:opacity-10">
               <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green/20 dark:bg-green/10 rounded-full blur-[100px]" />
+              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[100px]" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 w-full relative z-10">
               <div className="lg:col-span-3 p-10 md:p-20 space-y-8 text-left">
                 <div className="space-y-4">
-                  <span className="text-xs md:text-sm text-green uppercase tracking-[0.5em] font-black">Partenariat Privé</span>
+                  <span className="text-xs md:text-sm text-white/40 uppercase tracking-[0.5em] font-black">Partenariat Privé</span>
                   <h3 className="text-3xl md:text-4xl font-serif text-white leading-tight tracking-tight">
                     Votre Maison, <br />
                     <span className="italic font-light opacity-90 dark:opacity-80">notre écrin digital.</span>
@@ -366,7 +366,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-6 pt-4">
                   <Link to="/merchant/register" className="group relative px-10 py-4 bg-white dark:bg-zinc-900 text-black dark:text-white text-xs md:text-sm font-black uppercase tracking-[0.25em] overflow-hidden transition-colors duration-200 text-center">
                     <span className="relative z-10 text-black dark:text-white group-hover:text-white dark:group-hover:text-white transition-colors duration-200">Devenir Partenaire</span>
-                    <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </Link>
                   <Link to="/merchant/login" className="px-10 py-4 border border-white/20 dark:border-white/30 text-white text-xs md:text-sm font-black uppercase tracking-[0.25em] hover:bg-white dark:hover:bg-white hover:text-text-dark dark:hover:text-black transition-colors duration-200 text-center">
                     Espace Créateur
@@ -382,7 +382,7 @@ const Home = () => {
                   ].map((stat, i) => (
                     <motion.div key={stat.label} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 + (i * 0.1) }} className="space-y-1">
                       <div className="text-3xl font-serif text-white dark:text-text-dark">{stat.value}</div>
-                      <div className="text-[10px] md:text-xs text-green uppercase tracking-[0.3em] font-bold">{stat.label}</div>
+                      <div className="text-[10px] md:text-xs text-white/40 uppercase tracking-[0.3em] font-bold">{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>

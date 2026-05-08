@@ -18,7 +18,7 @@ export default function CartPage() {
           <p className="text-[11px] uppercase tracking-[0.2em] text-text-light">
             Découvrez nos pièces d'exception et commencez votre sélection.
           </p>
-          <Link to="/" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm">
+          <Link to="/" className="inline-block px-10 py-4 bg-text-dark text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all duration-500 shadow-sm">
             Explorer le catalogue
           </Link>
         </div>
@@ -42,7 +42,7 @@ export default function CartPage() {
                 </div>
                 
                 <div className="flex-1 min-w-0 space-y-2">
-                  <p className="text-[10px] text-green uppercase tracking-[0.2em] font-bold">{item.products.category || 'Édition Limitée'}</p>
+                  <p className="text-[10px] text-text-light uppercase tracking-[0.2em] font-bold">{item.products.category || 'Édition Limitée'}</p>
                   <h2 className="text-lg font-serif text-text-dark">{item.products.name}</h2>
                   <p className="text-[13px] text-text-medium font-light italic">Ref: {item.id.slice(0, 8)}</p>
                 </div>
@@ -51,7 +51,7 @@ export default function CartPage() {
                   <div className="flex items-center border border-border px-3 py-1">
                     <button
                       onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-                      className="w-6 h-6 text-text-light hover:text-green transition-colors"
+                      className="w-6 h-6 text-text-light hover:text-black transition-colors"
                       disabled={item.quantity <= 1}
                     >
                       -
@@ -59,7 +59,7 @@ export default function CartPage() {
                     <span className="w-8 text-center text-[11px] font-bold text-text-dark">{item.quantity}</span>
                     <button
                       onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
-                      className="w-6 h-6 text-text-light hover:text-green transition-colors"
+                      className="w-6 h-6 text-text-light hover:text-black transition-colors"
                     >
                       +
                     </button>
@@ -114,7 +114,7 @@ export default function CartPage() {
 
               <Link 
                 to="/checkout" 
-                className="block w-full py-5 bg-text-dark text-white text-center text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-green transition-all duration-500 shadow-sm"
+                className="block w-full py-5 bg-text-dark text-white text-center text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all duration-500 shadow-sm"
               >
                 Passer au paiement
               </Link>
