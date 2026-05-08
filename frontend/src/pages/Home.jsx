@@ -41,7 +41,7 @@ const Home = () => {
       <section className="relative min-h-[90vh] flex items-center bg-[#0a0a0a] overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green/10 blur-[120px] rounded-full animate-pulse" />
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full animate-pulse" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full" />
         </div>
 
@@ -60,7 +60,7 @@ const Home = () => {
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="inline-block text-green font-bold tracking-[0.5em] uppercase text-xs md:text-sm"
+                    className="inline-block text-white/40 font-bold tracking-[0.5em] uppercase text-xs md:text-sm"
                   >
                     L'Excellence à votre porte
                   </motion.span>
@@ -78,7 +78,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-6">
                   <Link to="/shops" className="group relative bg-white text-black px-10 py-5 text-sm font-bold uppercase tracking-widest overflow-hidden transition-all duration-300">
                     <span className="relative z-10">Explorer l'Excellence</span>
-                    <div className="absolute inset-0 bg-green translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-neutral-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </Link>
                   <Link to="/catalogue" className="px-10 py-5 text-sm font-bold uppercase tracking-widest border border-white/20 text-white hover:border-white transition-colors duration-300">
                     Voir le catalogue
@@ -100,7 +100,7 @@ const Home = () => {
                 <div className="absolute inset-0 border border-white/5 rounded-[40px] -rotate-3 -translate-x-4" />
                 
                 <div className="relative w-full h-full bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col items-center justify-center p-12">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-green" />
+                  <div className="absolute top-0 left-0 w-full h-2 bg-black" />
                   
                   <motion.img 
                     src="/dripswift.png" 
@@ -108,6 +108,20 @@ const Home = () => {
                     className="w-full h-auto mb-12"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  
+                  <div className="text-center space-y-4">
+                    <div className="h-[1px] w-12 bg-black/20 mx-auto" />
+                    <p className="font-serif italic text-2xl text-black">Édition Limitée</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-black/40 font-bold">Paris — 2024</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+          </div>
+        </div>
+      </section>
                   />
                   
                   <div className="text-center space-y-4">

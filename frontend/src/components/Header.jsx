@@ -50,7 +50,7 @@ const Header = () => {
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 drop-shadow-md dark:brightness-200 dark:contrast-150"
+              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500"
             />
           </Link>
 
