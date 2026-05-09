@@ -38,7 +38,7 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
       {/* New Reinvented Hero - Light Luxury Minimalism */}
-      <section className="relative min-h-[70vh] flex items-center bg-[#FDFCFB] overflow-hidden border-b border-neutral-light">
+      <section className="relative min-h-[80vh] flex items-center bg-[#FDFCFB] overflow-hidden border-b border-neutral-light pt-24 md:pt-0">
         {/* Abstract Background Elements - Subtle Warm Glows */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#F5F3EF] blur-[120px] rounded-full opacity-60" />
@@ -55,7 +55,7 @@ const Home = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                <div className="mb-8 overflow-hidden">
+                <div className="mb-10 overflow-hidden">
                   <motion.span 
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
@@ -66,9 +66,9 @@ const Home = () => {
                   </motion.span>
                 </div>
                 
-                <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-serif text-text-dark leading-[0.85] tracking-tighter mb-10">
-                  Drip <br />
-                  <span className="italic font-light text-[#A69F95]">Swift.</span>
+                <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-serif text-text-dark leading-[0.9] tracking-tighter mb-12">
+                  L'Élégance. <br />
+                  <span className="italic font-light text-[#A69F95]">Redéfinie.</span>
                 </h1>
                 
                 <p className="text-text-medium text-xl md:text-2xl max-w-xl mb-14 font-light leading-relaxed">

@@ -43,14 +43,14 @@ const Header = () => {
   return (
     <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24 md:h-28">
+        <div className="flex items-center justify-between h-20 md:h-28">
 
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 flex items-center group py-1 transition-all duration-300">
+          <Link to="/" className="flex-shrink flex items-center group py-1 transition-all duration-300 min-w-0">
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
+              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>
 
@@ -76,14 +76,14 @@ const Header = () => {
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-2 md:space-x-6">
+          <div className="flex items-center space-x-1.5 md:space-x-6 flex-shrink-0">
             {/* Panier */}
-            <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Link to="/cart" className="relative p-1.5 md:p-2 text-text-medium hover:text-black transition-colors">
+              <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-black text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-black text-white text-[10px] md:text-[12px] font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -148,16 +148,16 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-1.5 md:space-x-6">
+              <div className="flex items-center space-x-1.5 md:space-x-4">
                 <Link
                   to="/login"
-                  className="font-bold text-[10px] md:text-base uppercase tracking-wider md:tracking-[0.15em] transition-colors text-text-medium hover:text-black whitespace-nowrap"
+                  className="font-bold text-[11px] md:text-base uppercase tracking-tight md:tracking-[0.15em] transition-colors text-text-medium hover:text-black whitespace-nowrap"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-text-dark text-white hover:bg-black px-2 py-2 md:px-6 md:py-3 text-[10px] md:text-base font-bold uppercase tracking-wider md:tracking-[0.15em] transition-colors shadow-sm whitespace-nowrap"
+                  className="bg-text-dark text-white hover:bg-black px-2 py-1.5 md:px-6 md:py-3 text-[11px] md:text-base font-bold uppercase tracking-tight md:tracking-[0.15em] transition-colors shadow-sm whitespace-nowrap"
                 >
                   S'inscrire
                 </Link>
