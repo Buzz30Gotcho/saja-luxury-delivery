@@ -52,7 +52,7 @@ const Header = () => {
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-12 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen"
+              className="h-16 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen"
             />
           </Link>
 
@@ -163,13 +163,13 @@ const Header = () => {
               <div className="flex items-center space-x-2 md:space-x-6">
                 <Link
                   to="/login"
-                  className="font-bold text-[10px] md:text-base uppercase tracking-[0.1em] md:tracking-[0.15em] transition-colors text-text-medium hover:text-black"
+                  className="font-bold text-xs md:text-base uppercase tracking-wider md:tracking-[0.15em] transition-colors text-text-medium hover:text-black"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-text-dark text-white hover:bg-black px-2 py-2 md:px-6 md:py-3 text-[10px] md:text-base font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] transition-colors shadow-sm"
+                  className="bg-text-dark text-white hover:bg-black px-3 py-2 md:px-6 md:py-3 text-xs md:text-base font-bold uppercase tracking-wider md:tracking-[0.15em] transition-colors shadow-sm"
                 >
                   S'inscrire
                 </Link>
