@@ -18,35 +18,35 @@ const UserSidebar = ({ user, activeSection, setActiveSection }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 h-fit sticky top-10">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-10 h-fit sticky top-10">
       {/* En-tête profil */}
-      <div className="flex items-center space-x-6 mb-10">
+      <div className="flex items-center space-x-8 mb-12">
         <img
           src={getProfileImage()}
           alt="Profile"
-          className="w-16 h-16 rounded-full border-2 border-gray-200 object-cover"
+          className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-gray-50 object-cover shadow-sm"
         />
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-gray-900 text-lg truncate">
+          <h3 className="font-bold text-gray-900 text-xl md:text-2xl truncate">
             {user?.user_metadata?.full_name || user?.email?.split('@')[0]}
           </h3>
-          <p className="text-gray-500 text-sm truncate">{user?.email}</p>
+          <p className="text-gray-500 text-base truncate mt-1">{user?.email}</p>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="space-y-2">
+      <nav className="space-y-3">
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`flex items-center space-x-4 w-full p-4 rounded-xl transition-all duration-200 text-base ${
+            className={`flex items-center space-x-5 w-full p-5 rounded-2xl transition-all duration-200 text-lg ${
               activeSection === item.id
-                ? 'bg-purple-50 text-purple-700 font-bold shadow-sm'
+                ? 'bg-neutral-light text-black font-bold shadow-sm'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
-            <span className="text-2xl w-8 text-center">{item.icon}</span>
+            <span className="text-3xl w-10 text-center">{item.icon}</span>
             <span className="text-left flex-1">{item.label}</span>
           </button>
         ))}

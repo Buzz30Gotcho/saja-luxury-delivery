@@ -76,7 +76,7 @@ const Login = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-xl bg-white rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.02)] p-16 relative overflow-hidden border border-border"
+        className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl bg-white rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.02)] p-12 md:p-20 relative overflow-hidden border border-border"
       >
         {/* Subtle Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-black/5 to-transparent" />

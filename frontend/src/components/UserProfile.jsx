@@ -33,15 +33,15 @@ const UserProfile = ({ user }) => {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       {/* En-tête du profil */}
-      <div className="px-8 py-6 border-b border-gray-100 bg-gray-50/30">
+      <div className="px-10 py-8 border-b border-gray-100 bg-gray-50/30">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900">Informations personnelles</h2>
+          <h2 className="text-2xl font-bold text-gray-900 font-serif">Informations personnelles</h2>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+            className={`px-6 py-3 rounded-xl font-bold text-base transition-all ${
               isEditing 
                 ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' 
-                : 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'
+                : 'bg-black text-white hover:bg-neutral-800 shadow-sm'
             }`}
           >
             {isEditing ? 'Annuler' : 'Modifier'}
@@ -49,21 +49,21 @@ const UserProfile = ({ user }) => {
         </div>
       </div>
 
-      <div className="p-8">
-        <div className="flex flex-col md:flex-row items-start gap-8">
+      <div className="p-10">
+        <div className="flex flex-col md:flex-row items-start gap-12">
           {/* Photo de profil */}
           <div className="text-center">
             <img
               src={getProfileImage()}
               alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border-4 border-gray-50 shadow-sm"
+              className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-gray-50 shadow-md"
             />
           </div>
 
           {/* Informations */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
                 Prénom
               </label>
               {isEditing ? (
@@ -72,17 +72,17 @@ const UserProfile = ({ user }) => {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-lg font-medium text-gray-900">
+                <p className="text-2xl font-medium text-text-dark">
                   {formData.firstName || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div className="space-y-2">
+              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
                 Nom
               </label>
               {isEditing ? (
@@ -91,35 +91,35 @@ const UserProfile = ({ user }) => {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-lg font-medium text-gray-900">
+                <p className="text-2xl font-medium text-text-dark">
                   {formData.lastName || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div className="space-y-2">
+              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
                 Email
               </label>
               <div className="flex flex-col">
-                <p className="text-lg font-medium text-gray-900">
+                <p className="text-2xl font-medium text-text-dark">
                   {user?.email}
                 </p>
-                <p className="text-xs font-medium mt-1">
+                <p className="text-xs font-bold mt-2">
                   {user?.email_confirmed_at ? (
-                    <span className="text-green-600">✓ Confirmé</span>
+                    <span className="text-success uppercase tracking-widest">✓ Compte Vérifié</span>
                   ) : (
-                    <span className="text-danger">⚠ Non confirmé</span>
+                    <span className="text-danger uppercase tracking-widest">⚠ Email non confirmé</span>
                   )}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div className="space-y-2">
+              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
                 Téléphone
               </label>
               {isEditing ? (
@@ -128,17 +128,17 @@ const UserProfile = ({ user }) => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-lg font-medium text-gray-900">
+                <p className="text-2xl font-medium text-text-dark">
                   {formData.phone || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="md:col-span-2 space-y-1">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div className="md:col-span-2 space-y-2">
+              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
                 Adresse par défaut
               </label>
               {isEditing ? (
@@ -147,10 +147,10 @@ const UserProfile = ({ user }) => {
                   value={formData.address}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-lg font-medium text-gray-900 leading-relaxed">
+                <p className="text-2xl font-medium text-text-dark leading-relaxed">
                   {formData.address || 'Aucune adresse enregistrée'}
                 </p>
               )}
