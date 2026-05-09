@@ -17,6 +17,7 @@ const Login = () => {
   const location = useLocation();
   const { login } = useAuth();
   const redirectTo = typeof location.state?.from === 'string' ? location.state.from : '/';
+  const successMessage = location.state?.message;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,6 +103,13 @@ const Login = () => {
           </div>        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
+          {/* Message de succès après inscription */}
+          {successMessage && (
+            <div className="text-success text-base bg-success/5 p-4 rounded-sm border border-success/10 text-center font-bold uppercase tracking-wider">
+              {successMessage}
+            </div>
+          )}
+
           {/* Email */}
           <div className="space-y-3">
             <label className="block text-xl uppercase tracking-widest text-text-medium font-bold">Email</label>

@@ -114,11 +114,12 @@ const handleSubmit = async (e) => {
     );
     
     if (result.success) {
-      if (result.requiresEmailConfirmation) {
-        navigate('/login');
-      } else {
-        navigate('/');
-      }
+      // ✅ Redirection vers login avec un message de succès
+      navigate('/login', { 
+        state: { 
+          message: "Compte créé avec succès ! Vous pouvez maintenant vous connecter." 
+        } 
+      });
     } else {
       setErrors({ submit: result.error?.message || "Erreur lors de l'inscription" });
     }
