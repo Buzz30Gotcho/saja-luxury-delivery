@@ -3,12 +3,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import CartContext from "../context/CartContext";
 import { useDelivery } from "../context/DeliveryContext";
-import { useTheme } from "../hooks/useTheme";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const { cartCount } = useContext(CartContext);
   const navigate = useNavigate();
@@ -43,16 +41,16 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm transition-colors duration-500">
+    <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20 md:h-24">
 
           {/* Logo */}
           <Link to="/" className="flex items-center group py-1 transition-all duration-300">
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-16 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen"
+              className="h-20 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500"
             />
           </Link>
 
@@ -78,24 +76,14 @@ const Header = () => {
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-3 md:space-x-6">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="p-1.5 md:p-2 text-text-medium hover:text-black transition-colors"
-              aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
-              title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
-            >
-              <span className="text-xl md:text-2xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
-            </button>
-
+          <div className="flex items-center space-x-4 md:space-x-6">
             {/* Panier */}
-            <Link to="/cart" className="relative p-1.5 md:p-2 text-text-medium hover:text-black transition-colors">
-              <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-black text-white text-[10px] md:text-[12px] font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
+                <span className="absolute top-0 right-0 bg-black text-white text-[12px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -111,7 +99,7 @@ const Header = () => {
                   <img
                     src={getProfileImage()}
                     alt="Profile"
-                    className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-neutral-medium"
+                    className="w-10 h-10 rounded-full object-cover border border-neutral-medium"
                     onError={(e) => e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=random`}
                   />
                 </button>
@@ -160,7 +148,7 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-2 md:space-x-6">
+              <div className="flex items-center space-x-3 md:space-x-6">
                 <Link
                   to="/login"
                   className="font-bold text-xs md:text-base uppercase tracking-wider md:tracking-[0.15em] transition-colors text-text-medium hover:text-black"

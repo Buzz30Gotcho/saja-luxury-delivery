@@ -179,7 +179,7 @@ const RegisterMerchant = () => {
           className="mb-12 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto transition-all duration-500 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen" />
+            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto transition-all duration-500" />
           </motion.div>
           
           <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold">
