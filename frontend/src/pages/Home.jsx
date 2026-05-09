@@ -99,21 +99,24 @@ const Home = () => {
                 <div className="absolute inset-0 border border-neutral-light rounded-[40px] rotate-3 translate-x-4" />
                 <div className="absolute inset-0 border border-neutral-100 rounded-[40px] -rotate-3 -translate-x-4" />
                 
-                <div className="relative w-full h-full bg-white rounded-[40px] shadow-xl overflow-hidden flex flex-col items-center justify-center p-12">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-text-dark" />
+                <div className="relative w-full h-full bg-white rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col items-center justify-center p-12 border border-neutral-light">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neutral-200 to-transparent" />
                   
                   <motion.img 
                     src="/dripswift.png" 
                     alt="Logo Dripswift" 
-                    className="w-full h-auto mb-12"
+                    className="w-full h-auto mb-16"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   />
                   
-                  <div className="text-center space-y-4">
-                    <div className="h-[1px] w-12 bg-black/20 mx-auto" />
-                    <p className="font-serif italic text-2xl text-text-dark">Édition Limitée</p>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-text-light font-bold">Paris — 2024</p>
+                  <div className="text-center space-y-6">
+                    <div className="h-[1px] w-16 bg-neutral-light mx-auto" />
+                    <div className="space-y-2">
+                      <p className="font-serif italic text-3xl text-text-dark tracking-wide">Édition Limitée</p>
+                      <p className="text-[11px] uppercase tracking-[0.4em] text-text-light font-black">Collection Privée 2024</p>
+                    </div>
+                    <div className="h-[1px] w-16 bg-neutral-light mx-auto" />
                   </div>
                 </div>
               </motion.div>
