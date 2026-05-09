@@ -373,37 +373,37 @@ export default function CoursierDashboard() {
             </h3>
 
             {!activeMission ? (
-              <div className="bg-white border-4 border-dashed border-slate-200 rounded-[3rem] p-20 text-center space-y-6">
-                <div className="bg-slate-50 w-32 h-32 rounded-full flex items-center justify-center mx-auto border-2 border-slate-100 shadow-inner">
-                  <Truck size={48} className="text-slate-300" />
+              <div className="bg-white border-4 border-dashed border-slate-200 rounded-[2rem] md:rounded-[3rem] p-10 md:p-20 text-center space-y-6">
+                <div className="bg-slate-50 w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center mx-auto border-2 border-slate-100 shadow-inner">
+                  <Truck size={36} className="md:w-12 md:h-12 text-slate-300" />
                 </div>
                 <div className="max-w-md mx-auto">
-                  <p className="text-2xl font-bold text-slate-900">En attente de commande</p>
-                  <p className="text-lg text-slate-500 mt-2 font-medium">Les nouvelles missions apparaîtront dans la colonne de droite.</p>
+                  <p className="text-xl md:text-2xl font-bold text-slate-900">En attente de commande</p>
+                  <p className="text-base md:text-lg text-slate-500 mt-2 font-medium">Les nouvelles missions apparaîtront dans la colonne de droite.</p>
                 </div>
               </div>
             ) : (
               <motion.div 
                 layoutId="active-mission"
-                className="bg-white rounded-[3rem] border border-blue-100 shadow-2xl shadow-blue-500/10 overflow-hidden"
+                className="bg-white rounded-[2rem] md:rounded-[3rem] border border-blue-100 shadow-2xl shadow-blue-500/10 overflow-hidden"
               >
-                <div className="bg-blue-600 p-10 text-white">
-                  <div className="flex justify-between items-center">
+                <div className="bg-blue-600 p-6 md:p-10 text-white">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                      <span className="text-blue-100 text-sm font-black uppercase tracking-[0.3em]">Code Mission</span>
-                      <h4 className="text-4xl font-black mt-2 tracking-tight">#{activeMission.order_id.slice(0, 8).toUpperCase()}</h4>
+                      <span className="text-blue-100 text-[10px] md:text-sm font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Code Mission</span>
+                      <h4 className="text-2xl md:text-4xl font-black mt-1 md:mt-2 tracking-tight">#{activeMission.order_id.slice(0, 8).toUpperCase()}</h4>
                     </div>
-                    <div className="bg-white/20 px-6 py-2 rounded-2xl text-sm font-black backdrop-blur-md border border-white/30 uppercase tracking-widest">
+                    <div className="bg-white/20 px-4 md:px-6 py-1.5 md:py-2 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black backdrop-blur-md border border-white/30 uppercase tracking-widest">
                       {STATUS_LABELS[activeMission.status]}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-12 space-y-12">
+                <div className="p-6 md:p-12 space-y-8 md:space-y-12">
                   {/* Timeline de livraison */}
-                  <div className="relative flex justify-between px-4">
-                    <div className="absolute top-8 left-0 w-full h-1 bg-slate-100 -z-0 rounded-full" />
-                    <div className="absolute top-8 left-0 h-1 bg-blue-500 transition-all duration-700 -z-0 rounded-full" 
+                  <div className="relative flex justify-between px-2 md:px-4">
+                    <div className="absolute top-6 md:top-8 left-0 w-full h-1 bg-slate-100 -z-0 rounded-full" />
+                    <div className="absolute top-6 md:top-8 left-0 h-1 bg-blue-500 transition-all duration-700 -z-0 rounded-full" 
                          style={{ width: activeMission.status === 'delivered' ? '100%' : activeMission.status === 'on_the_way' ? '66%' : activeMission.status === 'picked_up' ? '33%' : '0%' }} 
                     />
                     
@@ -418,34 +418,34 @@ export default function CoursierDashboard() {
                                     (idx === 1 && (activeMission.status === 'on_the_way' || activeMission.status === 'delivered')) ||
                                     (idx === 2 && activeMission.status === 'delivered');
                       return (
-                        <div key={idx} className="relative z-10 flex flex-col items-center gap-4">
-                          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg ${isDone ? 'bg-blue-600 text-white scale-110' : 'bg-white border-4 border-slate-50 text-slate-300'}`}>
-                            <step.i size={28} />
+                        <div key={idx} className="relative z-10 flex flex-col items-center gap-2 md:gap-4">
+                          <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg ${isDone ? 'bg-blue-600 text-white scale-110' : 'bg-white border-[3px] md:border-4 border-slate-50 text-slate-300'}`}>
+                            <step.i className="w-5 h-5 md:w-7 md:h-7" />
                           </div>
-                          <span className={`text-xs font-black uppercase tracking-widest ${isDone ? 'text-blue-600' : 'text-slate-400'}`}>{step.t}</span>
+                          <span className={`text-[8px] md:text-xs font-black uppercase tracking-[0.1em] md:tracking-widest text-center ${isDone ? 'text-blue-600' : 'text-slate-400'}`}>{step.t}</span>
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-12 pt-6">
-                    <div className="bg-slate-50/50 p-8 rounded-[2rem] border border-slate-100 space-y-6">
-                      <div className="flex items-start gap-4">
-                        <div className="bg-white p-4 rounded-2xl shadow-sm text-slate-500 border border-slate-100"><MapPin size={28} /></div>
+                  <div className="grid md:grid-cols-2 gap-6 md:gap-12 pt-6">
+                    <div className="bg-slate-50/50 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 space-y-4 md:space-y-6">
+                      <div className="flex items-start gap-3 md:gap-4">
+                        <div className="bg-white p-3 md:p-4 rounded-xl md:rounded-2xl shadow-sm text-slate-500 border border-slate-100"><MapPin size={24} className="md:w-7 md:h-7" /></div>
                         <div>
-                          <p className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Expéditeur</p>
-                          <p className="text-2xl font-bold text-slate-900 mt-2">{activeMission?.orders?.shop?.name || 'Boutique'}</p>
-                          <p className="text-lg text-slate-600 mt-2 leading-relaxed">{activeMission?.orders?.shop?.address}</p>
+                          <p className="text-[10px] md:text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Expéditeur</p>
+                          <p className="text-xl md:text-2xl font-bold text-slate-900 mt-1 md:mt-2">{activeMission?.orders?.shop?.name || 'Boutique'}</p>
+                          <p className="text-sm md:text-lg text-slate-600 mt-1 md:mt-2 leading-relaxed">{activeMission?.orders?.shop?.address}</p>
                         </div>
                       </div>
                     </div>
-                    <div className="bg-blue-50/30 p-8 rounded-[2rem] border border-blue-100/50 space-y-6">
-                      <div className="flex items-start gap-4">
-                        <div className="bg-white p-4 rounded-2xl shadow-sm text-blue-600 border border-blue-100"><Navigation size={28} /></div>
+                    <div className="bg-blue-50/30 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-blue-100/50 space-y-4 md:space-y-6">
+                      <div className="flex items-start gap-3 md:gap-4">
+                        <div className="bg-white p-3 md:p-4 rounded-xl md:rounded-2xl shadow-sm text-blue-600 border border-blue-100"><Navigation size={24} className="md:w-7 md:h-7" /></div>
                         <div>
-                          <p className="text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Destinataire</p>
-                          <p className="text-2xl font-bold text-slate-900 mt-2">{activeMission?.orders?.customer_name || 'Client'}</p>
-                          <p className="text-lg text-slate-600 mt-2 leading-relaxed">{activeMission?.orders?.delivery_address}</p>
+                          <p className="text-[10px] md:text-sm font-black text-slate-400 uppercase tracking-[0.2em]">Destinataire</p>
+                          <p className="text-xl md:text-2xl font-bold text-slate-900 mt-1 md:mt-2">{activeMission?.orders?.customer_name || 'Client'}</p>
+                          <p className="text-sm md:text-lg text-slate-600 mt-1 md:mt-2 leading-relaxed">{activeMission?.orders?.delivery_address}</p>
                         </div>
                       </div>
                     </div>
@@ -455,10 +455,10 @@ export default function CoursierDashboard() {
                     <>
                       <button
                         onClick={moveToNextStatus}
-                        className="w-full py-8 bg-slate-900 text-white rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 hover:bg-blue-600 transition-all shadow-2xl shadow-slate-300 active:scale-[0.98] uppercase tracking-[0.2em]"
+                        className="w-full py-6 md:py-8 bg-slate-900 text-white rounded-[1.5rem] md:rounded-[2rem] font-black text-lg md:text-xl flex items-center justify-center gap-3 md:gap-4 hover:bg-blue-600 transition-all shadow-xl md:shadow-2xl shadow-slate-300 active:scale-[0.98] uppercase tracking-[0.15em] md:tracking-[0.2em]"
                       >
                         Valider : {STATUS_LABELS[NEXT_STATUS[activeMission.status]]}
-                        <ChevronRight size={28} />
+                        <ChevronRight size={24} className="md:w-7 md:h-7" />
                       </button>
 
                       <AnimatePresence>
@@ -471,28 +471,28 @@ export default function CoursierDashboard() {
                             <motion.div
                               initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-white rounded-[3rem] shadow-2xl max-w-xl w-full overflow-hidden"
+                              className="bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl max-w-xl w-[95%] sm:w-full overflow-hidden"
                             >
-                              <div className="bg-emerald-600 p-10 text-white">
-                                <h3 className="text-3xl font-black uppercase tracking-tight">Confirmer la livraison</h3>
-                                <p className="text-emerald-100 text-lg mt-2 font-medium">Vérifiez l'identité du client.</p>
+                              <div className="bg-emerald-600 p-6 md:p-10 text-white">
+                                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Confirmer la livraison</h3>
+                                <p className="text-emerald-100 text-base md:text-lg mt-2 font-medium">Vérifiez l'identité du client.</p>
                               </div>
-                              <div className="p-10 space-y-8">
-                                <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Référence</p>
-                                  <p className="text-4xl font-black text-slate-900 mt-3 font-mono">#{activeMission?.order_id?.slice(0, 8).toUpperCase()}</p>
+                              <div className="p-6 md:p-10 space-y-6 md:space-y-8">
+                                <div className="bg-slate-50 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-slate-100">
+                                  <p className="text-slate-400 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Référence</p>
+                                  <p className="text-2xl md:text-4xl font-black text-slate-900 mt-2 md:mt-3 font-mono">#{activeMission?.order_id?.slice(0, 8).toUpperCase()}</p>
                                 </div>
-                                <div className="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
-                                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Destinataire</p>
-                                  <p className="text-2xl font-bold text-slate-900 mt-3 flex items-center gap-3">
+                                <div className="bg-blue-50/50 p-4 md:p-6 rounded-2xl md:rounded-3xl border border-blue-100">
+                                  <p className="text-slate-400 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Destinataire</p>
+                                  <p className="text-xl md:text-2xl font-bold text-slate-900 mt-2 md:mt-3 flex items-center gap-3">
                                     👤 {activeMission?.orders?.customer_name || 'Client'}
                                   </p>
                                 </div>
                               </div>
-                              <div className="p-8 bg-slate-50/50 border-t border-slate-100 flex gap-4">
-                                <button onClick={() => setShowConfirmDelivery(false)} className="flex-1 py-4 rounded-2xl font-bold text-lg text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-all">Annuler</button>
-                                <button onClick={confirmDelivery} className="flex-1 py-4 rounded-2xl font-black text-lg text-white bg-emerald-600 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20">
-                                  <CheckCircle size={24} /> CONFIRMER
+                              <div className="p-6 md:p-8 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row gap-3 md:gap-4">
+                                <button onClick={() => setShowConfirmDelivery(false)} className="flex-1 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-base md:text-lg text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition-all order-2 sm:order-1">Annuler</button>
+                                <button onClick={confirmDelivery} className="flex-1 py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-base md:text-lg text-white bg-emerald-600 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20 order-1 sm:order-2">
+                                  <CheckCircle size={20} className="md:w-6 md:h-6" /> CONFIRMER
                                 </button>
                               </div>
                             </motion.div>
@@ -524,16 +524,16 @@ export default function CoursierDashboard() {
                 <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-10 text-center"><p className="text-slate-400 font-bold text-lg italic">Calme plat sur le secteur...</p></div>
               ) : (
                 availableMissions.map((mission) => (
-                  <motion.div key={mission.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-md hover:shadow-2xl transition-all group relative overflow-hidden">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border border-emerald-100">Mission</div>
-                      <span className="text-2xl font-black text-slate-900">{Number(mission?.orders?.total_amount || 0).toFixed(2)} €</span>
+                  <motion.div key={mission.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 shadow-md hover:shadow-2xl transition-all group relative overflow-hidden">
+                    <div className="flex justify-between items-start mb-4 md:mb-6">
+                      <div className="bg-emerald-50 text-emerald-600 px-3 md:py-1.5 md:px-4 py-1 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest border border-emerald-100">Mission</div>
+                      <span className="text-xl md:text-2xl font-black text-slate-900">{Number(mission?.orders?.total_amount || 0).toFixed(2)} €</span>
                     </div>
-                    <div className="space-y-4 mb-8">
-                      <p className="text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">De :</span> {mission?.orders?.shop?.name}</p>
-                      <p className="text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">À :</span> {mission?.orders?.delivery_city}</p>
+                    <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                      <p className="text-base md:text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">De :</span> {mission?.orders?.shop?.name}</p>
+                      <p className="text-base md:text-lg text-slate-700 font-medium"><span className="font-black text-slate-900 uppercase">À :</span> {mission?.orders?.delivery_city}</p>
                     </div>
-                    <button onClick={() => acceptMission(mission)} disabled={!!activeMission || !isAvailable} className={`w-full py-4 rounded-2xl font-black text-base transition-all flex items-center justify-center gap-3 ${activeMission || !isAvailable ? 'bg-slate-50 text-slate-300' : 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20'}`}>ACCEPTER <ChevronRight size={20} /></button>
+                    <button onClick={() => acceptMission(mission)} disabled={!!activeMission || !isAvailable} className={`w-full py-3 md:py-4 rounded-xl md:rounded-2xl font-black text-sm md:text-base transition-all flex items-center justify-center gap-3 ${activeMission || !isAvailable ? 'bg-slate-50 text-slate-300' : 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20'}`}>ACCEPTER <ChevronRight size={18} className="md:w-5 md:h-5" /></button>
                   </motion.div>
                 ))
               )}

@@ -159,18 +159,18 @@ const UserProfile = ({ user }) => {
         </div>
 
         {isEditing && (
-          <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-100">
+          <div className="flex justify-end space-x-4 mt-8 pt-8 border-t border-gray-100">
             <button
               onClick={() => setIsEditing(false)}
-              className="px-4 py-2 text-sm font-semibold text-gray-500 hover:text-gray-700 transition-colors"
+              className="px-8 py-3 rounded-xl font-bold text-base text-gray-500 bg-gray-50 hover:bg-gray-100 transition-all"
             >
               Annuler
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 bg-green text-white rounded-lg font-bold text-sm hover:bg-green-dark transition-all shadow-sm"
+              className="px-8 py-3 bg-black text-white rounded-xl font-bold text-base hover:bg-neutral-800 transition-all shadow-md active:scale-95"
             >
-              Enregistrer
+              Enregistrer les modifications
             </button>
           </div>
         )}
