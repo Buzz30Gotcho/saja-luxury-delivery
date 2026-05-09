@@ -285,73 +285,73 @@ export default function CoursierDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24">
+    <div className="min-h-screen bg-[#F8FAFC] pb-24 overflow-x-hidden">
       {/* Header Statut */}
       <div className="bg-white border-b sticky top-0 z-20 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className={`w-4 h-4 rounded-full animate-pulse ${presenceMeta.dot}`} />
-            <h1 className="text-2xl font-black text-slate-800 tracking-tight uppercase">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 self-start sm:self-center">
+            <div className={`w-3 h-3 md:w-4 md:h-4 rounded-full animate-pulse ${presenceMeta.dot}`} />
+            <h1 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight uppercase">
               {presenceMeta.label}
             </h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 w-full sm:w-auto">
             <button
               onClick={() => { if (!presenceMeta.actionDisabled) persistAvailability(!isAvailable); }}
               disabled={presenceMeta.actionDisabled}
-              className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-base transition-all shadow-sm ${
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-sm md:text-base transition-all shadow-sm ${
                 presenceMeta.actionDisabled
                   ? 'bg-amber-50 text-amber-700 cursor-not-allowed opacity-75'
                   : isAvailable
-                    ? 'bg-red-50 text-red-600 hover:bg-red-100 hover:shadow-md'
-                    : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:shadow-md'
+                    ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                    : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
               }`}
             >
-              <Power size={20} />
-              {presenceMeta.actionLabel}
+              <Power size={18} />
+              <span className="whitespace-nowrap">{presenceMeta.actionLabel}</span>
             </button>
             <button
               onClick={async () => { await logout(); }}
-              className="flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-base bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all hover:shadow-md"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-sm md:text-base bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all"
             >
-              <Power size={20} />
-              Déconnexion
+              <Power size={18} />
+              <span className="whitespace-nowrap">Sortir</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-8 md:space-y-12">
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h2 className="text-5xl font-serif text-slate-900 leading-tight">Bonjour, <span className="text-blue-600 font-bold italic">{userName}</span> 👋</h2>
-            <p className="text-xl text-slate-500 mt-2 font-medium">Votre centre de contrôle logistique est prêt.</p>
+            <h2 className="text-3xl md:text-5xl font-serif text-slate-900 leading-tight">Bonjour, <br className="md:hidden"/><span className="text-blue-600 font-bold italic">{userName}</span> 👋</h2>
+            <p className="text-base md:text-xl text-slate-500 mt-2 font-medium">Votre centre logistique est prêt.</p>
           </div>
           <button 
             onClick={loadAvailable}
-            className="flex items-center justify-center gap-3 bg-white border border-slate-200 px-8 py-4 rounded-2xl text-slate-700 font-bold text-lg hover:bg-slate-50 transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="flex items-center justify-center gap-3 bg-white border border-slate-200 px-6 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl text-slate-700 font-bold text-base md:text-lg hover:bg-slate-50 transition-all shadow-md active:scale-95 w-full md:w-auto"
           >
-            <Clock size={24} className="text-blue-500" />
-            Rafraîchir les missions
+            <Clock size={20} className="text-blue-500" />
+            Actualiser
           </button>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {statsArray.map((stat, i) => (
             <motion.div 
               key={i}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300"
+              className="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-slate-100 shadow-sm"
             >
-              <div className={`${stat.bg} ${stat.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6`}>
-                <stat.icon size={32} />
+              <div className={`${stat.bg} ${stat.color} w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6`}>
+                <stat.icon size={20} className="md:w-8 md:h-8" />
               </div>
-              <p className="text-slate-400 text-sm font-black uppercase tracking-[0.2em]">{stat.label}</p>
-              <p className="text-4xl font-black text-slate-900 mt-2 tracking-tight">{stat.value}</p>
+              <p className="text-slate-400 text-[10px] md:text-sm font-black uppercase tracking-[0.15em] md:tracking-[0.2em]">{stat.label}</p>
+              <p className="text-xl md:text-4xl font-black text-slate-900 mt-1 md:mt-2 tracking-tight">{stat.value}</p>
             </motion.div>
           ))}
         </div>

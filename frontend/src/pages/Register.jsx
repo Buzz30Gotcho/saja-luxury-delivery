@@ -114,10 +114,10 @@ const handleSubmit = async (e) => {
     );
     
     if (result.success) {
-      // ✅ Redirection vers login avec un message de succès
+      // ✅ Redirection immédiate vers login
       navigate('/login', { 
         state: { 
-          message: "Compte créé avec succès ! Vous pouvez maintenant vous connecter." 
+          registrationSuccess: true 
         } 
       });
     } else {

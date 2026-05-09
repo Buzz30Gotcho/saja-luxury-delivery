@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
@@ -17,7 +17,15 @@ const Login = () => {
   const location = useLocation();
   const { login } = useAuth();
   const redirectTo = typeof location.state?.from === 'string' ? location.state.from : '/';
-  const successMessage = location.state?.message;
+  const [tempMessage, setTempMessage] = useState(location.state?.registrationSuccess ? "Compte créé avec succès !" : "");
+
+  // Effacer le message après 4 secondes
+  React.useEffect(() => {
+    if (tempMessage) {
+      const timer = setTimeout(() => setTempMessage(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [tempMessage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,12 +111,19 @@ const Login = () => {
           </div>        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
-          {/* Message de succès après inscription */}
-          {successMessage && (
-            <div className="text-success text-base bg-success/5 p-4 rounded-sm border border-success/10 text-center font-bold uppercase tracking-wider">
-              {successMessage}
-            </div>
-          )}
+          {/* Message de succès temporaire */}
+          <AnimatePresence>
+            {tempMessage && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                className="text-success text-base bg-success/5 p-4 rounded-sm border border-success/10 text-center font-bold uppercase tracking-wider"
+              >
+                {tempMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Email */}
           <div className="space-y-3">

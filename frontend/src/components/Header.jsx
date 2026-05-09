@@ -136,6 +136,16 @@ const Header = () => {
                       </Link>
                     )}
 
+                    {getUserRole() === 'delivery_person' && (
+                      <Link
+                        to="/coursier/dashboard"
+                        className="flex items-center space-x-3 px-4 py-3 text-text-medium hover:bg-neutral-light rounded-lg text-sm md:text-base transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <span className="text-xl">🚴</span> <span className="font-medium">Dashboard Coursier</span>
+                      </Link>
+                    )}
+
                     <div className="my-1 border-t border-neutral-light/50"></div>
 
                     <button
