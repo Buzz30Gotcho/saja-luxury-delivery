@@ -22,7 +22,7 @@ const Footer = () => {
             </Link>
             <div className="space-y-3">
               <p className="text-sm md:text-lg text-text-medium font-medium italic leading-relaxed">
-                "L'élégance n'est pas de se faire remarquer, <br />mais de se faire remarquer."
+                "L'élégance n'est pas de se faire remarquer, <br />mais d'être mémorable."
               </p>
             </div>
             <div className="flex gap-4">

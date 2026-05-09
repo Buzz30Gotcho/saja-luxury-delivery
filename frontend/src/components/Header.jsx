@@ -43,14 +43,14 @@ const Header = () => {
   return (
     <header className="bg-white border-b border-neutral-light sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div className="flex items-center justify-between h-24 md:h-28">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center group py-1 transition-all duration-300">
+          <Link to="/" className="flex-shrink-0 flex items-center group py-1 transition-all duration-300">
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-24 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
+              className="h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>
 
@@ -76,7 +76,7 @@ const Header = () => {
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-4 md:space-x-6">
+          <div className="flex items-center space-x-2 md:space-x-6">
             {/* Panier */}
             <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,16 +148,16 @@ const Header = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-3 md:space-x-6">
+              <div className="flex items-center space-x-1.5 md:space-x-6">
                 <Link
                   to="/login"
-                  className="font-bold text-xs md:text-base uppercase tracking-wider md:tracking-[0.15em] transition-colors text-text-medium hover:text-black"
+                  className="font-bold text-[10px] md:text-base uppercase tracking-wider md:tracking-[0.15em] transition-colors text-text-medium hover:text-black whitespace-nowrap"
                 >
                   Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-text-dark text-white hover:bg-black px-3 py-2 md:px-6 md:py-3 text-xs md:text-base font-bold uppercase tracking-wider md:tracking-[0.15em] transition-colors shadow-sm"
+                  className="bg-text-dark text-white hover:bg-black px-2 py-2 md:px-6 md:py-3 text-[10px] md:text-base font-bold uppercase tracking-wider md:tracking-[0.15em] transition-colors shadow-sm whitespace-nowrap"
                 >
                   S'inscrire
                 </Link>
