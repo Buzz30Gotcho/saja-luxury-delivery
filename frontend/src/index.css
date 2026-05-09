@@ -4,8 +4,8 @@
 
 :root {
   color-scheme: light;
-  --background: 250 250 249;
-  /* Sophisticated off-white/bone */
+  --background: 253 252 251; /* #FDFCFB */
+  /* Sophisticated cream/off-white */
   --card: 255 255 255;
   --border: 231 231 229;
   --muted: 245 245 244;
