@@ -17,7 +17,7 @@ const Footer = () => {
               <img 
                 src="/dripswift.png" 
                 alt="Dripswift" 
-                className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 dark:brightness-200" 
+                className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen" 
               />
             </Link>
             <div className="space-y-3">

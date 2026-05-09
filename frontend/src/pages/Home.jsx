@@ -105,7 +105,7 @@ const Home = () => {
                   <motion.img 
                     src="/dripswift.png" 
                     alt="Logo Dripswift" 
-                    className="w-full h-auto mb-12 mix-blend-multiply"
+                    className="w-full h-auto mb-12 mix-blend-multiply brightness-[1.02] contrast-[1.02] dark:invert dark:mix-blend-screen"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   />
