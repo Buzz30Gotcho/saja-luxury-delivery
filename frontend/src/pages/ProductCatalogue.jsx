@@ -88,7 +88,7 @@ const ProductCatalogue = () => {
                   </div>
                   
                   <div className="space-y-2 px-1">
-                    <p className="text-[10px] text-text-light uppercase tracking-[0.3em] font-black">
+                    <p className="text-xs text-text-light uppercase tracking-[0.3em] font-black">
                       {product.category}
                     </p>
                     <h3 className="text-sm md:text-base font-bold text-text-dark uppercase tracking-widest group-hover:text-black transition-colors duration-500">
@@ -96,10 +96,10 @@ const ProductCatalogue = () => {
                     </h3>
                     <div className="flex items-center gap-3 pt-2 border-t border-transparent group-hover:border-slate-100 transition-colors">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-text-medium tracking-[0.2em] font-bold">4.8 / 5.0</span>
+                        <span className="text-xs text-text-medium tracking-[0.2em] font-bold">4.8 / 5.0</span>
                       </div>
                       <span className="w-6 h-[1px] bg-border group-hover:bg-black transition-colors"></span>
-                      <span className="text-[10px] text-text-dark uppercase font-black tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
+                      <span className="text-xs text-text-dark uppercase font-black tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
                         Voir
                       </span>
                     </div>

@@ -169,28 +169,28 @@ const ShopDetail = () => {
       </motion.div>
 
       {/* Controls bar */}
-      <div className="bg-white border-y border-border sticky top-0 z-40 mb-16">
-        <div className="container mx-auto px-6 md:px-12 py-6">
-          <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
-            <div className="flex items-center gap-12 w-full lg:w-auto">
-              <div className="relative group min-w-[240px]">
-                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-text-dark transition-colors" size={14} />
+      <div className="bg-white border-y border-border sticky top-0 z-40 mb-16 shadow-sm">
+        <div className="container mx-auto px-6 md:px-12 py-8">
+          <div className="flex flex-col lg:flex-row gap-10 items-center justify-between">
+            <div className="flex items-center gap-16 w-full lg:w-auto">
+              <div className="relative group min-w-[300px]">
+                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-text-dark transition-colors" size={18} />
                 <input
                   type="text"
                   placeholder="RECHERCHER..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-6 py-2 bg-transparent border-b border-transparent focus:border-text-dark text-[10px] uppercase tracking-[0.2em] focus:outline-none transition-all"
+                  className="w-full pl-8 py-3 bg-transparent border-b border-transparent focus:border-text-dark text-sm uppercase tracking-[0.25em] focus:outline-none transition-all placeholder:text-text-light/50"
                 />
               </div>
               
-              <div className="hidden md:flex gap-8">
+              <div className="hidden md:flex gap-10">
                 {['all', 'homme', 'femme'].map(g => (
                   <button
                     key={g}
                     onClick={() => setGenderFilter(g)}
-                    className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-all ${
-                      genderFilter === g ? 'text-text-dark border-b border-text-dark' : 'text-text-light hover:text-text-dark'
+                    className={`text-sm uppercase tracking-[0.2em] font-bold transition-all pb-1 ${
+                      genderFilter === g ? 'text-text-dark border-b-2 border-text-dark' : 'text-text-light hover:text-text-dark'
                     }`}
                   >
                     {g === 'all' ? 'Univers' : g}
@@ -199,32 +199,36 @@ const ShopDetail = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-8 w-full lg:w-auto justify-between lg:justify-end">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-transparent text-[10px] font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category === 'all' ? 'Catégories' : category}
-                  </option>
-                ))}
-              </select>
+            <div className="flex items-center gap-12 w-full lg:w-auto justify-between lg:justify-end">
+              <div className="relative">
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="bg-transparent text-sm font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer pr-4 appearance-none"
+                >
+                  {categories.map(category => (
+                    <option key={category} value={category}>
+                      {category === 'all' ? 'Catégories' : category}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-[10px] font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer"
-              >
-                <option value="popular">Populaires</option>
-                <option value="price-low">Prix Croissant</option>
-                <option value="price-high">Prix Décroissant</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-transparent text-sm font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer appearance-none"
+                >
+                  <option value="popular">Populaires</option>
+                  <option value="price-low">Prix Croissant</option>
+                  <option value="price-high">Prix Décroissant</option>
+                </select>
+              </div>
 
-              <div className="flex gap-4">
-                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-text-dark' : 'text-text-light'}`}><Grid size={18} /></button>
-                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-text-dark' : 'text-text-light'}`}><List size={18} /></button>
+              <div className="flex gap-6 border-l border-border pl-12">
+                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><Grid size={22} /></button>
+                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><List size={22} /></button>
               </div>
             </div>
           </div>
@@ -310,8 +314,8 @@ const ProductCard = ({ product, index, isFavorite, onToggleFavorite, onAddToCart
     </div>
 
     <div className="space-y-1 text-center lg:text-left">
-      <p className="text-[9px] text-text-light uppercase tracking-[0.2em] font-medium">{product.category}</p>
-      <h3 className="text-[12px] font-bold text-text-dark uppercase tracking-wider group-hover:text-black transition-colors">{product.name}</h3>
+      <p className="text-xs text-text-light uppercase tracking-[0.2em] font-medium">{product.category}</p>
+      <h3 className="text-sm font-bold text-text-dark uppercase tracking-wider group-hover:text-black transition-colors">{product.name}</h3>
     </div>
   </motion.div>
 );
@@ -331,7 +335,7 @@ const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart,
     <div className="flex-1 flex flex-col justify-center">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <p className="text-[10px] text-text-light uppercase tracking-[0.3em] font-bold mb-2">{product.category}</p>
+          <p className="text-xs text-text-light uppercase tracking-[0.3em] font-bold mb-2">{product.category}</p>
           <h3 className="text-2xl font-serif text-text-dark mb-4">{product.name}</h3>
           <p className="text-[13px] text-text-medium leading-relaxed font-light line-clamp-2 max-w-xl italic">{product.description}</p>
         </div>
@@ -349,7 +353,7 @@ const ProductRow = ({ product, index, isFavorite, onToggleFavorite, onAddToCart,
       </div>
       <div className="flex items-center gap-2">
         <Star className="w-3 h-3 text-text-dark" fill="currentColor" />
-        <span className="text-[10px] font-bold text-text-dark uppercase tracking-widest">{product.rating ?? '5.0'}</span>
+        <span className="text-xs font-bold text-text-dark uppercase tracking-widest">{product.rating ?? '5.0'}</span>
       </div>
     </div>
   </motion.div>
