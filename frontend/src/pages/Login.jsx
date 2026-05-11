@@ -156,7 +156,7 @@ const Login = () => {
               <label className="block text-xl uppercase tracking-widest text-text-medium font-bold">Mot de passe</label>
               <Link 
                 to="/forgot-password" 
-                className="text-lg text-text-light hover:text-green transition-colors uppercase tracking-widest"
+                className="text-lg text-text-light hover:text-black transition-colors uppercase tracking-widest"
               >
                 Oublié ?
               </Link>
@@ -178,7 +178,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-green transition-colors"
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 text-text-light hover:text-black transition-colors"
               >
                 {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
               </button>
@@ -203,7 +203,7 @@ const Login = () => {
             whileTap={{ y: 0 }}
             type="submit"
             disabled={loading}
-            className="w-full py-5 bg-green text-white text-base font-bold uppercase tracking-[0.25em] rounded-xl hover:bg-green-dark transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+            className="w-full py-5 bg-black text-white text-base font-bold uppercase tracking-[0.25em] rounded-xl hover:bg-black/90 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
           >
             {loading ? (
               <Loader2 className="animate-spin w-6 h-6 mx-auto" />

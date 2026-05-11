@@ -376,26 +376,40 @@ const handleSubmit = async (e) => {
             </motion.button>
           </div>
 
-          {/* Separator */}
-          <div className="relative flex items-center py-2">
-            <div className="flex-grow border-t border-border"></div>
-            <span className="mx-4 text-sm text-text-light uppercase tracking-widest">ou</span>
-            <div className="flex-grow border-t border-border"></div>
+          {/* Footer Link */}
+          <div className="text-center pt-4">
+            <p className="text-sm text-text-light uppercase tracking-widest">
+              Déjà un compte ?{" "}
+              <Link
+                to="/login"
+                className="text-black font-bold hover:text-black-dark transition-colors"
+              >
+                Se connecter
+              </Link>
+            </p>
           </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
 
-          {/* Google */}
-          <button
-            type="button"
-            onClick={handleGoogleRegister}
-            disabled={googleLoading}
-            className="w-full py-3 border border-border rounded-sm flex items-center justify-center gap-3 text-sm text-text-medium uppercase tracking-widest hover:bg-muted transition-all duration-300 disabled:opacity-50"
-          >
-            <img 
-              src="https://www.svgrepo.com/show/475656/google-color.svg" 
-              alt="Google" 
-              className="w-5 h-5 grayscale opacity-70"
-            />
-            Google
+export default Register;;              Déjà un compte ?{" "}
+              <Link
+                to="/login"
+                className="text-black font-bold hover:text-black-dark transition-colors"
+              >
+                Se connecter
+              </Link>
+            </p>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Register;;e
           </button>
 
           {/* Footer Link */}
