@@ -37,78 +37,91 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-      {/* Immersive Luxury Hero - Compact Height */}
-      <section className="relative h-[75vh] flex items-center overflow-hidden">
-        {/* Background Image with sophisticated overlay */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="Luxury Experience" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
+      {/* Refined Split Luxury Hero - Full Image focus */}
+      <section className="relative min-h-[70vh] flex items-center bg-[#FDFCFB] overflow-hidden pt-32 pb-20 border-b border-neutral-light">
+        {/* Subtle background element */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-[#F5F3EF]/50 -z-0" />
 
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="mb-8 overflow-hidden">
-                <motion.span 
-                  initial={{ y: "100%" }}
-                  animate={{ y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.8 }}
-                  className="inline-block text-white/70 font-black tracking-[0.8em] uppercase text-xs md:text-sm"
-                >
-                  Dripswift • L'Élite de la ville
-                </motion.span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Left Column: Typography */}
+            <div className="lg:col-span-7">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="mb-8 overflow-hidden">
+                  <motion.span 
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="inline-block text-[#A69F95] font-black tracking-[0.6em] uppercase text-xs md:text-sm"
+                  >
+                    Dripswift • L'Élite de la ville
+                  </motion.span>
+                </div>
+                
+                <h1 className="text-5xl md:text-8xl lg:text-[7.5rem] font-serif text-text-dark leading-[0.9] tracking-tighter mb-12">
+                  {user ? (
+                    <>
+                      Bienvenue, <br />
+                      <span className="italic font-light text-[#A69F95]">{user.user_metadata?.display_name || user.email?.split('@')[0]}.</span>
+                    </>
+                  ) : (
+                    <>
+                      L'Élégance. <br />
+                      <span className="italic font-light text-[#A69F95]">Redéfinie.</span>
+                    </>
+                  )}
+                </h1>
+                
+                <p className="text-text-medium text-lg md:text-xl max-w-xl mb-14 font-light leading-relaxed italic">
+                  Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une discrétion et une rapidité absolues.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
+                  <Link to="/shops" className="group relative bg-text-dark text-white px-12 py-5 text-sm font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-500 shadow-xl">
+                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">Explorer</span>
+                    <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                  </Link>
+                  <Link to="/catalogue" className="group flex items-center gap-4 text-text-dark text-xs font-black uppercase tracking-[0.4em] transition-all">
+                    <span className="border-b border-border pb-1 group-hover:border-black transition-all">Le Catalogue</span>
+                    <ArrowRight className="group-hover:translate-x-2 transition-transform duration-300" size={18} />
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Full Image Frame */}
+            <div className="lg:col-span-5 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="relative aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/4] w-full max-w-[450px] mx-auto overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.08)] border border-white"
+              >
+                <img 
+                  src={heroImage} 
+                  alt="Luxury Experience" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Subtle Luxury Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-60" />
+                <div className="absolute top-6 left-6 border-l border-t border-white/40 w-12 h-12" />
+                <div className="absolute bottom-6 right-6 border-r border-b border-white/40 w-12 h-12" />
+              </motion.div>
+              
+              {/* Floating Decorative Elements */}
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 shadow-xl hidden md:block">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#A69F95]">Collection</p>
+                <p className="text-xl font-serif italic text-text-dark">Héritage 2024</p>
               </div>
-              
-              <h1 className="text-5xl md:text-8xl lg:text-[10rem] font-serif text-white leading-[0.85] tracking-tighter mb-12">
-                {user ? (
-                  <>
-                    Bienvenue, <br />
-                    <span className="italic font-light text-white/80">{user.user_metadata?.display_name || user.email?.split('@')[0]}.</span>
-                  </>
-                ) : (
-                  <>
-                    L'Élégance. <br />
-                    <span className="italic font-light text-white/80">Redéfinie.</span>
-                  </>
-                )}
-              </h1>
-              
-              <p className="text-white/80 text-lg md:text-2xl max-w-xl mb-16 font-light leading-relaxed italic">
-                Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une discrétion et une rapidité absolues.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-10 items-start sm:items-center">
-                <Link to="/shops" className="group relative bg-white text-black px-14 py-6 text-sm font-black uppercase tracking-[0.4em] overflow-hidden transition-all duration-500 shadow-2xl">
-                  <span className="relative z-10 group-hover:text-white transition-colors duration-500">Explorer les Maisons</span>
-                  <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                </Link>
-                <Link to="/catalogue" className="group flex items-center gap-4 text-white text-sm font-black uppercase tracking-[0.4em] transition-all">
-                  <span className="border-b border-white/30 pb-1 group-hover:border-white transition-all">Le Catalogue</span>
-                  <ArrowRight className="group-hover:translate-x-2 transition-transform duration-300" size={20} />
-                </Link>
-              </div>
-            </motion.div>
+            </div>
+
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-10"
-        >
-          <span className="text-white/40 text-[10px] uppercase tracking-[0.5em] font-black rotate-90 mb-8">Scroll</span>
-          <div className="w-[1px] h-20 bg-gradient-to-b from-white/60 to-transparent" />
-        </motion.div>
       </section>
 
       {/* User Quick Dashboard - If Logged In */}
