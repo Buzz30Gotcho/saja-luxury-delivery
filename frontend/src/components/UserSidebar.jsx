@@ -1,69 +1,59 @@
-// components/User/UserSidebar.jsx (Version minimaliste)
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { User, Package, MapPin, CreditCard, LogOut, ChevronRight } from 'lucide-react';
 
 const UserSidebar = ({ user, activeSection, setActiveSection }) => {
   const { logout } = useAuth();
 
   const menuItems = [
-    { id: 'profile', label: 'Profil', icon: '👤' },
-    { id: 'orders', label: 'Commandes', icon: '📦' },
-    { id: 'addresses', label: 'Adresses', icon: '📍' },
-    { id: 'payment', label: 'Paiement', icon: '💳' },
+    { id: 'profile', label: 'Mon Profil', icon: <User size={20} /> },
+    { id: 'orders', label: 'Mes Commandes', icon: <Package size={20} /> },
+    { id: 'addresses', label: 'Adresses', icon: <MapPin size={20} /> },
+    { id: 'payment', label: 'Paiement', icon: <CreditCard size={20} /> },
   ];
 
-  const getProfileImage = () => {
-    return user?.user_metadata?.avatar_url || 
-           `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.email || 'U')}&background=6366f1`;
-  };
-
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-10 h-fit sticky top-10">
-      {/* En-tête profil */}
-      <div className="flex items-center space-x-8 mb-12">
-        <img
-          src={getProfileImage()}
-          alt="Profile"
-          className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-gray-50 object-cover shadow-sm"
-        />
-        <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-gray-900 text-xl md:text-2xl truncate">
-            {user?.user_metadata?.full_name || user?.email?.split('@')[0]}
-          </h3>
-          <p className="text-gray-500 text-base truncate mt-1">{user?.email}</p>
-        </div>
-      </div>
-
+    <div className="space-y-12 sticky top-40">
       {/* Navigation */}
       <nav className="space-y-3">
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`flex items-center space-x-5 w-full p-5 rounded-2xl transition-all duration-200 text-lg ${
+            className={`flex items-center justify-between w-full px-8 py-5 transition-all duration-300 group ${
               activeSection === item.id
-                ? 'bg-neutral-light text-black font-bold shadow-sm'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-black text-white shadow-xl translate-x-2'
+                : 'text-text-medium hover:text-text-dark hover:bg-white border border-transparent hover:border-border'
             }`}
           >
-            <span className="text-3xl w-10 text-center">{item.icon}</span>
-            <span className="text-left flex-1">{item.label}</span>
+            <div className="flex items-center gap-6">
+              <span className={`${activeSection === item.id ? 'text-white' : 'text-[#8C867E] group-hover:text-text-dark'} transition-colors`}>
+                {item.icon}
+              </span>
+              <span className="text-sm font-black uppercase tracking-[0.3em]">{item.label}</span>
+            </div>
+            <ChevronRight size={14} className={`transition-all duration-500 ${activeSection === item.id ? 'opacity-100' : 'opacity-0 -translate-x-4'}`} />
           </button>
         ))}
       </nav>
 
-      {/* Déconnexion */}
-      <div className="mt-10 pt-8 border-t border-gray-100">
-        <button
-          onClick={logout}
-          className="flex items-center space-x-3 w-full p-4 text-gray-500 hover:text-danger hover:bg-red-50 rounded-xl transition-colors text-base font-medium"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          <span>Déconnexion</span>
-        </button>
+      {/* Luxury Message / Stats */}
+      <div className="p-8 border border-border bg-white space-y-4">
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#A69F95]">Statut Membre</p>
+        <div className="space-y-1">
+          <p className="text-2xl font-serif italic text-text-dark">Privilège</p>
+          <p className="text-[11px] text-[#A69F95] uppercase tracking-widest leading-relaxed">Accès prioritaire à nos nouvelles collections.</p>
+        </div>
       </div>
+
+      {/* Déconnexion */}
+      <button
+        onClick={logout}
+        className="flex items-center gap-4 px-8 py-4 text-text-light hover:text-danger transition-all duration-300 text-xs font-black uppercase tracking-[0.4em] group"
+      >
+        <LogOut size={16} className="group-hover:-translate-x-1 transition-transform" />
+        <span>Quitter l'Espace</span>
+      </button>
     </div>
   );
 };

@@ -37,114 +37,119 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-      {/* New Reinvented Hero - Light Luxury Minimalism */}
-      <section className="relative min-h-[80vh] flex items-center bg-[#FDFCFB] overflow-hidden border-b border-neutral-light pt-24 md:pt-0">
-        {/* Abstract Background Elements - Subtle Warm Glows */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#F5F3EF] blur-[120px] rounded-full opacity-60" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#EAE8E4] blur-[120px] rounded-full opacity-40" />
+      {/* Immersive Luxury Hero - Full Height */}
+      <section className="relative h-screen flex items-center overflow-hidden">
+        {/* Background Image with sophisticated overlay */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroImage} 
+            alt="Luxury Experience" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-black/20" />
         </div>
 
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left side: Typography focus */}
-            <div className="lg:col-span-7">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <div className="mb-10 overflow-hidden">
-                  <motion.span 
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="inline-block text-[#8C867E] font-black tracking-[0.6em] uppercase text-xs md:text-sm"
-                  >
-                    L'Excellence à votre porte
-                  </motion.span>
-                </div>
-                
-                <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-serif text-text-dark leading-[0.9] tracking-tighter mb-12">
-                  L'Élégance. <br />
-                  <span className="italic font-light text-[#A69F95]">Redéfinie.</span>
-                </h1>
-                
-                <p className="text-text-medium text-xl md:text-2xl max-w-xl mb-14 font-light leading-relaxed">
-                  Plus qu'une livraison, une signature. Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une élégance absolue.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-8">
-                  <Link to="/shops" className="group relative bg-text-dark text-white px-12 py-6 text-sm font-black uppercase tracking-[0.3em] overflow-hidden transition-all duration-300 shadow-xl shadow-black/5">
-                    <span className="relative z-10">Explorer l'Excellence</span>
-                    <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                  </Link>
-                  <Link to="/catalogue" className="px-12 py-6 text-sm font-black uppercase tracking-[0.3em] border border-neutral-light text-text-dark hover:border-text-dark transition-colors duration-300">
-                    Voir le catalogue
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="mb-8 overflow-hidden">
+                <motion.span 
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
+                  className="inline-block text-white/70 font-black tracking-[0.8em] uppercase text-xs md:text-sm"
+                >
+                  Dripswift • L'Élite de la ville
+                </motion.span>
+              </div>
+              
+              <h1 className="text-5xl md:text-8xl lg:text-[10rem] font-serif text-white leading-[0.85] tracking-tighter mb-12">
+                {user ? (
+                  <>
+                    Bienvenue, <br />
+                    <span className="italic font-light text-white/80">{user.user_metadata?.display_name || user.email?.split('@')[0]}.</span>
+                  </>
+                ) : (
+                  <>
+                    L'Élégance. <br />
+                    <span className="italic font-light text-white/80">Redéfinie.</span>
+                  </>
+                )}
+              </h1>
+              
+              <p className="text-white/80 text-lg md:text-2xl max-w-xl mb-16 font-light leading-relaxed italic">
+                Découvrez les boutiques les plus prestigieuses de votre ville, livrées avec une discrétion et une rapidité absolues.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-10 items-start sm:items-center">
+                <Link to="/shops" className="group relative bg-white text-black px-14 py-6 text-sm font-black uppercase tracking-[0.4em] overflow-hidden transition-all duration-500 shadow-2xl">
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-500">Explorer les Maisons</span>
+                  <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </Link>
+                <Link to="/catalogue" className="group flex items-center gap-4 text-white text-sm font-black uppercase tracking-[0.4em] transition-all">
+                  <span className="border-b border-white/30 pb-1 group-hover:border-white transition-all">Le Catalogue</span>
+                  <ArrowRight className="group-hover:translate-x-2 transition-transform duration-300" size={20} />
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </div>
 
-            {/* Right side: Modern Visual Element */}
-            <div className="lg:col-span-5 relative hidden lg:block">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="relative aspect-[4/5] flex items-center justify-center"
-              >
-                {/* Logo Floating in a Premium Frame */}
-                <div className="absolute inset-0 border border-[#EAE8E4] rounded-[40px] rotate-3 translate-x-6" />
-                <div className="absolute inset-0 border border-[#F5F3EF] rounded-[40px] -rotate-3 -translate-x-6" />
-                
-                <div className="relative w-full h-full bg-white rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col items-center justify-center p-16 border border-[#F5F3EF]">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4D1CC] to-transparent" />
-                  
-                  <motion.img 
-                    src="/dripswift.png" 
-                    alt="Logo Dripswift" 
-                    className="w-full h-auto mb-16 mix-blend-multiply"
-                    animate={{ y: [0, -15, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        {/* Scroll Indicator */}
+        <motion.div 
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-10"
+        >
+          <span className="text-white/40 text-[10px] uppercase tracking-[0.5em] font-black rotate-90 mb-8">Scroll</span>
+          <div className="w-[1px] h-20 bg-gradient-to-b from-white/60 to-transparent" />
+        </motion.div>
+      </section>
+
+      {/* User Quick Dashboard - If Logged In */}
+      {user && (
+        <section className="py-20 bg-white border-b border-border relative">
+          <div className="container mx-auto px-6 md:px-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+              <div className="md:col-span-1 space-y-4">
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[#A69F95]">Votre Profil</h3>
+                <Link to="/compte_user" className="flex items-center gap-6 group">
+                  <img 
+                    src={user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${user.email}&background=random`} 
+                    alt="User" 
+                    className="w-16 h-16 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-border"
                   />
-                  
-                  <div className="text-center space-y-6">
-                    <div className="h-[1px] w-20 bg-[#EAE8E4] mx-auto" />
-                    <div className="space-y-3">
-                      <p className="font-serif italic text-4xl text-text-dark tracking-wide">Édition Limitée</p>
-                      <p className="text-[12px] uppercase tracking-[0.5em] text-[#A69F95] font-black">Collection Privée 2024</p>
-                    </div>
-                    <div className="h-[1px] w-20 bg-[#EAE8E4] mx-auto" />
+                  <div>
+                    <p className="text-lg font-bold text-text-dark uppercase tracking-widest">{user.user_metadata?.display_name || 'Élite Member'}</p>
+                    <p className="text-xs text-[#A69F95] uppercase tracking-widest">Voir mon espace</p>
                   </div>
-                </div>
-              </motion.div>
+                </Link>
+              </div>
+              <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+                {[
+                  { label: "Commandes", icon: <Package size={18} />, link: "/compte_user", value: "Historique" },
+                  { label: "Favoris", icon: <Heart size={18} />, link: "/catalogue", value: "Mes Pièces" },
+                  { label: "Support", icon: <Shield size={18} />, link: "/help", value: "Concierge 24/7" },
+                ].map((item) => (
+                  <Link key={item.label} to={item.link} className="p-8 border border-[#F5F3EF] hover:border-text-dark transition-all duration-500 group">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="text-[#8C867E] group-hover:text-text-dark transition-colors">{item.icon}</div>
+                      <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all" />
+                    </div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#A69F95] mb-2">{item.label}</p>
+                    <p className="text-lg font-serif text-text-dark italic">{item.value}</p>
+                  </Link>
+                ))}
+              </div>
             </div>
-
           </div>
-        </div>
-      </section>
-
-      {/* 1. Brand Values - Immediate Reassurance */}
-      <section className="py-24 md:py-32 border-b border-border/50 bg-white">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
-            {[
-              { icon: <Star size={20} strokeWidth={1} />, title: "L'Excellence", desc: "Maisons sélectionnées pour leur savoir-faire d'exception." },
-              { icon: <Truck size={20} strokeWidth={1} />, title: "La Proximité", desc: "Un service de livraison premium au cœur de votre ville." },
-              { icon: <ShieldCheck size={20} strokeWidth={1} />, title: "L'Authenticité", desc: "Traçabilité totale et transactions 100% sécurisées." },
-            ].map((item, i) => (
-              <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center text-center space-y-6">
-                <div className="text-[#8C867E] p-4 bg-[#FDFCFB] rounded-full">{item.icon}</div>
-                <h4 className="text-sm md:text-base font-black uppercase tracking-[0.4em] text-text-dark">{item.title}</h4>
-                <p className="text-base text-text-medium font-light italic max-w-[280px] leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+        </section>
+      )}
       {/* 2. Featured Houses - Exclusive curation */}
       <section className="py-28 md:py-40 bg-[#FDFCFB] overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">

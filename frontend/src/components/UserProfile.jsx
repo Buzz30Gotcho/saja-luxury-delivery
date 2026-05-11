@@ -31,17 +31,20 @@ const UserProfile = ({ user }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="bg-white border border-border overflow-hidden">
       {/* En-tête du profil */}
-      <div className="px-10 py-8 border-b border-gray-100 bg-gray-50/30">
+      <div className="px-10 py-10 border-b border-border bg-[#FDFCFB]">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900 font-serif">Informations personnelles</h2>
+          <div className="space-y-1">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#A69F95]">Données Personnelles</span>
+            <h2 className="text-3xl font-serif text-text-dark">Profil Membre</h2>
+          </div>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className={`px-6 py-3 rounded-xl font-bold text-base transition-all ${
+            className={`px-8 py-3 text-xs font-black uppercase tracking-[0.3em] transition-all ${
               isEditing 
-                ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' 
-                : 'bg-black text-white hover:bg-neutral-800 shadow-sm'
+                ? 'bg-neutral-light text-text-dark hover:bg-border' 
+                : 'bg-black text-white hover:bg-neutral-800'
             }`}
           >
             {isEditing ? 'Annuler' : 'Modifier'}
@@ -49,21 +52,22 @@ const UserProfile = ({ user }) => {
         </div>
       </div>
 
-      <div className="p-10">
-        <div className="flex flex-col md:flex-row items-start gap-12">
+      <div className="p-12">
+        <div className="flex flex-col md:flex-row items-start gap-16">
           {/* Photo de profil */}
-          <div className="text-center">
+          <div className="relative group">
+            <div className="absolute inset-0 border border-border translate-x-3 translate-y-3 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500" />
             <img
               src={getProfileImage()}
               alt="Profile"
-              className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-gray-50 shadow-md"
+              className="relative z-10 w-32 h-32 md:w-44 md:h-44 object-cover border border-border grayscale"
             />
           </div>
 
           {/* Informations */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-2">
-              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-[#A69F95] uppercase tracking-[0.3em]">
                 Prénom
               </label>
               {isEditing ? (
@@ -72,17 +76,17 @@ const UserProfile = ({ user }) => {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
+                  className="w-full bg-transparent border-b border-border py-2 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-2xl font-medium text-text-dark">
+                <p className="text-xl font-medium text-text-dark">
                   {formData.firstName || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-[#A69F95] uppercase tracking-[0.3em]">
                 Nom
               </label>
               {isEditing ? (
@@ -91,35 +95,35 @@ const UserProfile = ({ user }) => {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
+                  className="w-full bg-transparent border-b border-border py-2 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-2xl font-medium text-text-dark">
+                <p className="text-xl font-medium text-text-dark">
                   {formData.lastName || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-[#A69F95] uppercase tracking-[0.3em]">
                 Email
               </label>
               <div className="flex flex-col">
-                <p className="text-2xl font-medium text-text-dark">
+                <p className="text-xl font-medium text-text-dark">
                   {user?.email}
                 </p>
-                <p className="text-xs font-bold mt-2">
+                <div className="mt-2">
                   {user?.email_confirmed_at ? (
-                    <span className="text-success uppercase tracking-widest">✓ Compte Vérifié</span>
+                    <span className="text-[9px] font-black text-emerald-600 border border-emerald-100 px-2 py-0.5 uppercase tracking-widest">Compte Vérifié</span>
                   ) : (
-                    <span className="text-danger uppercase tracking-widest">⚠ Email non confirmé</span>
+                    <span className="text-[9px] font-black text-red-600 border border-red-100 px-2 py-0.5 uppercase tracking-widest">Vérification Requise</span>
                   )}
-                </p>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
+            <div className="space-y-3">
+              <label className="block text-[10px] font-black text-[#A69F95] uppercase tracking-[0.3em]">
                 Téléphone
               </label>
               {isEditing ? (
@@ -128,29 +132,29 @@ const UserProfile = ({ user }) => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
+                  className="w-full bg-transparent border-b border-border py-2 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
                 />
               ) : (
-                <p className="text-2xl font-medium text-text-dark">
+                <p className="text-xl font-medium text-text-dark">
                   {formData.phone || 'Non renseigné'}
                 </p>
               )}
             </div>
 
-            <div className="md:col-span-2 space-y-2">
-              <label className="block text-sm font-black text-text-light uppercase tracking-[0.2em]">
-                Adresse par défaut
+            <div className="md:col-span-2 space-y-3">
+              <label className="block text-[10px] font-black text-[#A69F95] uppercase tracking-[0.3em]">
+                Adresse Principale
               </label>
               {isEditing ? (
                 <textarea
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  rows="3"
-                  className="w-full border border-border rounded-xl px-4 py-3 text-xl text-text-dark focus:outline-none focus:border-black transition-all"
+                  rows="2"
+                  className="w-full bg-transparent border-b border-border py-2 text-xl text-text-dark focus:outline-none focus:border-black transition-all resize-none"
                 />
               ) : (
-                <p className="text-2xl font-medium text-text-dark leading-relaxed">
+                <p className="text-xl font-medium text-text-dark leading-relaxed">
                   {formData.address || 'Aucune adresse enregistrée'}
                 </p>
               )}
@@ -159,18 +163,18 @@ const UserProfile = ({ user }) => {
         </div>
 
         {isEditing && (
-          <div className="flex justify-end space-x-4 mt-8 pt-8 border-t border-gray-100">
+          <div className="flex justify-end space-x-6 mt-16 pt-10 border-t border-border">
             <button
               onClick={() => setIsEditing(false)}
-              className="px-8 py-3 rounded-xl font-bold text-base text-gray-500 bg-gray-50 hover:bg-gray-100 transition-all"
+              className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-text-light hover:text-text-dark transition-all"
             >
               Annuler
             </button>
             <button
               onClick={handleSave}
-              className="px-8 py-3 bg-black text-white rounded-xl font-bold text-base hover:bg-neutral-800 transition-all shadow-md active:scale-95"
+              className="px-10 py-4 bg-black text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-neutral-800 transition-all shadow-xl active:scale-95"
             >
-              Enregistrer les modifications
+              Sauvegarder les modifications
             </button>
           </div>
         )}
