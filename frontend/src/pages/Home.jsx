@@ -37,8 +37,8 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-      {/* Immersive Luxury Hero - Full Height */}
-      <section className="relative h-screen flex items-center overflow-hidden">
+      {/* Immersive Luxury Hero - Compact Height */}
+      <section className="relative h-[75vh] flex items-center overflow-hidden">
         {/* Background Image with sophisticated overlay */}
         <div className="absolute inset-0 z-0">
           <img 

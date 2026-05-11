@@ -50,7 +50,7 @@ const Header = () => {
             <img 
               src="/dripswift.png" 
               alt="Dripswift" 
-              className="h-14 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
+              className="h-16 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>
 
@@ -76,14 +76,14 @@ const Header = () => {
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-1.5 md:space-x-6 flex-shrink-0">
+          <div className="flex items-center space-x-3 md:space-x-6 flex-shrink-0">
             {/* Panier */}
-            <Link to="/cart" className="relative p-1.5 md:p-2 text-text-medium hover:text-black transition-colors">
-              <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            <Link to="/cart" className="relative p-2 text-text-medium hover:text-black transition-colors">
+              <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-black text-white text-[10px] md:text-[12px] font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
+                <span className="absolute top-1 right-1 bg-black text-white text-[9px] md:text-[11px] font-black rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}

@@ -130,23 +130,18 @@ export const assignCourierToOrder = async (req, res) => {
             return res.status(400).json({ error: 'orderId requis' })
         }
 
+        // 1. Vérifier si une mission existe déjà
         const { data: existingMission, error: existingMissionError } = await supabase
             .from('delivery_missions')
             .select('*')
             .eq('order_id', orderId)
             .maybeSingle()
 
-        if (existingMissionError) {
-            return res.status(500).json({
-                error: 'Impossible de vérifier la mission existante.',
-                details: existingMissionError.message || null,
-            })
-        }
-
         if (existingMission) {
             return res.status(200).json({ success: true, mission: existingMission, alreadyAssigned: true })
         }
 
+        // 2. Récupérer les infos de la commande et du shop
         const { data: order, error: orderError } = await supabase
             .from('orders')
             .select('id, shop_id, delivery_address, delivery_city, delivery_postal_code')
@@ -163,18 +158,39 @@ export const assignCourierToOrder = async (req, res) => {
             .eq('id', order.shop_id)
             .maybeSingle()
 
-        if (shopError || !shop?.id) {
-            return res.status(400).json({ error: 'Boutique introuvable pour cette commande.' })
-        }
-
-        const pickupLat = safeNum(shop.latitude)
-        const pickupLng = safeNum(shop.longitude)
+        const pickupLat = safeNum(shop?.latitude)
+        const pickupLng = safeNum(shop?.longitude)
 
         if (pickupLat == null || pickupLng == null) {
             return res.status(400).json({ error: 'La boutique ne possède pas de coordonnées GPS.' })
         }
 
-        // MVP: point de livraison client simulé autour de la boutique
+        // 3. TROUVER LE COURSIER LE PLUS PROCHE
+        // On cherche les livreurs disponibles (is_available = true) qui n'ont pas de mission en cours
+        const { data: availableCouriers } = await supabase
+            .from('delivery_persons')
+            .select('user_id, current_location_lat, current_location_lng, profiles(display_user)')
+            .eq('is_available', true)
+
+        let closestCourier = null
+        let minDistance = Infinity
+
+        if (availableCouriers && availableCouriers.length > 0) {
+            for (const courier of availableCouriers) {
+                const cLat = safeNum(courier.current_location_lat)
+                const cLng = safeNum(courier.current_location_lng)
+                
+                if (cLat != null && cLng != null) {
+                    const dist = haversineDistanceKm(pickupLat, pickupLng, cLat, cLng)
+                    if (dist < minDistance) {
+                        minDistance = dist
+                        closestCourier = courier
+                    }
+                }
+            }
+        }
+
+        // 4. Calculer le dropoff (client) - Géocodage ou Fallback
         const fallbackDropoff = buildFallbackDropoffFromShop(pickupLat, pickupLng)
         const geocodedDropoff = await geocodeAddress(
             buildDeliveryAddress({
@@ -185,29 +201,17 @@ export const assignCourierToOrder = async (req, res) => {
         )
         const dropoff = geocodedDropoff || fallbackDropoff
 
-        if (!geocodedDropoff) {
-            console.warn('[delivery] geocoding client impossible, fallback coord estimée utilisée:', {
-                orderId,
-                deliveryAddress: buildDeliveryAddress({
-                    address: order.delivery_address,
-                    postalCode: order.delivery_postal_code,
-                    city: order.delivery_city,
-                }),
-                fallbackDropoffLat: fallbackDropoff.lat,
-                fallbackDropoffLng: fallbackDropoff.lng,
-            })
-        }
-
         const missionPayload = {
             order_id: orderId,
-            courier_name: null,
-            status: DELIVERY_STATUS.awaiting,
+            courier_name: closestCourier ? (closestCourier.profiles?.display_user || 'Livreur Pro') : null,
+            delivery_person_id: closestCourier ? closestCourier.user_id : null,
+            status: closestCourier ? DELIVERY_STATUS.assigned : DELIVERY_STATUS.awaiting,
             pickup_lat: pickupLat,
             pickup_lng: pickupLng,
             dropoff_lat: dropoff.lat,
             dropoff_lng: dropoff.lng,
-            courier_lat: pickupLat,
-            courier_lng: pickupLng,
+            courier_lat: closestCourier?.current_location_lat || pickupLat,
+            courier_lng: closestCourier?.current_location_lng || pickupLng,
         }
 
         const { data: mission, error: missionError } = await supabase
@@ -217,14 +221,15 @@ export const assignCourierToOrder = async (req, res) => {
             .single()
 
         if (missionError) {
-            return res.status(500).json({
-                error: 'Impossible de créer la mission coursier.',
-                details: missionError.message || null,
-                hint: 'Vérifiez que la table delivery_missions existe avec les colonnes attendues.',
-            })
+            return res.status(500).json({ error: 'Erreur création mission.', details: missionError.message })
         }
 
-        return res.status(201).json({ success: true, mission })
+        return res.status(201).json({ 
+            success: true, 
+            mission, 
+            assignedAutomatically: !!closestCourier,
+            courierName: mission.courier_name 
+        })
     } catch (error) {
         console.error('assignCourierToOrder error:', error)
         return res.status(500).json({ error: 'Une erreur serveur est survenue.' })
@@ -537,22 +542,49 @@ export const getDeliveryTracking = async (req, res) => {
             .eq('id', orderId)
             .maybeSingle()
 
-        const courierLat = safeNum(mission.courier_lat)
-        const courierLng = safeNum(mission.courier_lng)
         const pickupLat = safeNum(mission.pickup_lat)
         const pickupLng = safeNum(mission.pickup_lng)
         const dropoffLat = safeNum(mission.dropoff_lat)
         const dropoffLng = safeNum(mission.dropoff_lng)
 
+        // --- SIMULATION AUTOMATIQUE ---
+        // Si le livreur est en route, on le fait avancer mathématiquement vers la destination
+        let currentCourierLat = safeNum(mission.courier_lat)
+        let currentCourierLng = safeNum(mission.courier_lng)
+
+        if (mission.status === DELIVERY_STATUS.onTheWay && 
+            currentCourierLat != null && currentCourierLng != null && 
+            dropoffLat != null && dropoffLng != null) {
+            
+            const progress = 0.08 // Avance de 8% par requête
+            const dist = haversineDistanceKm(currentCourierLat, currentCourierLng, dropoffLat, dropoffLng)
+            
+            if (dist > 0.03) {
+                currentCourierLat = Number((currentCourierLat + (dropoffLat - currentCourierLat) * progress).toFixed(6))
+                currentCourierLng = Number((currentCourierLng + (dropoffLng - currentCourierLng) * progress).toFixed(6))
+                
+                // Mise à jour silencieuse
+                supabase.from('delivery_missions').update({
+                    courier_lat: currentCourierLat,
+                    courier_lng: currentCourierLng
+                }).eq('id', mission.id).then(() => {})
+            } else {
+                currentCourierLat = dropoffLat
+                currentCourierLng = dropoffLng
+            }
+        }
+
         const etaMinutes =
-            courierLat != null && courierLng != null && dropoffLat != null && dropoffLng != null
-                ? estimateEtaMinutes(haversineDistanceKm(courierLat, courierLng, dropoffLat, dropoffLng))
+            currentCourierLat != null && currentCourierLng != null && dropoffLat != null && dropoffLng != null
+                ? estimateEtaMinutes(haversineDistanceKm(currentCourierLat, currentCourierLng, dropoffLat, dropoffLng))
                 : null
 
         return res.status(200).json({
             success: true,
             tracking: {
                 ...mission,
+                courier_lat: currentCourierLat,
+                courier_lng: currentCourierLng,
                 eta_minutes: mission.status === DELIVERY_STATUS.delivered ? 0 : etaMinutes,
                 dropoff_source:
                     pickupLat != null &&
