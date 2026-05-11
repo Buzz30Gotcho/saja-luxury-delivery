@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Loader2, Mail, Lock, AlertCircle, Check } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { authService } from "../services/authService";
 import dripSwiftLogo from "/dripswift.png";
 
@@ -14,16 +13,14 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     acceptTerms: false,
-    rememberMe: false
+    newsletter: false
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -95,66 +92,38 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateForm()) return;
-  
-  // ✅ CORRECT - loading est géré dans le composant
-  setLoading(true);
-
-  try {
-    const result = await authService.signUp(
-      formData.email,
-      formData.password,
-      {
-        display_name: formData.displayName,
-        role: 'customer'
-      }
-    );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
     
-    if (result.success) {
-      // ✅ Redirection immédiate vers login
-      navigate('/login', { 
-        state: { 
-          registrationSuccess: true 
-        } 
-      });
-    } else {
-      setErrors({ submit: result.error?.message || "Erreur lors de l'inscription" });
-    }
-  } catch (error) {
-    setErrors({ submit: error.message });
-  } finally {
-    // ✅ CORRECT - loading est géré dans le composant
-    setLoading(false);
-  }
-};
+    setLoading(true);
 
-
-  const handleGoogleRegister = async () => {
-    // Vérification RGPD avant Google OAuth
-    if (!formData.acceptTerms) {
-      setErrors({ 
-        acceptTerms: "Vous devez accepter les conditions avant de vous inscrire avec Google" 
-      });
-      return;
-    }
-
-    setGoogleLoading(true);
     try {
-      const { error } = await authService.signInWithGoogle();
-      if (error) {
-        setErrors({ submit: error.message });
+      const result = await authService.signUp(
+        formData.email,
+        formData.password,
+        {
+          display_name: formData.displayName,
+          role: 'customer'
+        }
+      );
+      
+      if (result.success) {
+        navigate('/login', { 
+          state: { 
+            registrationSuccess: true 
+          } 
+        });
+      } else {
+        setErrors({ submit: result.error?.message || "Erreur lors de l'inscription" });
       }
     } catch (error) {
-      setErrors({ submit: "Erreur lors de l'inscription avec Google" });
+      setErrors({ submit: error.message });
     } finally {
-      setGoogleLoading(false);
+      setLoading(false);
     }
   };
 
-  // ... (le reste du JSX reste inchangé)
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-6 py-12">
       <motion.div
@@ -188,7 +157,8 @@ const handleSubmit = async (e) => {
             <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold text-center">
               Créer votre compte d'élite
             </p>
-          </div>        </motion.div>
+          </div>
+        </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-7 relative z-10">
           {/* Nom d'affichage */}
@@ -394,40 +364,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default Register;;              Déjà un compte ?{" "}
-              <Link
-                to="/login"
-                className="text-black font-bold hover:text-black-dark transition-colors"
-              >
-                Se connecter
-              </Link>
-            </p>
-          </div>
-        </form>
-      </motion.div>
-    </div>
-  );
-};
-
-export default Register;;e
-          </button>
-
-          {/* Footer Link */}
-          <div className="text-center pt-4">
-            <p className="text-sm text-text-light uppercase tracking-widest">
-              Déjà un compte ?{" "}
-              <Link
-                to="/login"
-                className="text-black font-bold hover:text-black-dark transition-colors"
-              >
-                Se connecter
-              </Link>
-            </p>
-          </div>
-        </form>
-      </motion.div>
-    </div>
-  );
-};
-
-export default Register;;
+export default Register;
