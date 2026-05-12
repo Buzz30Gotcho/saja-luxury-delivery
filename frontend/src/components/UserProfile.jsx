@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { motion } from "motion/react";
+import { motion } from 'framer-motion';
 
 const UserProfile = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
