@@ -37,14 +37,13 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-<section className="relative h-[78vh] min-h-[650px] w-full overflow-hidden">
-
+<section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">  
   {/* IMAGE FULL SCREEN */}
-  <img
-    src={heroImage}
-    alt="Luxury"
-    className="absolute inset-0 w-full h-full object-cover scale-[1.02]"
-  />
+<img
+  src={heroImage}
+  alt="Luxury"
+  className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+/>
 
   {/* DARK OVERLAY pour lire le texte */}
   <div className="absolute inset-0 bg-black/40" />
