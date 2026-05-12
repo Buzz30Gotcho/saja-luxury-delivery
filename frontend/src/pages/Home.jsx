@@ -71,12 +71,12 @@ const Home = () => {
 
       {/* IMAGE */}
       <div className="relative flex justify-center lg:justify-end">
-        <div className="w-full max-w-[420px] aspect-[3/4] overflow-hidden border border-white shadow-xl">
-          <img
-            src={heroImage}
-            alt="Luxury"
-            className="w-full h-full object-cover object-center"
-          />
+<div className="w-full max-w-[420px] aspect-[3/4] bg-[#F5F3EF] flex items-center justify-center overflow-hidden border border-white shadow-xl">
+  <img
+    src={heroImage}
+    alt="Luxury"
+    className="w-full h-full object-contain"
+  />
           <div className="absolute inset-0 bg-black/10" />
         </div>
       </div>
