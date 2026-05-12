@@ -37,76 +37,53 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-{/* HERO */}
-<section className="relative h-[78vh] min-h-[650px] bg-[#FDFCFB] overflow-hidden border-b border-neutral-200">
-  <div className="grid lg:grid-cols-12 h-full">
+<section className="relative h-[75vh] min-h-[620px] bg-[#FDFCFB] overflow-hidden border-b border-neutral-200">
+  <div className="grid lg:grid-cols-5 h-full">
 
-    {/* IMAGE */}
-    <div className="lg:col-span-7 relative order-1">
+    {/* IMAGE (dominante 60%) */}
+    <div className="lg:col-span-3 relative">
       <img
         src={heroImage}
         alt="Luxury"
         className="w-full h-full object-cover"
       />
-
-      {/* overlay */}
       <div className="absolute inset-0 bg-black/10" />
-
-      {/* luxury corners */}
-      <div className="absolute top-8 left-8 border-l border-t border-white/40 w-16 h-16" />
-      <div className="absolute bottom-8 right-8 border-r border-b border-white/40 w-16 h-16" />
     </div>
 
-    {/* TEXT */}
-    <div className="lg:col-span-5 flex items-center order-2">
-      <div className="px-8 md:px-14 lg:px-16 max-w-xl">
+    {/* TEXT (40%) */}
+    <div className="lg:col-span-2 flex items-center">
+      <div className="px-10 md:px-16 max-w-md">
 
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-[#A69F95] font-black">
-            DRIPSWIFT • PRESTIGE DELIVERY
+        <span className="text-[10px] tracking-[0.5em] uppercase text-[#A69F95] font-black">
+          DRIPSWIFT
+        </span>
+
+        <h1 className="mt-6 text-4xl md:text-5xl font-serif leading-[1.1] text-text-dark">
+          Le luxe,<br />
+          <span className="italic text-[#A69F95] font-light">
+            sans attente.
           </span>
+        </h1>
 
-          <h1 className="mt-6 text-5xl md:text-6xl xl:text-7xl font-serif leading-[0.95] tracking-tight text-text-dark">
-            L'Élégance. <br />
-            <span className="italic font-light text-[#A69F95]">
-              Redéfinie.
-            </span>
-          </h1>
+        <p className="mt-6 text-sm md:text-base text-text-medium leading-relaxed font-light">
+          Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
+        </p>
 
-          <p className="mt-8 text-base md:text-lg text-text-medium leading-relaxed font-light max-w-md">
-            Découvrez les boutiques les plus prestigieuses de votre ville,
-            livrées avec discrétion et rapidité absolue.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-5 mt-12">
-
-            <Link
-              to="/shops"
-              className="bg-black text-white px-10 py-4 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-neutral-800 transition-all"
-            >
-              Explorer
-            </Link>
-
-            <Link
-              to="/catalogue"
-              className="flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] font-black text-text-dark"
-            >
-              Catalogue
-              <ArrowRight size={16} />
-            </Link>
-
-          </div>
-        </motion.div>
+        <div className="mt-10">
+          <Link
+            to="/shops"
+            className="inline-block bg-black text-white px-10 py-4 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-neutral-800 transition"
+          >
+            Explorer
+          </Link>
+        </div>
 
       </div>
     </div>
 
   </div>
 </section>
+
 
       {/* 2. Featured Houses - Exclusive curation */}
       <section className="py-28 md:py-40 bg-[#FDFCFB] overflow-hidden">
