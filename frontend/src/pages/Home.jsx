@@ -42,33 +42,33 @@ const Home = () => {
   <div className="grid lg:grid-cols-2 h-full">
 
     {/* TEXTE */}
-    <div className="flex items-center">
-      <div className="px-10 md:px-20 max-w-xl space-y-8">
+    <div className="flex items-center justify-center lg:justify-start">
+  <div className="px-10 md:px-24 max-w-2xl space-y-10">
 
-        <span className="text-[10px] tracking-[0.5em] uppercase font-black text-[#A69F95]">
-          DRIPSWIFT
-        </span>
+    <span className="text-[11px] tracking-[0.6em] uppercase font-black text-[#A69F95]">
+      DRIPSWIFT
+    </span>
 
-        <h1 className="text-5xl md:text-6xl font-serif leading-[1.05] text-text-dark">
-          Le luxe,<br />
-          <span className="italic font-light text-[#A69F95]">
-            sans attente.
-          </span>
-        </h1>
+    <h1 className="text-5xl md:text-7xl font-serif leading-[1.05] text-text-dark">
+      Le luxe,<br />
+      <span className="italic font-light text-[#A69F95]">
+        sans attente.
+      </span>
+    </h1>
 
-        <p className="text-base text-text-medium font-light leading-relaxed">
-          Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
-        </p>
+    <p className="text-lg md:text-xl text-text-medium font-light leading-relaxed max-w-xl">
+      Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
+    </p>
 
-        <Link
-          to="/shops"
-          className="inline-block bg-black text-white px-10 py-4 text-[11px] uppercase tracking-[0.3em] font-black"
-        >
-          Explorer
-        </Link>
+    <Link
+      to="/shops"
+      className="inline-block bg-black text-white px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-black"
+    >
+      Explorer
+    </Link>
 
-      </div>
-    </div>
+  </div>
+</div>
 
     {/* IMAGE STYLE GALLERY */}
     <div className="flex items-center justify-center bg-[#F5F3EF]">
@@ -78,8 +78,7 @@ const Home = () => {
         <img
           src={heroImage}
           alt="Luxury"
-          className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700 scale-105"
-        />
+className="w-full h-full object-cover scale-105"        />
 
         {/* overlay luxe */}
         <div className="absolute inset-0 bg-black/10" />
