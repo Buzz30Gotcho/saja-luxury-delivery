@@ -37,58 +37,52 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-<section className="h-[65vh] min-h-[520px] w-full bg-[#FDFCFB]">
-  
-  <div className="grid lg:grid-cols-2 h-full">
+<section className="h-[60vh] min-h-[520px] bg-[#FDFCFB] flex items-center border-b border-neutral-light">
+  <div className="container mx-auto px-6 md:px-12">
+    
+    <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-    {/* TEXTE */}
-    <div className="flex items-center justify-center lg:justify-start">
-  <div className="px-10 md:px-24 max-w-2xl space-y-10">
+      {/* TEXTE */}
+      <div className="space-y-10 max-w-2xl">
+        
+        <span className="text-[11px] tracking-[0.6em] uppercase font-black text-[#A69F95]">
+          DRIPSWIFT
+        </span>
 
-    <span className="text-[11px] tracking-[0.6em] uppercase font-black text-[#A69F95]">
-      DRIPSWIFT
-    </span>
+        <h1 className="text-5xl md:text-7xl font-serif leading-[1.05] text-text-dark">
+          Le luxe,<br />
+          <span className="italic font-light text-[#A69F95]">
+            sans attente.
+          </span>
+        </h1>
 
-    <h1 className="text-5xl md:text-7xl font-serif leading-[1.05] text-text-dark">
-      Le luxe,<br />
-      <span className="italic font-light text-[#A69F95]">
-        sans attente.
-      </span>
-    </h1>
+        <p className="text-lg md:text-xl text-text-medium font-light leading-relaxed">
+          Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
+        </p>
 
-    <p className="text-lg md:text-xl text-text-medium font-light leading-relaxed max-w-xl">
-      Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
-    </p>
-
-    <Link
-      to="/shops"
-      className="inline-block bg-black text-white px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-black"
-    >
-      Explorer
-    </Link>
-
-  </div>
-</div>
-
-    {/* IMAGE STYLE GALLERY */}
-    <div className="flex items-center justify-center bg-[#F5F3EF]">
-
-      <div className="relative w-[80%] h-[85%] overflow-hidden border border-white shadow-xl">
-
-        <img
-          src={heroImage}
-          alt="Luxury"
-className="w-full h-full object-cover scale-105"        />
-
-        {/* overlay luxe */}
-        <div className="absolute inset-0 bg-black/10" />
+        <Link
+          to="/shops"
+          className="inline-block bg-black text-white px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-neutral-800 transition"
+        >
+          Explorer
+        </Link>
 
       </div>
 
+      {/* IMAGE */}
+      <div className="relative flex justify-center lg:justify-end">
+        <div className="w-full max-w-[420px] aspect-[3/4] overflow-hidden border border-white shadow-xl">
+          <img
+            src={heroImage}
+            alt="Luxury"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/10" />
+        </div>
+      </div>
+
     </div>
-
   </div>
-
 </section>
 
 
