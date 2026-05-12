@@ -5,6 +5,7 @@ import UserProfile from '../components/UserProfile';
 import OrderHistory from '../components/OrderHistory';
 import AddressManager from '../components/AddressManager';
 import PaymentMethods from '../components/PaymentMethods';
+import { motion } from "framer-motion";
 
 const DashboardUser = () => {
   const { user } = useAuth();

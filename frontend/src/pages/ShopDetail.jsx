@@ -15,6 +15,7 @@ import {
   Shield,
   Clock
 } from 'lucide-react';
+
 import { useShop } from '../hooks/useShop';
 import LoadingSpinner from '../components/LoadingSpinner';
 

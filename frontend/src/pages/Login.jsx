@@ -5,6 +5,7 @@ import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
 import dripSwiftLogo from "/dripswift.png";
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
