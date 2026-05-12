@@ -37,51 +37,55 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-<section className="relative h-[75vh] min-h-[620px] bg-[#FDFCFB] overflow-hidden border-b border-neutral-200">
-  <div className="grid lg:grid-cols-5 h-full">
+<section className="relative h-[78vh] min-h-[650px] w-full overflow-hidden">
 
-    {/* IMAGE (dominante 60%) */}
-    <div className="lg:col-span-3 relative">
-      <img
-        src={heroImage}
-        alt="Luxury"
-        className="w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-black/10" />
-    </div>
+  {/* IMAGE FULL SCREEN */}
+  <img
+    src={heroImage}
+    alt="Luxury"
+    className="absolute inset-0 w-full h-full object-cover scale-[1.02]"
+  />
 
-    {/* TEXT (40%) */}
-    <div className="lg:col-span-2 flex items-center">
-      <div className="px-10 md:px-16 max-w-md">
+  {/* DARK OVERLAY pour lire le texte */}
+  <div className="absolute inset-0 bg-black/40" />
 
-        <span className="text-[10px] tracking-[0.5em] uppercase text-[#A69F95] font-black">
+  {/* CONTENT */}
+  <div className="relative z-10 h-full flex items-center">
+
+    <div className="container mx-auto px-6 md:px-16">
+
+      <div className="max-w-2xl text-white space-y-8">
+
+        <span className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-black text-white/70">
           DRIPSWIFT
         </span>
 
-        <h1 className="mt-6 text-4xl md:text-5xl font-serif leading-[1.1] text-text-dark">
+        <h1 className="text-5xl md:text-7xl font-serif leading-[1.05]">
           Le luxe,<br />
-          <span className="italic text-[#A69F95] font-light">
+          <span className="italic font-light text-white/80">
             sans attente.
           </span>
         </h1>
 
-        <p className="mt-6 text-sm md:text-base text-text-medium leading-relaxed font-light">
+        <p className="text-base md:text-lg text-white/70 font-light leading-relaxed max-w-lg">
           Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
         </p>
 
-        <div className="mt-10">
+        <div className="pt-4">
           <Link
             to="/shops"
-            className="inline-block bg-black text-white px-10 py-4 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-neutral-800 transition"
+            className="inline-block bg-white text-black px-10 py-4 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-white/90 transition"
           >
             Explorer
           </Link>
         </div>
 
       </div>
+
     </div>
 
   </div>
+
 </section>
 
 
