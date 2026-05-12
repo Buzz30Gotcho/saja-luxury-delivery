@@ -6,7 +6,7 @@ import { useProducts } from '../hooks/useProduct';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import heroImage from '/hero-luxury.jpg';
-import { Search, Star, Truck, ShieldCheck, ArrowRight, Heart, Package, Clock, Shield } from 'lucide-react';
+import { Truck, ArrowRight, Package, Clock, Shield } from 'lucide-react';
 import ShopCard from '../components/ShopCard';
 
 const fadeUp = {
@@ -124,45 +124,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* User Quick Dashboard - If Logged In */}
-      {user && (
-        <section className="py-20 bg-white border-b border-border relative">
-          <div className="container mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-              <div className="md:col-span-1 space-y-4">
-                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[#A69F95]">Votre Profil</h3>
-                <Link to="/compte_user" className="flex items-center gap-6 group">
-                  <img 
-                    src={user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${user.email}&background=random`} 
-                    alt="User" 
-                    className="w-16 h-16 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-border"
-                  />
-                  <div>
-                    <p className="text-lg font-bold text-text-dark uppercase tracking-widest">{user.user_metadata?.display_name || 'Élite Member'}</p>
-                    <p className="text-xs text-[#A69F95] uppercase tracking-widest">Voir mon espace</p>
-                  </div>
-                </Link>
-              </div>
-              <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                {[
-                  { label: "Commandes", icon: <Package size={18} />, link: "/compte_user", value: "Historique" },
-                  { label: "Favoris", icon: <Heart size={18} />, link: "/catalogue", value: "Mes Pièces" },
-                  { label: "Support", icon: <Shield size={18} />, link: "/help", value: "Concierge 24/7" },
-                ].map((item) => (
-                  <Link key={item.label} to={item.link} className="p-8 border border-[#F5F3EF] hover:border-text-dark transition-all duration-500 group">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="text-[#8C867E] group-hover:text-text-dark transition-colors">{item.icon}</div>
-                      <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all" />
-                    </div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#A69F95] mb-2">{item.label}</p>
-                    <p className="text-lg font-serif text-text-dark italic">{item.value}</p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
       {/* 2. Featured Houses - Exclusive curation */}
       <section className="py-28 md:py-40 bg-[#FDFCFB] overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
