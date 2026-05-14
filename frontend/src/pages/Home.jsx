@@ -37,49 +37,104 @@ const Home = () => {
       {/* Afficher un message de chargement plus discret si authLoading est vrai */}
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
-<section className="h-[60vh] min-h-[520px] bg-[#FDFCFB] flex items-center border-b border-neutral-light">
-  <div className="container mx-auto px-6 md:px-12">
-    
-    <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-      {/* TEXTE */}
-      <div className="space-y-10 max-w-2xl">
-        
-        <span className="text-[11px] tracking-[0.6em] uppercase font-black text-[#A69F95]">
-          DRIPSWIFT
-        </span>
-
-        <h1 className="text-5xl md:text-7xl font-serif leading-[1.05] text-text-dark">
-          Le luxe,<br />
-          <span className="italic font-light text-[#A69F95]">
-            sans attente.
+<section className="relative h-[85vh] min-h-[600px] flex items-center overflow-hidden bg-[#FDFCFB]">
+  {/* Abstract background elements for texture */}
+  <div className="absolute top-20 right-[-10%] w-[500px] h-[500px] bg-[#F5F3EF] rounded-full blur-[120px] pointer-events-none opacity-50" />
+  <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-[#EAE8E4] rounded-full blur-[100px] pointer-events-none opacity-30" />
+  
+  <div className="container mx-auto px-6 md:px-12 relative z-10">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      {/* TEXT CONTENT */}
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={stagger}
+        className="lg:col-span-7 space-y-8 md:space-y-12"
+      >
+        <motion.div variants={fadeUp} custom={0}>
+          <span className="text-[11px] tracking-[0.8em] uppercase font-black text-[#A69F95] mb-6 block">
+            DripSwift &bull; Excellence
           </span>
-        </h1>
+          <h1 className="text-6xl md:text-8xl lg:text-[100px] font-serif leading-[0.9] text-text-dark tracking-tighter">
+            Le luxe,<br />
+            <span className="italic font-light text-[#A69F95] md:pl-20">
+              sans attente.
+            </span>
+          </h1>
+        </motion.div>
 
-        <p className="text-lg md:text-xl text-text-medium font-light leading-relaxed">
-          Une sélection exclusive de boutiques et de pièces rares, livrées avec précision et discrétion.
-        </p>
-
-        <Link
-          to="/shops"
-          className="inline-block bg-black text-white px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-black hover:bg-neutral-800 transition"
+        <motion.p 
+          variants={fadeUp} 
+          custom={1}
+          className="text-lg md:text-2xl text-text-medium font-light leading-relaxed max-w-xl italic"
         >
-          Explorer
-        </Link>
+          Une sélection exclusive de boutiques et de pièces rares, livrées avec une précision absolue à votre porte.
+        </motion.p>
 
-      </div>
+        <motion.div variants={fadeUp} custom={2} className="flex flex-col sm:flex-row gap-8 items-start sm:items-center pt-4">
+          <Link
+            to="/shops"
+            className="group relative inline-block bg-black text-white px-14 py-6 text-[11px] uppercase tracking-[0.4em] font-black overflow-hidden transition-all duration-500"
+          >
+            <span className="relative z-10 group-hover:text-black transition-colors duration-500">Explorer l'univers</span>
+            <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+          </Link>
+          
+          <Link to="/catalogue" className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-black text-text-dark hover:text-[#A69F95] transition-colors">
+            <span>Voir le catalogue</span>
+            <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+          </Link>
+        </motion.div>
+      </motion.div>
 
-      {/* IMAGE */}
-      <div className="relative flex justify-center lg:justify-end">
-<div className="w-full max-w-[420px] aspect-[3/4] bg-[#F5F3EF] flex items-center justify-center overflow-hidden border border-white shadow-xl">
-  <img
-    src={heroImage}
-    alt="Luxury"
-    className="w-full h-full object-contain"
-  />
-          <div className="absolute inset-0 bg-black/10" />
+      {/* IMAGE SECTION */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="lg:col-span-5 relative"
+      >
+        <div className="relative z-10 w-full max-w-[480px] ml-auto">
+          {/* Main Image Frame */}
+          <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[12px] border-white relative group">
+            <motion.img
+              initial={{ scale: 1.2 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 2, ease: "easeOut" }}
+              src={heroImage}
+              alt="Luxury Experience"
+              className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-1000"
+            />
+            {/* Subtle overlay */}
+            <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
+            
+            {/* Corner Accent */}
+            <div className="absolute bottom-0 right-0 w-24 h-24 bg-white flex items-center justify-center">
+              <div className="w-12 h-[1px] bg-black rotate-45 absolute" />
+              <div className="w-12 h-[1px] bg-black -rotate-45 absolute" />
+            </div>
+          </div>
+
+          {/* Floating Decorative Elements */}
+          <motion.div 
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#A69F95]/10 backdrop-blur-3xl rounded-full z-[-1]" 
+          />
+          
+          <div className="absolute -top-6 -right-6 p-8 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
+            <div className="space-y-2">
+              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Collection</p>
+              <p className="text-lg font-serif italic text-text-dark">Hiver 2024</p>
+              <div className="w-8 h-[1px] bg-text-dark" />
+            </div>
+          </div>
         </div>
-      </div>
+        
+        {/* Background decorative square */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[90%] border border-[#EAE8E4] z-0 pointer-events-none opacity-40" />
+      </motion.div>
 
     </div>
   </div>
