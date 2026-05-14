@@ -3,6 +3,7 @@ import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import ScrollToTop from './ScrollToTop';
 
 const Layout = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <ScrollToTop />
       {/* Header conditionnel */}
       {shouldShowLayout && <Header />}
       

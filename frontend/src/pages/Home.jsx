@@ -134,7 +134,12 @@ const Home = () => {
                 <motion.div key={product.id} variants={fadeUp} custom={i}>
                   <Link to={`/product/${product.id}`} className="group block">
                     <div className="relative aspect-[4/5] overflow-hidden bg-[#FDFCFB] mb-6">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                       <div className="absolute bottom-6 left-6">
                         <span className="bg-white/95 backdrop-blur-sm text-text-dark px-4 py-2 text-sm font-black uppercase tracking-widest shadow-sm">
