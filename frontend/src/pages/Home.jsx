@@ -117,17 +117,12 @@ const Home = () => {
             className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#A69F95]/10 backdrop-blur-3xl rounded-full z-[-1]" 
           />
           
-          {/* New Live Delivery Badge */}
-          <div className="absolute -top-6 -right-6 p-6 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
-            <div className="flex items-center gap-4">
-              <div className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A69F95] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#A69F95]"></span>
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Direct</p>
-                <p className="text-sm font-serif italic text-text-dark">Coursiers actifs</p>
-              </div>
+          {/* Brand Signature Badge */}
+          <div className="absolute -top-6 -right-6 p-8 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
+            <div className="space-y-2">
+              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Signature</p>
+              <p className="text-lg font-serif italic text-text-dark leading-snug">L'excellence,<br/>à votre porte.</p>
+              <div className="w-8 h-[1px] bg-text-dark mt-4" />
             </div>
           </div>
         </div>
