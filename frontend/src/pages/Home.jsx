@@ -35,27 +35,27 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
       {/* 1. HERO SECTION */}
-      <section className="relative h-[85vh] min-h-[600px] flex items-center overflow-hidden bg-[#FDFCFB]">
+      <section className="relative h-[70vh] min-h-[550px] flex items-center overflow-hidden bg-[#FDFCFB]">
         <div className="absolute top-20 right-[-10%] w-[500px] h-[500px] bg-[#F5F3EF] rounded-full blur-[120px] pointer-events-none opacity-50" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-[#EAE8E4] rounded-full blur-[100px] pointer-events-none opacity-30" />
         
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-8 md:space-y-12">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-6 md:space-y-8">
               <motion.div variants={fadeUp} custom={0}>
-                <span className="text-[11px] tracking-[0.8em] uppercase font-black text-[#A69F95] mb-6 block">
+                <span className="text-[11px] tracking-[0.8em] uppercase font-black text-[#A69F95] mb-4 block">
                   DripSwift &bull; Excellence
                 </span>
-                <h1 className="text-6xl md:text-8xl lg:text-[100px] font-serif leading-[0.9] text-text-dark tracking-tighter">
+                <h1 className="text-5xl md:text-7xl lg:text-[90px] font-serif leading-[0.95] text-text-dark tracking-tighter">
                   Le luxe,<br />
-                  <span className="italic font-light text-[#A69F95] md:pl-20">
+                  <span className="italic font-light text-[#A69F95] md:pl-16">
                     sans attente.
                   </span>
                 </h1>
               </motion.div>
 
-              <motion.p variants={fadeUp} custom={1} className="text-lg md:text-2xl text-text-medium font-light leading-relaxed max-w-xl italic">
+              <motion.p variants={fadeUp} custom={1} className="text-base md:text-xl text-text-medium font-light leading-relaxed max-w-xl italic">
                 Une sélection exclusive de boutiques et de pièces rares, livrées avec une précision absolue à votre porte.
               </motion.p>
 
