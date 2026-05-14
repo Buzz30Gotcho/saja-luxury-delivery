@@ -95,9 +95,9 @@ const Home = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="lg:col-span-5 relative"
       >
-        <div className="relative z-10 w-full max-w-[480px] ml-auto">
+        <div className="relative z-10 w-full max-w-[520px] ml-auto">
           {/* Main Image Frame */}
-          <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[12px] border-white relative group">
+          <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[14px] border-white relative group">
             <motion.img
               initial={{ scale: 1.2 }}
               animate={{ scale: 1 }}
@@ -108,12 +108,6 @@ const Home = () => {
             />
             {/* Subtle overlay */}
             <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
-            
-            {/* Corner Accent */}
-            <div className="absolute bottom-0 right-0 w-24 h-24 bg-white flex items-center justify-center">
-              <div className="w-12 h-[1px] bg-black rotate-45 absolute" />
-              <div className="w-12 h-[1px] bg-black -rotate-45 absolute" />
-            </div>
           </div>
 
           {/* Floating Decorative Elements */}
@@ -123,11 +117,17 @@ const Home = () => {
             className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#A69F95]/10 backdrop-blur-3xl rounded-full z-[-1]" 
           />
           
-          <div className="absolute -top-6 -right-6 p-8 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
-            <div className="space-y-2">
-              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Collection</p>
-              <p className="text-lg font-serif italic text-text-dark">Hiver 2024</p>
-              <div className="w-8 h-[1px] bg-text-dark" />
+          {/* New Live Delivery Badge */}
+          <div className="absolute -top-6 -right-6 p-6 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
+            <div className="flex items-center gap-4">
+              <div className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A69F95] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#A69F95]"></span>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Direct</p>
+                <p className="text-sm font-serif italic text-text-dark">Coursiers actifs</p>
+              </div>
             </div>
           </div>
         </div>
