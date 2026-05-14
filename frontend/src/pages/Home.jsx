@@ -6,7 +6,7 @@ import { useProducts } from '../hooks/useProduct';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import heroImage from '/hero-luxury.jpg';
-import { Truck, ArrowRight, Package, Clock, Shield, Search, Star, Zap, Flame, Sparkles, Shirt, Footprints, Watch, ShoppingBag } from 'lucide-react';
+import { Truck, ArrowRight, Package, Clock, Shield, Search, Star, Zap, Flame } from 'lucide-react';
 import ShopCard from '../components/ShopCard';
 
 const fadeUp = {
@@ -21,14 +21,6 @@ const fadeUp = {
 const stagger = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
-
-const CATEGORIES = [
-  { id: 'femme', name: 'Femmes', icon: <ShoppingBag size={24} />, color: 'bg-pink-50' },
-  { id: 'homme', name: 'Hommes', icon: <Shirt size={24} />, color: 'bg-blue-50' },
-  { id: 'enfant', name: 'Enfants', icon: <Sparkles size={24} />, color: 'bg-yellow-50' },
-  { id: 'sneakers', name: 'Sneakers', icon: <Footprints size={24} />, color: 'bg-orange-50' },
-  { id: 'accessoires', name: 'Accessoires', icon: <Watch size={24} />, color: 'bg-purple-50' },
-];
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
@@ -109,29 +101,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 2. CATEGORY ICONS STRIP - Ajouté selon croquis */}
-      <section className="py-12 bg-white border-b border-border">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center gap-4 overflow-x-auto pb-4 no-scrollbar">
-            {CATEGORIES.map((cat, i) => (
-              <Link 
-                key={cat.id} 
-                to={`/catalogue?category=${cat.id}`}
-                className="flex flex-col items-center min-w-[100px] group"
-              >
-                <div className={`w-16 h-16 ${cat.color} rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 border border-transparent group-hover:border-black/10`}>
-                  <div className="text-text-dark">{cat.icon}</div>
-                </div>
-                <span className="text-[10px] uppercase tracking-[0.2em] font-black text-text-medium group-hover:text-black">
-                  {cat.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. CLASSEMENTS DES BOUTIQUES - Ajouté selon croquis */}
+      {/* 2. CLASSEMENTS DES BOUTIQUES - Ajouté selon croquis */}
       
       {/* SECTION : POPULAIRES */}
       <section className="py-20 bg-[#FDFCFB]">
