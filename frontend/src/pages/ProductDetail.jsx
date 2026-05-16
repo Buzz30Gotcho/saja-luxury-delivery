@@ -72,18 +72,18 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="product-detail-page bg-background min-h-screen pt-32 pb-24">
+    <div className="product-detail-page bg-background min-h-screen pt-28 md:pt-32 pb-24">
       <div className="container mx-auto px-6 md:px-12">
         {/* Breadcrumbs */}
-        <div className="mb-12 flex items-center gap-2 text-base md:text-lg uppercase tracking-[0.2em] text-text-light font-bold">
+        <div className="mb-8 md:mb-12 flex items-center flex-wrap gap-2 text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-light font-bold">
           <Link to="/" className="hover:text-black transition-colors">Accueil</Link>
           <span>/</span>
           <Link to="/shops" className="hover:text-black transition-colors">Boutiques</Link>
           <span>/</span>
-          <span className="text-text-medium">{product.name}</span>
+          <span className="text-text-medium truncate max-w-[150px] md:max-w-none">{product.name}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 xl:gap-24">
           {/* Image du produit */}
           <div className="relative aspect-[4/5] bg-white overflow-hidden shadow-sm">
             <img
@@ -94,51 +94,51 @@ const ProductDetail = () => {
             {product.shops && (
               <Link 
                 to={`/shop/${product.shops.id}`}
-                className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-3 shadow-sm flex items-center gap-3 hover:bg-white transition-colors duration-150"
+                className="absolute top-4 left-4 md:top-6 md:left-6 bg-white/90 backdrop-blur-sm px-3 py-2 md:px-4 md:py-3 shadow-sm flex items-center gap-2 md:gap-3 hover:bg-white transition-colors duration-150"
               >
-                <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-8 h-8 rounded-full object-cover" />
-                <span className="text-sm md:text-base font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
+                <img src={product.shops.image || '/placeholder.png'} alt={product.shops.name} className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover" />
+                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-text-dark">{product.shops.name}</span>
               </Link>
             )}
           </div>
 
           {/* Détails du produit */}
           <div className="flex flex-col">
-            <div className="mb-8">
-              <p className="text-lg text-text-light uppercase tracking-[0.3em] font-bold mb-4">
+            <div className="mb-6 md:mb-8">
+              <p className="text-[11px] md:text-xs text-text-light uppercase tracking-[0.3em] font-bold mb-3 md:mb-4">
                 {product.category || 'Édition Limitée'}
               </p>
-              <h1 className="text-4xl md:text-5xl font-serif text-text-dark mb-6 leading-tight">
+              <h1 className="text-3xl md:text-5xl font-serif text-text-dark mb-4 md:mb-6 leading-tight">
                 {product.name}
               </h1>
-              <div className="text-2xl font-serif text-text-dark">
+              <div className="text-xl md:text-2xl font-serif text-text-dark">
                 {product.price}€
               </div>
             </div>
 
-            <div className="mb-12 space-y-6">
-              <div className="w-12 h-[1px] bg-border"></div>
-              <p className="text-xl text-text-medium leading-relaxed font-light">
+            <div className="mb-10 md:mb-12 space-y-4 md:space-y-6">
+              <div className="w-10 h-[1px] bg-border"></div>
+              <p className="text-base md:text-lg text-text-medium leading-relaxed font-light italic">
                 {product.description}
               </p>
             </div>
 
             {/* Sélecteur de quantité et bouton ajouter */}
-            <div className="space-y-8 pt-8 border-t border-border">
+            <div className="space-y-6 md:space-y-8 pt-6 md:pt-8 border-t border-border">
               <div className="flex items-center justify-between">
-                <span className="text-lg uppercase tracking-widest text-text-medium font-bold">Quantité</span>
-                <div className="flex items-center border border-border px-4 py-2">
+                <span className="text-xs md:text-sm uppercase tracking-widest text-text-medium font-bold">Quantité</span>
+                <div className="flex items-center border border-border px-3 py-1.5 md:px-4 md:py-2">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 text-text-light hover:text-black transition-colors disabled:opacity-30"
+                    className="w-6 h-6 md:w-8 md:h-8 text-text-light hover:text-black transition-colors disabled:opacity-30 flex items-center justify-center"
                     disabled={isAdded || quantity <= 1}
                   >
                     -
                   </button>
-                  <span className="w-12 text-center text-[14px] font-bold text-text-dark">{quantity}</span>
+                  <span className="w-8 md:w-12 text-center text-[12px] md:text-[14px] font-bold text-text-dark">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 text-text-light hover:text-black transition-colors disabled:opacity-30"
+                    className="w-6 h-6 md:w-8 md:h-8 text-text-light hover:text-black transition-colors disabled:opacity-30 flex items-center justify-center"
                     disabled={isAdded || (product.stock && quantity >= product.stock)}
                   >
                     +
@@ -149,7 +149,7 @@ const ProductDetail = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isAdded || (product.stock && product.stock === 0)}
-                className={`w-full py-5 text-[13px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
+                className={`w-full py-4 md:py-5 text-[11px] md:text-[13px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 flex items-center justify-center gap-3 shadow-sm ${
                   isAdded
                     ? 'bg-black text-white cursor-not-allowed'
                     : (product.stock && product.stock === 0) 

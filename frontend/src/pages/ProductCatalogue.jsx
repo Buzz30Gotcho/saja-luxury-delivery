@@ -37,23 +37,23 @@ const ProductCatalogue = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 md:pt-32 pb-24">
+    <div className="min-h-screen bg-background pt-28 md:pt-32 pb-24">
       {/* Header Section */}
-      <section className="max-w-[1600px] mx-auto px-8 md:px-12">
+      <section className="max-w-[1600px] mx-auto px-6 md:px-12">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="max-w-4xl mx-auto text-center mb-20 md:mb-24"
+          className="max-w-4xl mx-auto text-center mb-16 md:mb-24"
         >
-          <motion.div variants={fadeUp} custom={0} className="mb-6">
-            <span className="text-text-light text-xs font-black tracking-[0.5em] uppercase">Collections de prestige</span>
+          <motion.div variants={fadeUp} custom={0} className="mb-4 md:mb-6">
+            <span className="text-text-light text-[10px] md:text-xs font-black tracking-[0.3em] md:tracking-[0.5em] uppercase">Collections de prestige</span>
           </motion.div>
-          <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-serif text-text-dark mb-8 tracking-tight">
+          <motion.h1 variants={fadeUp} custom={1} className="text-3xl md:text-5xl font-serif text-text-dark mb-6 md:mb-8 tracking-tight">
             Le Catalogue
           </motion.h1>
-          <motion.div variants={fadeUp} className="w-16 h-[1px] bg-text-dark mx-auto mb-8" />
-          <motion.p variants={fadeUp} custom={2} className="text-sm md:text-base uppercase tracking-[0.25em] text-text-medium max-w-xl mx-auto leading-relaxed font-medium">
+          <motion.div variants={fadeUp} className="w-12 md:w-16 h-[1px] bg-text-dark mx-auto mb-8" />
+          <motion.p variants={fadeUp} custom={2} className="text-xs md:text-base uppercase tracking-[0.2em] md:tracking-[0.25em] text-text-medium max-w-xl mx-auto leading-relaxed font-medium px-4 md:px-0">
             Une sélection rigoureuse de pièces d'exception issues des meilleures boutiques locales.
           </motion.p>
         </motion.div>
@@ -65,7 +65,7 @@ const ProductCatalogue = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 md:gap-x-8 gap-y-12 md:gap-y-16"
           >
             {products.map((product, i) => (
               <motion.div key={product.id} variants={fadeUp} custom={i}>

@@ -109,34 +109,34 @@ const ShopDetail = () => {
   if (!shop) return <div className="not-found">Boutique non trouvée</div>;
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-24">
+    <div className="min-h-screen bg-background pt-28 md:pt-32 pb-24">
       {/* Header */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto px-6 md:px-12 mb-24">
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          <motion.div className="lg:w-2/5 aspect-[4/5] overflow-hidden bg-white shadow-sm">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto px-6 md:px-12 mb-16 md:mb-24">
+        <div className="flex flex-col lg:flex-row gap-10 md:gap-16 items-start">
+          <motion.div className="w-full lg:w-2/5 aspect-[4/5] overflow-hidden bg-white shadow-sm">
             <img src={shop.image} alt={shop.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
           </motion.div>
 
-          <div className="lg:w-3/5 space-y-10">
+          <div className="w-full lg:w-3/5 space-y-8 md:space-y-10">
             <div>
-              <div className="flex justify-between items-start mb-6">
+              <div className="flex justify-between items-start mb-4 md:mb-6">
                 <div>
-                  <p className="text-[12px] text-text-light uppercase tracking-[0.4em] font-bold mb-4">{shop.category}</p>
-                  <h1 className="text-4xl md:text-6xl font-serif text-text-dark tracking-tight">{shop.name}</h1>
+                  <p className="text-[11px] md:text-[12px] text-text-light uppercase tracking-[0.3em] md:tracking-[0.4em] font-bold mb-3 md:mb-4">{shop.category}</p>
+                  <h1 className="text-3xl md:text-6xl font-serif text-text-dark tracking-tight">{shop.name}</h1>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-4 border border-border text-text-light hover:text-red-500 hover:border-red-500 transition-all duration-300"
+                  className="p-3 md:p-4 border border-border text-text-light hover:text-red-500 hover:border-red-500 transition-all duration-300"
                 >
                   <Heart className="w-5 h-5" />
                 </motion.button>
               </div>
-              <div className="w-12 h-[1px] bg-text-dark mb-8"></div>
-              <p className="text-[17px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
+              <div className="w-12 h-[1px] bg-text-dark mb-6 md:mb-8"></div>
+              <p className="text-base md:text-[17px] text-text-medium leading-relaxed font-light italic max-w-2xl">{shop.description}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-8 border-y border-border">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 py-6 md:py-8 border-y border-border">
               <div className="space-y-2 text-center md:text-left">
                 <span className="block text-[11px] uppercase tracking-widest text-text-light">Avis Client</span>
                 <div className="flex items-center justify-center md:justify-start gap-2">
@@ -170,27 +170,27 @@ const ShopDetail = () => {
       </motion.div>
 
       {/* Controls bar */}
-      <div className="bg-white border-y border-border sticky top-0 z-40 mb-16 shadow-sm">
-        <div className="container mx-auto px-6 md:px-12 py-8">
-          <div className="flex flex-col lg:flex-row gap-10 items-center justify-between">
-            <div className="flex items-center gap-16 w-full lg:w-auto">
-              <div className="relative group min-w-[300px]">
-                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-text-dark transition-colors" size={18} />
+      <div className="bg-white border-y border-border sticky top-[80px] md:top-[112px] z-40 mb-12 md:mb-16 shadow-sm">
+        <div className="container mx-auto px-6 md:px-12 py-6 md:py-8">
+          <div className="flex flex-col lg:flex-row gap-6 md:gap-10 items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-center gap-6 md:gap-16 w-full lg:w-auto">
+              <div className="relative group w-full sm:min-w-[250px] md:min-w-[300px]">
+                <Search className="absolute left-0 top-1/2 transform -translate-y-1/2 text-text-light group-focus-within:text-text-dark transition-colors" size={16} />
                 <input
                   type="text"
                   placeholder="RECHERCHER..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-8 py-3 bg-transparent border-b border-transparent focus:border-text-dark text-sm uppercase tracking-[0.25em] focus:outline-none transition-all placeholder:text-text-light/50"
+                  className="w-full pl-8 py-2 md:py-3 bg-transparent border-b border-transparent focus:border-text-dark text-[11px] md:text-sm uppercase tracking-[0.2em] md:tracking-[0.25em] focus:outline-none transition-all placeholder:text-text-light/50"
                 />
               </div>
               
-              <div className="hidden md:flex gap-10">
+              <div className="flex gap-6 md:gap-10 w-full sm:w-auto justify-center sm:justify-start">
                 {['all', 'homme', 'femme'].map(g => (
                   <button
                     key={g}
                     onClick={() => setGenderFilter(g)}
-                    className={`text-sm uppercase tracking-[0.2em] font-bold transition-all pb-1 ${
+                    className={`text-[11px] md:text-sm uppercase tracking-[0.15em] md:tracking-[0.2em] font-bold transition-all pb-1 ${
                       genderFilter === g ? 'text-text-dark border-b-2 border-text-dark' : 'text-text-light hover:text-text-dark'
                     }`}
                   >
@@ -200,12 +200,12 @@ const ShopDetail = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-12 w-full lg:w-auto justify-between lg:justify-end">
+            <div className="flex items-center gap-6 md:gap-12 w-full lg:w-auto justify-between lg:justify-end">
               <div className="relative">
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-transparent text-sm font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer pr-4 appearance-none"
+                  className="bg-transparent text-[11px] md:text-sm font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer pr-4 appearance-none"
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>
@@ -219,7 +219,7 @@ const ShopDetail = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-transparent text-sm font-bold uppercase tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer appearance-none"
+                  className="bg-transparent text-[11px] md:text-sm font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-text-dark focus:outline-none cursor-pointer appearance-none"
                 >
                   <option value="popular">Populaires</option>
                   <option value="price-low">Prix Croissant</option>
@@ -227,9 +227,9 @@ const ShopDetail = () => {
                 </select>
               </div>
 
-              <div className="flex gap-6 border-l border-border pl-12">
-                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><Grid size={22} /></button>
-                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><List size={22} /></button>
+              <div className="flex gap-4 md:gap-6 border-l border-border pl-6 md:pl-12">
+                <button onClick={() => setViewMode('grid')} className={`p-1 transition-colors ${viewMode === 'grid' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><Grid size={20} /></button>
+                <button onClick={() => setViewMode('list')} className={`p-1 transition-colors ${viewMode === 'list' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'}`}><List size={20} /></button>
               </div>
             </div>
           </div>

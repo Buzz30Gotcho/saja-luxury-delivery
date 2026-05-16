@@ -35,21 +35,21 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
       {/* 1. HERO SECTION */}
-      <section className="relative h-[70vh] min-h-[550px] flex items-center overflow-hidden bg-[#FDFCFB]">
-        <div className="absolute top-20 right-[-10%] w-[500px] h-[500px] bg-[#F5F3EF] rounded-full blur-[120px] pointer-events-none opacity-50" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-[#EAE8E4] rounded-full blur-[100px] pointer-events-none opacity-30" />
+      <section className="relative min-h-[calc(100vh-80px)] md:min-h-[550px] flex items-center overflow-hidden bg-[#FDFCFB] pt-12 pb-20 md:py-0">
+        <div className="absolute top-20 right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#F5F3EF] rounded-full blur-[80px] md:blur-[120px] pointer-events-none opacity-50" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#EAE8E4] rounded-full blur-[70px] md:blur-[100px] pointer-events-none opacity-30" />
         
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-6 md:space-y-8">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-8 md:space-y-10">
               <motion.div variants={fadeUp} custom={0}>
-                <span className="text-[11px] tracking-[0.8em] uppercase font-black text-[#A69F95] mb-4 block">
+                <span className="text-[10px] md:text-[11px] tracking-[0.5em] md:tracking-[0.8em] uppercase font-black text-[#A69F95] mb-4 md:mb-6 block">
                   DripSwift &bull; Excellence
                 </span>
-                <h1 className="text-5xl md:text-7xl lg:text-[90px] font-serif leading-[0.95] text-text-dark tracking-tighter">
-                  Le luxe,<br />
-                  <span className="italic font-light text-[#A69F95] md:pl-16">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[90px] font-serif leading-[1.1] md:leading-[0.95] text-text-dark tracking-tighter">
+                  Le luxe,<br className="hidden sm:block" />
+                  <span className="italic font-light text-[#A69F95] sm:pl-16 block sm:inline mt-2 sm:mt-0">
                     sans attente.
                   </span>
                 </h1>
@@ -59,29 +59,34 @@ const Home = () => {
                 Une sélection exclusive de boutiques et de pièces rares, livrées avec une précision absolue à votre porte.
               </motion.p>
 
-              <motion.div variants={fadeUp} custom={2} className="flex flex-col sm:flex-row gap-8 items-start sm:items-center pt-4">
-                <Link to="/shops" className="group relative inline-block bg-black text-white px-14 py-6 text-[11px] uppercase tracking-[0.4em] font-black overflow-hidden transition-all duration-500">
+              <motion.div variants={fadeUp} custom={2} className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-stretch sm:items-center pt-4">
+                <Link to="/shops" className="group relative inline-block bg-black text-white px-10 md:px-14 py-5 md:py-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black overflow-hidden transition-all duration-500 text-center">
                   <span className="relative z-10 group-hover:text-black transition-colors duration-500">Explorer l'univers</span>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </Link>
-                <Link to="/catalogue" className="group flex items-center gap-4 text-[11px] uppercase tracking-[0.4em] font-black text-text-dark hover:text-[#A69F95] transition-colors">
+                <Link to="/catalogue" className="group flex items-center justify-center sm:justify-start gap-4 text-[10px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black text-text-dark hover:text-[#A69F95] transition-colors">
                   <span>Voir le catalogue</span>
                   <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                 </Link>
               </motion.div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} className="lg:col-span-5 relative">
-              <div className="relative z-10 w-full max-w-[520px] ml-auto">
-                <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[14px] border-white relative group">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} 
+              className="lg:col-span-5 relative mt-10 lg:mt-0"
+            >
+              <div className="relative z-10 w-full max-w-[450px] lg:max-w-[520px] mx-auto lg:ml-auto">
+                <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[8px] md:border-[14px] border-white relative group">
                   <motion.img initial={{ scale: 1.2 }} animate={{ scale: 1 }} transition={{ duration: 2, ease: "easeOut" }} src={heroImage} alt="Luxury Experience" className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-1000" />
                   <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
                 </div>
-                <div className="absolute -top-6 -right-6 p-8 bg-white shadow-2xl hidden md:block border border-[#EAE8E4] z-20">
+                <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 p-6 md:p-8 bg-white shadow-2xl hidden sm:block border border-[#EAE8E4] z-20">
                   <div className="space-y-2">
-                    <p className="text-[10px] uppercase tracking-[0.4em] font-black text-[#A69F95]">Signature</p>
-                    <p className="text-lg font-serif italic text-text-dark leading-snug">L'excellence,<br/>à votre porte.</p>
-                    <div className="w-8 h-[1px] bg-text-dark mt-4" />
+                    <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black text-[#A69F95]">Signature</p>
+                    <p className="text-base md:text-lg font-serif italic text-text-dark leading-snug">L'excellence,<br/>à votre porte.</p>
+                    <div className="w-8 h-[1px] bg-text-dark mt-3 md:mt-4" />
                   </div>
                 </div>
               </div>

@@ -160,26 +160,26 @@ const ShopList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 md:pt-32 pb-20">
+    <div className="min-h-screen bg-background pt-28 md:pt-32 pb-20">
       {/* Header Section */}
       <section className="container mx-auto px-6 md:px-12">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="max-w-3xl mx-auto text-center mb-16 md:mb-20"
+          className="max-w-3xl mx-auto text-center mb-12 md:mb-20"
         >
-          <motion.div variants={fadeUp} custom={0} className="mb-6">
-            <span className="text-text-light text-[10px] md:text-xs font-bold tracking-[0.35em] uppercase">Partenaires</span>
+          <motion.div variants={fadeUp} custom={0} className="mb-4 md:mb-6">
+            <span className="text-text-light text-[9px] md:text-xs font-bold tracking-[0.25em] md:tracking-[0.35em] uppercase">Partenaires</span>
           </motion.div>
-          <motion.h1 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-serif text-text-dark mb-6 tracking-tight">
+          <motion.h1 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-serif text-text-dark mb-4 md:mb-6 tracking-tight">
             L'Écosystème Local
           </motion.h1>
-          <motion.div variants={fadeUp} className="w-12 h-[1px] bg-green mx-auto mb-8" />
-          <motion.p variants={fadeUp} custom={2} className="text-xs md:text-sm uppercase tracking-wide text-text-medium max-w-xl mx-auto leading-relaxed font-medium">
+          <motion.div variants={fadeUp} className="w-10 md:w-12 h-[1px] bg-green mx-auto mb-6 md:mb-8" />
+          <motion.p variants={fadeUp} custom={2} className="text-[10px] md:text-sm uppercase tracking-wide text-text-medium max-w-xl mx-auto leading-relaxed font-medium px-4 md:px-0">
             Découvrez les maisons indépendantes sélectionnées pour leur excellence et leur savoir-faire unique.
           </motion.p>
-          <motion.p variants={fadeUp} custom={3} className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light mt-4">
+          <motion.p variants={fadeUp} custom={3} className="text-[9px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.18em] text-text-light mt-4 px-4 md:px-0">
             Villes partenaires : {ALLOWED_SHOP_CITIES.join(' • ')}
           </motion.p>
         </motion.div>
@@ -187,21 +187,21 @@ const ShopList = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-16"
+          className="mb-12 md:mb-16"
         >
-          <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between px-2 md:px-0">
             <h2 className="text-xl md:text-2xl font-serif text-text-dark">Carte des boutiques</h2>
-            <div className="flex items-center gap-3">
-              <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-light font-bold">
-                {shopsWithCoordinates.length} boutique(s) géolocalisée(s)
+            <div className="flex items-center justify-between md:justify-end gap-3">
+              <p className="text-[9px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.18em] text-text-light font-bold">
+                {shopsWithCoordinates.length} boutique(s)
               </p>
               {geoStatus !== 'granted' && (
                 <button
                   type="button"
                   onClick={requestUserLocation}
-                  className="rounded border border-border px-3 py-1.5 text-[10px] md:text-xs uppercase tracking-[0.18em] text-text-dark hover:bg-card transition-colors"
+                  className="rounded border border-border px-3 py-1.5 text-[9px] md:text-xs uppercase tracking-[0.18em] text-text-dark hover:bg-card transition-colors"
                 >
-                  {geoStatus === 'loading' ? 'Localisation…' : 'Activer ma position'}
+                  {geoStatus === 'loading' ? 'Localisation…' : 'Ma position'}
                 </button>
               )}
             </div>
