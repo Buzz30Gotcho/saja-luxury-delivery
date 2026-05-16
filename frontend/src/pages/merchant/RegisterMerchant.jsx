@@ -90,7 +90,11 @@ const RegisterMerchant = () => {
       if (result.success) {
         navigate("/merchant/login", { state: { message: "Inscription réussie ! Veuillez vous connecter." } });
       } else {
-        setErrors({ submit: result.error });
+        let errorMessage = result.error;
+        if (result.error === "User already registered" || result.error?.includes("already registered")) {
+          errorMessage = "Un compte existe déjà avec cet email. Veuillez utiliser un autre email ou vous connecter.";
+        }
+        setErrors({ submit: errorMessage });
       }
     } catch (error) {
       console.error("Erreur d'inscription:", error);
@@ -208,6 +212,11 @@ const RegisterMerchant = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
+          {errors.submit && (
+            <div className="bg-danger/10 border border-danger/20 text-danger p-4 rounded-lg text-center font-bold italic">
+              {errors.submit}
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
             {commonFields.map((field) => (
               <div key={field.name} className={field.name === "description" ? "md:col-span-2" : ""}>

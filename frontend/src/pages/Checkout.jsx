@@ -315,11 +315,6 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <p className="text-xs text-text-light uppercase tracking-[0.2em] leading-relaxed italic">
-                  Simulation : utilisez <strong className="text-text-dark not-italic">4242 4242 4242 4242</strong> pour un succès,
-                  ou une carte finissant par <strong className="text-danger not-italic">0000</strong> pour simuler un refus.
-                </p>
-
                 {paymentError && <div className="text-danger text-sm font-bold italic mt-6">{paymentError}</div>}
               </form>
             </div>

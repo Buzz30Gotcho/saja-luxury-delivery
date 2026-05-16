@@ -115,7 +115,11 @@ const Register = () => {
           } 
         });
       } else {
-        setErrors({ submit: result.error?.message || "Erreur lors de l'inscription" });
+        let errorMessage = result.error;
+        if (result.error === "User already registered" || result.error?.includes("already registered")) {
+          errorMessage = "Un compte existe déjà avec cet email. Veuillez utiliser un autre email ou vous connecter.";
+        }
+        setErrors({ submit: errorMessage });
       }
     } catch (error) {
       setErrors({ submit: error.message });
