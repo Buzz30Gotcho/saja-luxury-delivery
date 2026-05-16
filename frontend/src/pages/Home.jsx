@@ -35,7 +35,7 @@ const Home = () => {
       {authLoading && <div className="fixed top-0 left-0 w-full h-1 bg-black/5 animate-pulse z-[9999]" />}
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[calc(100vh-80px)] md:min-h-[550px] flex items-center overflow-hidden bg-[#FDFCFB] pt-12 pb-20 md:py-0">
+      <section className="relative min-h-[calc(100vh-80px)] md:min-h-[650px] flex items-center overflow-hidden bg-[#FDFCFB] pt-20 pb-20 lg:pt-32 lg:pb-32">
         <div className="absolute top-20 right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#F5F3EF] rounded-full blur-[80px] md:blur-[120px] pointer-events-none opacity-50" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#EAE8E4] rounded-full blur-[70px] md:blur-[100px] pointer-events-none opacity-30" />
         
@@ -75,7 +75,7 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.95 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} 
-              className="lg:col-span-5 relative mt-10 lg:mt-0"
+              className="lg:col-span-5 relative mt-16 lg:mt-0"
             >
               <div className="relative z-10 w-full max-w-[450px] lg:max-w-[520px] mx-auto lg:ml-auto">
                 <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[8px] md:border-[14px] border-white relative group">
