@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
-import dripSwiftLogo from "/dripswift.png";
+import sajaLogo from "/saja.png";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -104,8 +104,8 @@ const Login = () => {
               className="relative mb-8"
             >
               <img
-                src={dripSwiftLogo}
-                alt="Dripswift"
+                src={sajaLogo}
+                alt="SAJA"
                 className="w-48 md:w-64 h-auto transition-all duration-500"
               />
             </motion.div>

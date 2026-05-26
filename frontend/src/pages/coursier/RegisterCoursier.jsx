@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, Truck, MapPin, Phone, UserCircle } from "lucide-react";
-import dripSwiftLogo from "/dripswift.png";
+import sajaLogo from "/saja.png";
 
 const ALLOWED_CITIES = {
   "Bordeaux": { lat: 44.8378, lng: -0.5792 },
@@ -114,11 +114,11 @@ const RegisterCoursier = () => {
           className="mb-12 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto transition-all duration-500" />
+            <img src={sajaLogo} alt="SAJA" className="w-64 h-auto transition-all duration-500" />
           </motion.div>
           
           <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold text-center">
-            Livrez avec Dripswift
+            Livrez avec SAJA
           </p>
         </motion.div>
 

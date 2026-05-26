@@ -5,7 +5,7 @@ import { useShops } from '../hooks/useShops';
 import { useProducts } from '../hooks/useProduct';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
-import heroImage from '/hero-luxury.jpg';
+import sajaLogo from '/saja.png';
 import { Truck, ArrowRight, Package, Clock, Shield, Search, Star, Zap, Flame } from 'lucide-react';
 import ShopCard from '../components/ShopCard';
 
@@ -45,7 +45,7 @@ const Home = () => {
             <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-8 md:space-y-10">
               <motion.div variants={fadeUp} custom={0}>
                 <span className="text-[10px] md:text-[11px] tracking-[0.5em] md:tracking-[0.8em] uppercase font-black text-[#A69F95] mb-4 md:mb-6 block">
-                  DripSwift &bull; Excellence
+                  SAJA &bull; Excellence
                 </span>
                 <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[90px] font-serif leading-[1.1] md:leading-[0.95] text-text-dark tracking-tighter">
                   Le luxe,<br className="hidden sm:block" />
@@ -78,9 +78,17 @@ const Home = () => {
               className="lg:col-span-5 relative mt-16 lg:mt-0"
             >
               <div className="relative z-10 w-full max-w-[450px] lg:max-w-[520px] mx-auto lg:ml-auto">
-                <div className="aspect-[4/5] bg-[#F5F3EF] overflow-hidden shadow-2xl border-[8px] md:border-[14px] border-white relative group">
-                  <motion.img initial={{ scale: 1.2 }} animate={{ scale: 1 }} transition={{ duration: 2, ease: "easeOut" }} src={heroImage} alt="Luxury Experience" className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-1000" />
-                  <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
+                <div className="aspect-[4/5] bg-white flex items-center justify-center shadow-2xl border-[8px] md:border-[14px] border-white relative group overflow-hidden">
+                  <div className="absolute inset-0 bg-[#F5F3EF] opacity-50" />
+                  <motion.img 
+                    initial={{ scale: 0.8, opacity: 0 }} 
+                    animate={{ scale: 1, opacity: 1 }} 
+                    transition={{ duration: 1.5, ease: "easeOut" }} 
+                    src={sajaLogo} 
+                    alt="SAJA Exclusive" 
+                    className="relative z-10 w-4/5 h-auto mix-blend-multiply transition-transform duration-1000 group-hover:scale-110" 
+                  />
+                  <div className="absolute inset-0 border-[1px] border-black/5 m-4 pointer-events-none" />
                 </div>
                 <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 p-6 md:p-8 bg-white shadow-2xl hidden sm:block border border-[#EAE8E4] z-20">
                   <div className="space-y-2">

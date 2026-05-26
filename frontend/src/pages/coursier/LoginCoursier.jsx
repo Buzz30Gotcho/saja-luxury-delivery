@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Loader2, Eye, EyeOff, Truck } from "lucide-react";
 
 // Import de l'image locale
-import dripSwiftLogo from "/dripswift.png";
+import sajaLogo from "/saja.png";
 
 const LoginCoursier = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -70,7 +70,7 @@ const LoginCoursier = () => {
           className="mb-10 flex flex-col items-center text-center"
         >
           <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="relative mb-4">
-            <img src={dripSwiftLogo} alt="Dripswift" className="w-64 h-auto transition-all duration-500" />
+            <img src={sajaLogo} alt="SAJA" className="w-64 h-auto transition-all duration-500" />
           </motion.div>
           
           <p className="text-text-medium text-xl md:text-2xl uppercase tracking-[0.4em] font-bold">

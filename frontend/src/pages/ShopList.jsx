@@ -4,7 +4,7 @@ import { useShops } from '../hooks/useShops';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import Maps from '../Map/Maps';
-import dripSwiftLogo from '/dripswift.png';
+import sajaLogo from '/saja.png';
 
 const ALLOWED_SHOP_CITIES = ['Bordeaux', 'Paris', 'Cannes'];
 
@@ -253,7 +253,7 @@ const ShopList = () => {
                 <Link to={`/shop/${shop.id}`} className="group block">
                   <div className="relative aspect-[16/10] overflow-hidden bg-white mb-6 shadow-sm rounded-sm">
                     <img
-                      src={shop.image || dripSwiftLogo}
+                      src={shop.image || sajaLogo}
                       alt={shop.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />

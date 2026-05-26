@@ -10,25 +10,25 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Dripswift - Boutique Locale',
-        short_name: 'Dripswift',
+        name: 'SAJA - Boutique Locale',
+        short_name: 'SAJA',
         description: 'L\'élégance locale réinventée - Votre marketplace de proximité',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
         icons: [
           {
-            src: 'dripswift.png',
+            src: 'saja.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'dripswift.png',
+            src: 'saja.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'dripswift.png',
+            src: 'saja.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'

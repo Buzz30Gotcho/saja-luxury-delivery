@@ -15,8 +15,8 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="inline-block group">
               <img 
-                src="/dripswift.png" 
-                alt="Dripswift" 
+                src="/saja.png" 
+                alt="SAJA" 
                 className="h-16 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
               />
             </Link>
@@ -90,7 +90,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[11px] md:text-[10px] text-text-light uppercase tracking-[0.4em] font-black">
-            © {new Date().getFullYear()} Dripswift International.
+            © {new Date().getFullYear()} SAJA International.
           </p>
           <div className="flex gap-8 text-[11px] md:text-[10px] text-text-light uppercase tracking-[0.4em] font-black">
             <Link to="/privacy" className="hover:text-text-dark transition-colors">Confidentialité</Link>

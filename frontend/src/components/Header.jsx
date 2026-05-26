@@ -48,8 +48,8 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink flex items-center group py-1 transition-all duration-300 min-w-0">
             <img 
-              src="/dripswift.png" 
-              alt="Dripswift" 
+              src="/saja.png" 
+              alt="SAJA" 
               className="h-16 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>

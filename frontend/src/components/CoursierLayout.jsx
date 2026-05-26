@@ -17,7 +17,7 @@ const CoursierLayout = () => {
         </main>
         {/* Footer discret */}
         <footer className="py-8 text-center text-slate-400 text-xs font-medium tracking-widest uppercase">
-          &copy; 2026 Dripswift Delivery &bull; Espace Pro
+          &copy; 2026 SAJA Delivery &bull; Espace Pro
         </footer>
       </div>
     );

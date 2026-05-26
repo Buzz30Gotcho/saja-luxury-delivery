@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react";
 import { authService } from "../services/authService";
-import dripSwiftLogo from "/dripswift.png";
+import sajaLogo from "/saja.png";
 
 
 const Register = () => {
@@ -152,8 +152,8 @@ const Register = () => {
               className="relative mb-4"
             >
               <img
-                src={dripSwiftLogo}
-                alt="Dripswift"
+                src={sajaLogo}
+                alt="SAJA"
                 className="w-64 h-auto transition-all duration-500"
               />
             </motion.div>
