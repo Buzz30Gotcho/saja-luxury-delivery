@@ -154,7 +154,7 @@ const Register = () => {
               <img
                 src={sajaLogo}
                 alt="SAJA"
-                className="w-64 h-auto transition-all duration-500"
+                className="w-32 md:w-40 h-auto transition-all duration-500"
               />
             </motion.div>
 

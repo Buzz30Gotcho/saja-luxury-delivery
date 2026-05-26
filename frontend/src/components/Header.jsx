@@ -50,7 +50,7 @@ const Header = () => {
             <img 
               src="/saja.png" 
               alt="SAJA" 
-              className="h-16 md:h-28 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
+              className="h-10 md:h-16 w-auto object-contain transform group-hover:scale-105 transition-all duration-500 mix-blend-multiply"
             />
           </Link>
 

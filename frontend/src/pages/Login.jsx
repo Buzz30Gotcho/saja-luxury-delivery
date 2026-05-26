@@ -106,7 +106,7 @@ const Login = () => {
               <img
                 src={sajaLogo}
                 alt="SAJA"
-                className="w-48 md:w-64 h-auto transition-all duration-500"
+                className="w-32 md:w-40 h-auto transition-all duration-500"
               />
             </motion.div>
           </div>        </motion.div>
