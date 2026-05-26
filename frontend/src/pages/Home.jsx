@@ -61,7 +61,7 @@ const Home = () => {
                 </h1>
                 <div className="mt-6 md:mt-10">
                   <h2 className="text-3xl md:text-5xl font-serif italic font-light text-[#A69F95] leading-tight">
-                    L'excellence,<br className="sm:hidden" />
+                    L'excellence,<br />
                     <span className="sm:pl-20">sans attente.</span>
                   </h2>
                 </div>
