@@ -4,32 +4,30 @@
 
 :root {
   color-scheme: light;
-  --background: 253 252 251; /* #FDFCFB */
-  /* Sophisticated cream/off-white */
+  --background: 251 249 246; /* #FBF9F6 - Soft Cream */
   --card: 255 255 255;
-  --border: 231 231 229;
-  --muted: 245 245 244;
-  --muted-foreground: 120 113 108;
+  --border: 232 227 222; /* #E8E3DE - Warm Grey/Beige */
+  --muted: 243 240 237;
+  --muted-foreground: 120 110 100;
 
-  --text-dark: 28 25 23;
-  --text-medium: 87 83 78;
-  --text-light: 168 162 158;
+  --text-dark: 26 26 26;   /* #1A1A1A - Charcoal */
+  --text-medium: 89 82 76; /* #59524C - Warm Stone */
+  --text-light: 166 156 150;
 
-  --primary: 20 83 45;
-  /* Rich Forest Green */
-  --primary-light: 34 197 94;
-  --primary-dark: 5 46 22;
+  --primary: 60 42 33;    /* #3C2A21 - Deep Heritage Brown */
+  --primary-light: 101 78 65;
+  --primary-dark: 45 31 25;
   --primary-foreground: 255 255 255;
 
-  --green: 20 83 45;
-  --green-light: 52 211 153;
-  --green-dark: 5 46 22;
+  --green: 60 42 33; /* Aligning green/secondary variables with the new primary for consistency */
+  --green-light: 101 78 65;
+  --green-dark: 45 31 25;
 
-  --neutral-light: 231 231 229;
-  --neutral-medium: 168 162 158;
+  --neutral-light: 232 227 222;
+  --neutral-medium: 166 156 150;
 
   --danger: 153 27 27;
-  --success: 22 101 52;
+  --success: 60 42 33; /* Using primary for success to keep it sober, or keep green if functional */
 }
 
 html {
@@ -38,30 +36,30 @@ html {
 
 .dark {
   color-scheme: dark;
-  --background: 12 10 9;
-  --card: 28 25 23;
-  --border: 68 64 60;
-  --muted: 41 37 36;
-  --muted-foreground: 168 162 158;
+  --background: 24 20 18; /* #181412 - Deep Espresso */
+  --card: 35 30 28;
+  --border: 55 48 45;
+  --muted: 45 40 38;
+  --muted-foreground: 166 156 150;
 
-  --text-dark: 250 250 249;
-  --text-medium: 214 211 209;
-  --text-light: 168 162 158;
+  --text-dark: 245 242 240;
+  --text-medium: 200 190 185;
+  --text-light: 140 130 125;
 
-  --primary: 34 197 94;
-  --primary-light: 74 222 128;
-  --primary-dark: 21 128 61;
-  --primary-foreground: 12 10 9;
+  --primary: 180 160 145; /* Lighter brown/tan for dark mode readability */
+  --primary-light: 210 195 185;
+  --primary-dark: 140 120 105;
+  --primary-foreground: 24 20 18;
 
-  --green: 74 222 128;
-  --green-light: 134 239 172;
-  --green-dark: 21 128 61;
+  --green: 180 160 145;
+  --green-light: 210 195 185;
+  --green-dark: 140 120 105;
 
-  --neutral-light: 68 64 60;
-  --neutral-medium: 120 113 108;
+  --neutral-light: 55 48 45;
+  --neutral-medium: 120 110 100;
 
   --danger: 248 113 113;
-  --success: 74 222 128;
+  --success: 180 160 145;
 }
 
 body {
