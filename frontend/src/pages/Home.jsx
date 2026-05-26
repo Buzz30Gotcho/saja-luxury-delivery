@@ -42,30 +42,43 @@ const Home = () => {
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-7 space-y-8 md:space-y-10">
+            <motion.div initial="hidden" animate="visible" variants={stagger} className="lg:col-span-8 space-y-8 md:space-y-12">
               <motion.div variants={fadeUp} custom={0}>
-                <span className="text-[10px] md:text-[11px] tracking-[0.5em] md:tracking-[0.8em] uppercase font-black text-[#A69F95] mb-4 md:mb-6 block">
-                  SAJA &bull; Excellence
-                </span>
-                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[90px] font-serif leading-[1.1] md:leading-[0.95] text-text-dark tracking-tighter">
-                  Le luxe,<br className="hidden sm:block" />
-                  <span className="italic font-light text-[#A69F95] sm:pl-16 block sm:inline mt-2 sm:mt-0">
-                    sans attente.
+                <div className="flex items-center gap-4 mb-6 md:mb-8">
+                  <div className="w-12 h-[1px] bg-[#A69F95]" />
+                  <span className="text-[10px] md:text-[11px] tracking-[0.5em] md:tracking-[0.8em] uppercase font-black text-[#A69F95]">
+                    Maison de Prestige
                   </span>
+                </div>
+                <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[150px] font-serif leading-[0.85] text-text-dark tracking-tighter relative">
+                  SAJA
+                  <motion.span 
+                    initial={{ width: 0 }}
+                    animate={{ width: '100px' }}
+                    transition={{ delay: 0.8, duration: 1 }}
+                    className="absolute -bottom-4 left-0 h-[2px] bg-black hidden lg:block"
+                  />
                 </h1>
+                <div className="mt-6 md:mt-10">
+                  <h2 className="text-3xl md:text-5xl font-serif italic font-light text-[#A69F95] leading-tight">
+                    L'excellence,<br className="sm:hidden" />
+                    <span className="sm:pl-20">sans attente.</span>
+                  </h2>
+                </div>
               </motion.div>
 
               <motion.p variants={fadeUp} custom={1} className="text-base md:text-xl text-text-medium font-light leading-relaxed max-w-xl italic">
-                Une sélection exclusive de boutiques et de pièces rares, livrées avec une précision absolue à votre porte.
+                Une curation exclusive de pièces d'exception, livrées avec une précision absolue. L'art de vivre réinventé pour l'élite contemporaine.
               </motion.p>
 
-              <motion.div variants={fadeUp} custom={2} className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-stretch sm:items-center pt-4">
-                <Link to="/shops" className="group relative inline-block bg-black text-white px-10 md:px-14 py-5 md:py-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black overflow-hidden transition-all duration-500 text-center">
+              <motion.div variants={fadeUp} custom={2} className="flex flex-col sm:flex-row gap-8 items-stretch sm:items-center pt-8">
+                <Link to="/shops" className="group relative inline-block bg-black text-white px-10 md:px-16 py-5 md:py-6 text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-black overflow-hidden transition-all duration-500 text-center">
                   <span className="relative z-10 group-hover:text-black transition-colors duration-500">Explorer l'univers</span>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </Link>
-                <Link to="/catalogue" className="group flex items-center justify-center sm:justify-start gap-4 text-[10px] md:text-[11px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black text-text-dark hover:text-[#A69F95] transition-colors">
-                  <span>Voir le catalogue</span>
+                <Link to="/catalogue" className="group flex items-center justify-center sm:justify-start gap-4 text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-black text-text-dark hover:text-[#A69F95] transition-colors">
+                  <span>Le Catalogue</span>
+                  <div className="w-8 h-[1px] bg-text-dark group-hover:w-12 transition-all" />
                   <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                 </Link>
               </motion.div>
@@ -75,28 +88,26 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.95 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} 
-              className="lg:col-span-5 relative mt-16 lg:mt-0"
+              className="lg:col-span-4 relative mt-16 lg:mt-0"
             >
-              <div className="relative z-10 w-full max-w-[450px] lg:max-w-[520px] mx-auto lg:ml-auto">
-                <div className="aspect-[4/5] bg-white flex items-center justify-center shadow-2xl border-[8px] md:border-[14px] border-white relative group overflow-hidden">
-                  <div className="absolute inset-0 bg-[#F5F3EF] opacity-50" />
+              <div className="relative z-10 w-full max-w-[400px] lg:max-w-[450px] mx-auto lg:ml-auto">
+                <div className="aspect-square bg-white flex items-center justify-center shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] border-[1px] border-[#EAE8E4] relative group overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#FDFCFB] to-[#F5F3EF]" />
+                  <div className="absolute top-0 left-0 w-full h-full border-[20px] border-white z-20 pointer-events-none" />
                   <motion.img 
                     initial={{ scale: 0.8, opacity: 0 }} 
                     animate={{ scale: 1, opacity: 1 }} 
                     transition={{ duration: 1.5, ease: "easeOut" }} 
                     src={sajaLogo} 
-                    alt="SAJA Exclusive" 
-                    className="relative z-10 w-4/5 h-auto mix-blend-multiply transition-transform duration-1000 group-hover:scale-110" 
+                    alt="SAJA Seal" 
+                    className="relative z-10 w-3/4 h-auto mix-blend-multiply transition-transform duration-1000 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0" 
                   />
-                  <div className="absolute inset-0 border-[1px] border-black/5 m-4 pointer-events-none" />
-                </div>
-                <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 p-6 md:p-8 bg-white shadow-2xl hidden sm:block border border-[#EAE8E4] z-20">
-                  <div className="space-y-2">
-                    <p className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] font-black text-[#A69F95]">Signature</p>
-                    <p className="text-base md:text-lg font-serif italic text-text-dark leading-snug">L'excellence,<br/>à votre porte.</p>
-                    <div className="w-8 h-[1px] bg-text-dark mt-3 md:mt-4" />
+                  <div className="absolute bottom-8 right-8 z-30 opacity-20 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em]">Est. 2026</span>
                   </div>
                 </div>
+                <div className="absolute -top-12 -left-12 w-32 h-32 border border-[#EAE8E4] -z-10 rounded-full" />
+                <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-[#F5F3EF] -z-10 rounded-full blur-3xl opacity-50" />
               </div>
             </motion.div>
           </div>
