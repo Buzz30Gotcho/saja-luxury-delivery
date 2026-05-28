@@ -281,8 +281,8 @@ const Home = () => {
             ))}
           </motion.div>
 
-          <div className="mb-20">
-            <ConciergeServices showTitle={false} isOverview={true} />
+          <div className="mt-20">
+            <ConciergeServices showTitle={false} isMinimal={true} />
           </div>
         </div>
       </section>

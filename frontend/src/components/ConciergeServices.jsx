@@ -2,14 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Crown, Check, ShieldCheck, Zap, Sparkles, Diamond } from 'lucide-react';
 
-const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
+const ConciergeServices = ({ showTitle = true, isOverview = false, isMinimal = false }) => {
   const subscriptions = [
     {
       id: 'prestige',
-      title: 'Abonnement de Prestige',
+      title: 'Prestige',
+      fullTitle: 'Abonnement de Prestige',
       price: '600',
       period: 'mois',
-      icon: <Crown className={`${isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
+      icon: <Crown className={`${isMinimal ? 'w-5 h-5' : isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
       features: [
         'Statut VIP & Priorité',
         "Sérénité d'entretien",
@@ -17,16 +18,17 @@ const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
         'Bilan vestimentaire trimestriel',
         'Retouches de base offertes'
       ],
-      description: 'L\'excellence au quotidien pour nos membres privilégiés.',
+      description: 'L\'excellence au quotidien.',
       color: 'bg-white',
       border: 'border-border'
     },
     {
       id: 'elite',
-      title: "Abonnement d'Élite",
+      title: 'Élite',
+      fullTitle: "Abonnement d'Élite",
       price: '1 500',
       period: 'mois',
-      icon: <Diamond className={`${isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
+      icon: <Diamond className={`${isMinimal ? 'w-5 h-5' : isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
       features: [
         'Service "No Limit"',
         'Itinérance VIP / Room-Service',
@@ -35,7 +37,7 @@ const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
         'Sourcing "Introuvable"',
         'Accès aux services Prestige'
       ],
-      description: 'L\'expérience ultime du luxe sans aucune limite.',
+      description: 'L\'expérience ultime sans limite.',
       color: 'bg-white',
       border: 'border-text-dark',
       highlight: true
@@ -56,6 +58,34 @@ const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
+
+  if (isMinimal) {
+    return (
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 py-6 border-y border-border"
+      >
+        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#A69F95]">Abonnements</span>
+        {subscriptions.map((sub) => (
+          <div key={sub.id} className="flex items-center gap-4 group cursor-pointer">
+            <div className="p-2 bg-[#FDFCFB] border border-border group-hover:bg-text-dark group-hover:text-white transition-all">
+              {sub.icon}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-text-dark">{sub.title}</span>
+              <span className="text-[10px] text-[#A69F95]">{sub.price}€ / mois</span>
+            </div>
+          </div>
+        ))}
+        <button className="text-[10px] font-black uppercase tracking-[0.2em] text-text-dark border-b border-text-dark pb-0.5 ml-4 hover:opacity-60 transition-opacity">
+          En savoir plus
+        </button>
+      </motion.div>
+    );
+  }
 
   if (isOverview) {
     return (
@@ -84,7 +114,7 @@ const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
             
             <div className="space-y-2 mb-6">
               <h3 className="text-sm font-black uppercase tracking-[0.2em] text-text-dark">
-                {sub.title}
+                {sub.fullTitle}
               </h3>
               <p className="text-xs text-[#8C867E] leading-relaxed italic">
                 {sub.description}
@@ -144,7 +174,7 @@ const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
             </div>
 
             <h3 className="text-xl font-bold text-text-dark uppercase tracking-widest mb-8">
-              {sub.title}
+              {sub.fullTitle}
             </h3>
 
             <ul className="space-y-5 flex-grow mb-10">
