@@ -5,6 +5,7 @@ import UserProfile from '../components/UserProfile';
 import OrderHistory from '../components/OrderHistory';
 import AddressManager from '../components/AddressManager';
 import PaymentMethods from '../components/PaymentMethods';
+import ConciergeServices from '../components/ConciergeServices';
 import { motion } from "framer-motion";
 
 import sajaLogo from '/saja.png';
@@ -33,6 +34,8 @@ const DashboardUser = () => {
         return <AddressManager user={user} />;
       case 'payment':
         return <PaymentMethods user={user} />;
+      case 'concierge':
+        return <ConciergeServices />;
       default:
         return <UserProfile user={user} />;
     }

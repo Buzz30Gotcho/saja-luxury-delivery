@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User, Package, MapPin, CreditCard, LogOut, ChevronRight } from 'lucide-react';
+import { User, Package, MapPin, CreditCard, LogOut, ChevronRight, Star } from 'lucide-react';
 
 const UserSidebar = ({ user, activeSection, setActiveSection }) => {
   const { logout } = useAuth();
@@ -10,6 +10,7 @@ const UserSidebar = ({ user, activeSection, setActiveSection }) => {
     { id: 'orders', label: 'Mes Commandes', icon: <Package size={20} /> },
     { id: 'addresses', label: 'Adresses', icon: <MapPin size={20} /> },
     { id: 'payment', label: 'Paiement', icon: <CreditCard size={20} /> },
+    { id: 'concierge', label: 'Conciergerie', icon: <Star size={20} /> },
   ];
 
   return (
