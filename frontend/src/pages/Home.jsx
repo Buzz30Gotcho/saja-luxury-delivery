@@ -284,36 +284,6 @@ const Home = () => {
           <div className="mb-20">
             <ConciergeServices showTitle={false} isOverview={true} />
           </div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="text-center"
-          >
-            <div className="inline-block bg-white border border-[#EAE8E4] p-10 md:p-14 shadow-sm">
-              <div className="flex flex-col md:flex-row items-center gap-10 md:gap-20">
-                <div className="text-center md:text-left space-y-2">
-                  <p className="text-xs text-[#A69F95] uppercase tracking-[0.4em] font-black">
-                    Livraison offerte
-                  </p>
-                  <p className="text-2xl md:text-3xl font-serif text-text-dark">
-                    Dès 150€ d'achat
-                  </p>
-                </div>
-                <div className="hidden md:block w-[1px] h-12 bg-[#EAE8E4]" />
-                <div className="text-center md:text-left space-y-2">
-                  <p className="text-xs text-[#A69F95] uppercase tracking-[0.4em] font-black">
-                    Retours gratuits
-                  </p>
-                  <p className="text-2xl md:text-3xl font-serif text-text-dark">
-                    Sous 30 jours
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
