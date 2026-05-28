@@ -282,7 +282,7 @@ const Home = () => {
           </motion.div>
 
           <div className="mt-20">
-            <ConciergeServices showTitle={false} isMinimal={true} />
+            <ConciergeServices showTitle={false} isOverview={true} />
           </div>
         </div>
       </section>

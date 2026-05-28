@@ -94,35 +94,35 @@ const ConciergeServices = ({ showTitle = true, isOverview = false, isMinimal = f
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto"
       >
         {subscriptions.map((sub) => (
           <motion.div
             key={sub.id}
             variants={itemVariants}
-            className={`relative p-8 border ${sub.border} ${sub.color} hover:shadow-xl transition-all duration-500 group flex flex-col justify-between`}
+            className={`relative p-6 border ${sub.border} ${sub.color} hover:shadow-lg transition-all duration-500 group flex flex-col justify-between overflow-hidden`}
           >
-            <div className="flex justify-between items-start mb-6">
-              <div className="p-3 bg-[#FDFCFB] border border-border group-hover:bg-text-dark group-hover:text-white transition-colors duration-500">
-                {sub.icon}
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-[#FDFCFB] border border-border group-hover:bg-text-dark group-hover:text-white transition-colors duration-500">
+                  {sub.icon}
+                </div>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-text-dark">
+                  {sub.title}
+                </h3>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-serif text-text-dark">{sub.price}€</span>
-                <span className="text-[9px] text-[#A69F95] uppercase tracking-widest block">/ mois</span>
+                <span className="text-lg font-serif text-text-dark">{sub.price}€</span>
+                <span className="text-[8px] text-[#A69F95] uppercase tracking-widest block">/ mois</span>
               </div>
             </div>
             
-            <div className="space-y-2 mb-6">
-              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-text-dark">
-                {sub.fullTitle}
-              </h3>
-              <p className="text-xs text-[#8C867E] leading-relaxed italic">
-                {sub.description}
-              </p>
-            </div>
+            <p className="text-[11px] text-[#8C867E] leading-relaxed italic mb-4 line-clamp-2">
+              {sub.description}
+            </p>
 
-            <button className="text-[10px] font-black uppercase tracking-[0.3em] text-text-dark flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">
-              Découvrir l'offre <span className="text-lg">→</span>
+            <button className="text-[9px] font-black uppercase tracking-[0.3em] text-text-dark flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+              Voir les privilèges <span className="text-base">→</span>
             </button>
           </motion.div>
         ))}
