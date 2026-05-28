@@ -2,14 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, Crown, Check, ShieldCheck, Zap, Sparkles, Diamond } from 'lucide-react';
 
-const ConciergeServices = () => {
+const ConciergeServices = ({ showTitle = true, isOverview = false }) => {
   const subscriptions = [
     {
       id: 'prestige',
       title: 'Abonnement de Prestige',
       price: '600',
       period: 'mois',
-      icon: <Crown className="w-8 h-8 text-text-dark" strokeWidth={1} />,
+      icon: <Crown className={`${isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
       features: [
         'Statut VIP & Priorité',
         "Sérénité d'entretien",
@@ -17,6 +17,7 @@ const ConciergeServices = () => {
         'Bilan vestimentaire trimestriel',
         'Retouches de base offertes'
       ],
+      description: 'L\'excellence au quotidien pour nos membres privilégiés.',
       color: 'bg-white',
       border: 'border-border'
     },
@@ -25,15 +26,16 @@ const ConciergeServices = () => {
       title: "Abonnement d'Élite",
       price: '1 500',
       period: 'mois',
-      icon: <Diamond className="w-8 h-8 text-text-dark" strokeWidth={1} />,
+      icon: <Diamond className={`${isOverview ? 'w-6 h-6' : 'w-8 h-8'} text-text-dark`} strokeWidth={1} />,
       features: [
         'Service "No Limit"',
         'Itinérance VIP / Room-Service',
         'Frais de livraison annulés',
         'Accompagnement intégral',
         'Sourcing "Introuvable"',
-        'Accès aux services de la formule Prestige'
+        'Accès aux services Prestige'
       ],
+      description: 'L\'expérience ultime du luxe sans aucune limite.',
       color: 'bg-white',
       border: 'border-text-dark',
       highlight: true
@@ -55,16 +57,61 @@ const ConciergeServices = () => {
     visible: { opacity: 1, y: 0 }
   };
 
+  if (isOverview) {
+    return (
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+      >
+        {subscriptions.map((sub) => (
+          <motion.div
+            key={sub.id}
+            variants={itemVariants}
+            className={`relative p-8 border ${sub.border} ${sub.color} hover:shadow-xl transition-all duration-500 group flex flex-col justify-between`}
+          >
+            <div className="flex justify-between items-start mb-6">
+              <div className="p-3 bg-[#FDFCFB] border border-border group-hover:bg-text-dark group-hover:text-white transition-colors duration-500">
+                {sub.icon}
+              </div>
+              <div className="text-right">
+                <span className="text-2xl font-serif text-text-dark">{sub.price}€</span>
+                <span className="text-[9px] text-[#A69F95] uppercase tracking-widest block">/ mois</span>
+              </div>
+            </div>
+            
+            <div className="space-y-2 mb-6">
+              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-text-dark">
+                {sub.title}
+              </h3>
+              <p className="text-xs text-[#8C867E] leading-relaxed italic">
+                {sub.description}
+              </p>
+            </div>
+
+            <button className="text-[10px] font-black uppercase tracking-[0.3em] text-text-dark flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">
+              Découvrir l'offre <span className="text-lg">→</span>
+            </button>
+          </motion.div>
+        ))}
+      </motion.div>
+    );
+  }
+
   return (
     <div className="space-y-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-serif text-text-dark tracking-tight">Services Conciergerie</h2>
-          <p className="text-sm text-[#A69F95] uppercase tracking-[0.2em] font-medium">
-            Des privilèges exclusifs pour nos membres les plus exigeants
-          </p>
+      {showTitle && (
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-serif text-text-dark tracking-tight">Services Conciergerie</h2>
+            <p className="text-sm text-[#A69F95] uppercase tracking-[0.2em] font-medium">
+              Des privilèges exclusifs pour nos membres les plus exigeants
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <motion.div 
         variants={containerVariants}

@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import sajaLogo from '/saja.png';
 import { Truck, ArrowRight, Package, Clock, Shield, Search, Star, Zap, Flame } from 'lucide-react';
 import ShopCard from '../components/ShopCard';
+import ConciergeServices from '../components/ConciergeServices';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -279,6 +280,10 @@ const Home = () => {
               </motion.div>
             ))}
           </motion.div>
+
+          <div className="mb-20">
+            <ConciergeServices showTitle={false} isOverview={true} />
+          </div>
 
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
