@@ -191,7 +191,7 @@ const Home = () => {
       </section>
 
       {/* 4. Premium Delivery - Luxury Service */}
-      <section className="relative py-28 md:py-40 bg-[#FDFCFB] overflow-hidden border-b border-border">
+      <section className="relative py-16 md:py-24 bg-[#FDFCFB] overflow-hidden border-b border-border">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute inset-0" style={{ 
             backgroundImage: 'radial-gradient(circle at 2px 2px, #D4D1CC 1px, transparent 0)', 
@@ -281,7 +281,7 @@ const Home = () => {
             ))}
           </motion.div>
 
-          <div className="mt-20">
+          <div className="mt-12">
             <ConciergeServices showTitle={false} isOverview={true} />
           </div>
         </div>
