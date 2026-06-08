@@ -26,7 +26,6 @@ L'application repose sur **trois espaces distincts**, chacun avec son propre par
 | Espace | URL | Rôle |
 |---|---|---|
 | Client | `/` | Parcourir les boutiques, commander, suivre les livraisons |
-| Commerçant | `/merchant/...` | Gérer sa boutique, ses produits et ses commandes |
 | Coursier | `/coursier/...` | Accepter et gérer les missions de livraison |
 
 ---
@@ -40,13 +39,6 @@ L'application repose sur **trois espaces distincts**, chacun avec son propre par
 - Panier persistant et processus de commande (checkout)
 - Suivi de commande en temps réel (`/order-tracking/:id`)
 - Compte utilisateur (historique, adresses, moyens de paiement)
-
-### Côté Commerçant
-- Inscription et connexion commerçant indépendantes
-- Dashboard avec statistiques (ventes, commandes, analytics)
-- Gestion des produits (ajout, modification, suppression)
-- Gestion de la boutique (infos, horaires)
-- Suivi des commandes reçues
 
 ### Côté Coursier
 - Inscription et connexion coursier indépendantes
@@ -115,7 +107,6 @@ L'application repose sur **trois espaces distincts**, chacun avec son propre par
 │       │   ├── CartPage.jsx / Checkout.jsx
 │       │   ├── OrderTracking.jsx
 │       │   ├── CompteUser.jsx
-│       │   ├── merchant/     # Dashboard commerçant
 │       │   └── coursier/     # Dashboard coursier
 │       ├── components/       # Composants réutilisables
 │       ├── context/          # Auth, Panier, Livraison, Thème
