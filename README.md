@@ -2,7 +2,9 @@
 
 > Projet académique Ynov · Ydays 2025
 
-SAJA est une plateforme e-commerce haut de gamme dédiée à la livraison de produits de luxe. Elle connecte trois types d'acteurs : les **clients**, les **commerçants** (boutiques partenaires) et les **coursiers**.
+SAJA est une plateforme e-commerce haut de gamme dédiée à la livraison de produits de luxe. Elle connecte deux types d'acteurs : les **clients** et les **coursiers**.
+
+> **Note :** L'espace commerçant a été pensé dans la conception du projet (à la manière d'Uber Eats avec ses restaurants partenaires), mais n'a pas pu être complètement développé faute de boutiques de luxe réellement partenaires. C'est un projet académique — cette partie reste une évolution future si le projet venait à se concrétiser.
 
 ---
 
