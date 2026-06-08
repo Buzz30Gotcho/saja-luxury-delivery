@@ -1,141 +1,213 @@
+# SAJA — Conciergerie de Livraison de Luxe
+
+> Projet académique Ynov · Ydays 2025
+
+SAJA est une plateforme e-commerce haut de gamme dédiée à la livraison de produits de luxe. Elle connecte trois types d'acteurs : les **clients**, les **commerçants** (boutiques partenaires) et les **coursiers**.
+
+---
+
 ## Sommaire
 
-* [Présentation du projet](#présentation-du-projet)
-
-  * [Contexte et ambitions](#contexte-et-ambitions)
-* [Objectifs du projet](#objectifs-du-projet)
-* [Stack technique](#stack-technique)
-
-  * [Technologies utilisées](#technologies-utilisées)
-  * [Explications des technologies](#explications-des-technologies)
-* [Architecture du projet](#architecture-du-projet)
-* [Lancement du projet](#lancement-du-projet)
-* [Illustration](#illustration)
-* [Évolutions possibles](#évolutions-possibles)
+- [Présentation](#présentation)
+- [Fonctionnalités](#fonctionnalités)
+- [Stack technique](#stack-technique)
+- [Architecture](#architecture)
+- [Installation et lancement](#installation-et-lancement)
+- [Variables d'environnement](#variables-denvironnement)
+- [API — Endpoints principaux](#api--endpoints-principaux)
+- [Équipe](#équipe)
 
 ---
 
-## Présentation du projet
+## Présentation
 
-Le projet **Ydays 2025** a pour objectif de développer une **plateforme de livraison entre commerces de proximité**, exclusivement dédiée aux **magasins de luxe**.
+L'application repose sur **trois espaces distincts**, chacun avec son propre parcours d'authentification et ses propres interfaces :
 
-L’application se veut **rapide, moderne, responsive et simple d’utilisation**, tant pour les commerçants que pour les coursiers et les administrateurs.
-
-### Contexte et ambitions
-
-Ce projet s’inscrit dans le cadre de la formation **Ynov**, où les étudiants doivent concevoir et développer un projet concret sur une période donnée (Ydays).
-L’ambition est de créer une **solution de livraison haut de gamme**, permettant aux boutiques de luxe de proposer à leurs clients un service rapide et sécurisé, tout en favorisant le commerce local.
-
-Nous cherchons à :
-
-* Expérimenter des **technologies modernes** (React, Node.js, Supabase) dans un contexte réel
-* Développer un **service premium de livraison locale**
-* Fournir une **plateforme évolutive**, modulable et scalable
-* Garantir une **expérience utilisateur haut de gamme** et sécurisée
+| Espace | URL | Rôle |
+|---|---|---|
+| Client | `/` | Parcourir les boutiques, commander, suivre les livraisons |
+| Commerçant | `/merchant/...` | Gérer sa boutique, ses produits et ses commandes |
+| Coursier | `/coursier/...` | Accepter et gérer les missions de livraison |
 
 ---
 
-## Objectifs du projet
+## Fonctionnalités
 
-* Créer une application web complète (front-end et back-end) pour gérer commandes et livraisons
-* Permettre aux commerces de luxe de **recevoir, gérer et expédier leurs commandes** rapidement
-* Mettre en place un **système de coursiers** optimisé pour le luxe
-* Intégrer un **filtrage géographique** pour afficher les commerces et livraisons proches
-* Assurer la **sécurité et la fiabilité des données sensibles**
-* Prévoir une interface **ergonomique et élégante**, adaptée à une clientèle premium
+### Côté Client
+- Page d'accueil avec sélection de boutiques et produits mis en avant
+- Catalogue produits avec filtrage par catégorie
+- Fiche produit détaillée avec produits similaires
+- Panier persistant et processus de commande (checkout)
+- Suivi de commande en temps réel (`/order-tracking/:id`)
+- Compte utilisateur (historique, adresses, moyens de paiement)
+
+### Côté Commerçant
+- Inscription et connexion commerçant indépendantes
+- Dashboard avec statistiques (ventes, commandes, analytics)
+- Gestion des produits (ajout, modification, suppression)
+- Gestion de la boutique (infos, horaires)
+- Suivi des commandes reçues
+
+### Côté Coursier
+- Inscription et connexion coursier indépendantes
+- Dashboard en temps réel avec :
+  - Statut de disponibilité (En ligne / Hors ligne)
+  - Géolocalisation GPS envoyée en continu quand disponible
+  - Liste des missions disponibles
+  - Mission active avec timeline de progression
+- Progression du statut de livraison : `courier_assigned → picked_up → on_the_way → delivered`
+- Confirmation de livraison avec vérification d'identité client
+- Statistiques : gains totaux, nombre de livraisons, note
+- Historique des livraisons effectuées
 
 ---
 
 ## Stack technique
 
-### Technologies utilisées
+**Frontend**
+- React 19 + React Router v7
+- Tailwind CSS
+- Framer Motion (animations)
+- Lucide React (icônes)
+- Supabase JS (authentification client)
+- @react-google-maps/api (carte)
+- Vite + vite-plugin-pwa (PWA)
 
-**Front-end :**
+**Backend**
+- Node.js (ES Modules) + Express.js
+- Supabase (base de données PostgreSQL + authentification)
 
-* React
-* Tailwind CSS
-
-**Back-end :**
-
-* Node.js (Express.js)
-* Supabase (base de données & authentification)
-
-| **Front-end**                                                                                                                                                                                                                                            | **Back-end**                                                                                                                                                                                                                                           |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="40"/> **React**  <br> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind" width="40"/> **Tailwind CSS** | <img src="https://nodejs.org/static/images/logo.svg" alt="Node.js" width="45"/> **Node.js (Express.js)**  <br> <img src="https://logowik.com/content/uploads/images/supabase-icon1721342077.logowik.com.webp" alt="Supabase" width="40"/> **Supabase** |
-
----
-
-### Explications des technologies
-
-**React**
-Bibliothèque JavaScript pour créer des interfaces modernes et dynamiques, idéale pour une application web responsive et modulable.
-
-**Tailwind CSS**
-Framework CSS utilitaire pour concevoir rapidement une interface élégante et cohérente, adaptée à un service haut de gamme.
-
-**Node.js / Express.js**
-Serveur rapide et scalable, parfait pour gérer les commandes et livraisons en temps réel.
-
-**Supabase**
-Base de données sécurisée et système d’authentification, permettant de protéger les informations des boutiques et clients.
+**Déploiement**
+- Configuration nixpacks (Railway-compatible)
+- Le backend sert les fichiers statiques du frontend en production (SPA fullstack)
 
 ---
 
-## Architecture du projet
+## Architecture
 
-```text
-Projet-Ydays-2025/
+```
+/
 ├── backend/
-│   ├── controllers/
-│   ├── routes/
-│   ├── server.js
-│   └── supabaseClient.js
+│   ├── controllers/          # Logique métier
+│   │   ├── cartController.js
+│   │   ├── checkoutController.js
+│   │   ├── deliveryController.js
+│   │   ├── productsController.js
+│   │   └── shopsController.js
+│   ├── routes/               # Définition des routes API
+│   │   ├── index.js          # Router principal (/api)
+│   │   ├── cart.js
+│   │   ├── checkout.js
+│   │   ├── delivery.js
+│   │   ├── products.js
+│   │   └── shops.js
+│   ├── services/             # Appels Supabase
+│   ├── utils/
+│   ├── supabaseClient.js
+│   └── server.js             # Point d'entrée, sert aussi le frontend
+│
 ├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   └── services/
-│   └── vite.config.js
-├── package-lock.json
-└── README.md
+│   └── src/
+│       ├── pages/
+│       │   ├── Home.jsx
+│       │   ├── ShopList.jsx / ShopDetail.jsx
+│       │   ├── ProductCatalogue.jsx / ProductDetail.jsx
+│       │   ├── CartPage.jsx / Checkout.jsx
+│       │   ├── OrderTracking.jsx
+│       │   ├── CompteUser.jsx
+│       │   ├── merchant/     # Dashboard commerçant
+│       │   └── coursier/     # Dashboard coursier
+│       ├── components/       # Composants réutilisables
+│       ├── context/          # Auth, Panier, Livraison, Thème
+│       ├── hooks/            # Hooks custom (useShops, useOrders, etc.)
+│       ├── routes/           # Config routeur + routes protégées
+│       └── services/         # Appels API
+│
+├── nixpacks.toml             # Config déploiement
+└── package.json              # Scripts racine
 ```
 
 ---
 
-## Lancement du projet
+## Installation et lancement
 
-**Côté Front-end :**
+### Prérequis
+- Node.js >= 22.0.0
+- Un projet Supabase configuré (voir [Variables d'environnement](#variables-denvironnement))
+
+### Développement local
 
 ```bash
+# 1. Installer les dépendances (frontend + backend)
+npm run install:all
+
+# 2. Lancer le backend (port 4000 par défaut)
+cd backend
+npm start
+
+# 3. Lancer le frontend (dans un second terminal)
 cd frontend
-npm install
 npm run dev
 ```
 
-**Côté Back-end :**
+Le frontend est accessible sur `http://localhost:5173` et communique avec le backend sur `http://localhost:4000`.
+
+### Production (build)
 
 ```bash
-cd backend
-npm install
+# Build du frontend
+npm run build
+
+# Lancer le serveur (sert aussi le frontend compilé)
 npm start
+```
+
+Le serveur Express sert les fichiers buildés depuis `frontend/dist/`. Un seul port suffit en production.
+
+---
+
+## Variables d'environnement
+
+### `backend/.env`
+
+```env
+SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+PORT=4000
+```
+
+### `frontend/.env`
+
+```env
+VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_key
 ```
 
 ---
 
-## Illustration
+## API — Endpoints principaux
 
-*(Ajouter vos captures d’écran ou diagrammes illustrant le service premium et l’interface boutique / coursier)*
+Tous les endpoints sont préfixés par `/api`.
+
+| Méthode | Route | Description |
+|---|---|---|
+| `GET` | `/api/health` | Vérification de l'état du serveur |
+| `GET` | `/api/products` | Liste des produits |
+| `GET` | `/api/shops` | Liste des boutiques |
+| `GET` | `/api/cart` | Contenu du panier |
+| `POST` | `/api/checkout` | Passer une commande |
+| `GET` | `/api/delivery/missions/available` | Missions disponibles pour les coursiers |
+| `POST` | `/api/delivery/accept/:orderId` | Accepter une mission |
+| `GET` | `/api/delivery/missions/courier/:courierId` | Missions d'un coursier |
+| `PATCH` | `/api/delivery/status/:orderId` | Mettre à jour le statut d'une livraison |
+| `PATCH` | `/api/delivery/courier/:courierId/availability` | Disponibilité du coursier |
+| `PATCH` | `/api/delivery/courier/:courierId/location` | Position GPS du coursier |
+| `GET` | `/api/delivery/track/:orderId` | Tracking d'une commande |
+| `GET` | `/api/delivery/courier/:courierId/stats` | Statistiques du coursier |
 
 ---
 
-## Évolutions possibles
+## Équipe
 
-* Ajouter **latitude / longitude** pour chaque boutique et livraison
-* Calculer **distances et itinéraires optimisés** pour les coursiers
-* Débloquer plusieurs villes ou quartiers pour étendre le service
-* **Système de paiement sécurisé** (Stripe, cartes premium)
-* Application mobile pour les clients et les coursiers (**React Native**)
-* Intégration avancée avec **Google Maps** pour un suivi temps réel
+Projet réalisé dans le cadre des **Ydays Ynov 2025** par une équipe pluridisciplinaire composée de chefs de projet, créatifs et développeurs.
