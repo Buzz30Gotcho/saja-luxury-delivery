@@ -15,6 +15,7 @@ SAJA est une plateforme e-commerce haut de gamme dédiée à la livraison de pro
 - [Stack technique](#stack-technique)
 - [Architecture](#architecture)
 - [Installation et lancement](#installation-et-lancement)
+- [Base de données](#base-de-données)
 - [Variables d'environnement](#variables-denvironnement)
 - [API — Endpoints principaux](#api--endpoints-principaux)
 - [Équipe](#équipe)
@@ -145,6 +146,8 @@ npm run dev
 
 Le frontend est accessible sur `http://localhost:5173` et communique avec le backend sur `http://localhost:4000`.
 
+> Avant le premier lancement, initialise ta base Supabase avec [`database/schema.sql`](#base-de-données).
+
 ### Production (build)
 
 ```bash
@@ -156,6 +159,22 @@ npm start
 ```
 
 Le serveur Express sert les fichiers buildés depuis `frontend/dist/`. Un seul port suffit en production.
+
+---
+
+## Base de données
+
+La base de données est hébergée sur **Supabase (PostgreSQL)**. Après avoir créé un projet Supabase, initialise la base avec le schéma fourni :
+
+1. Ouvre ton projet sur [supabase.com](https://supabase.com) → **SQL Editor** → **New query**
+2. Copie-colle le contenu de [`database/schema.sql`](database/schema.sql)
+3. Clique sur **Run**
+
+Ce script crée l'ensemble du schéma (tables, types ENUM, index, triggers et politiques de sécurité RLS) et insère un jeu de données de démonstration pour le catalogue (11 boutiques + produits associés).
+
+> ⚠️ **Attention :** le script commence par supprimer les tables existantes (`DROP TABLE ... CASCADE`) avant de tout recréer. À exécuter sur un **projet Supabase neuf** ou en connaissance de cause — il efface les données présentes.
+
+> **Note :** seules les boutiques et produits sont pré-remplis. Les données transactionnelles et personnelles (commandes, paniers, profils, coursiers) se créent à l'usage de l'application via l'authentification Supabase.
 
 ---
 
