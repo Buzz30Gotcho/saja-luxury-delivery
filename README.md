@@ -18,6 +18,7 @@ SAJA est une plateforme e-commerce haut de gamme dédiée à la livraison de pro
 - [Base de données](#base-de-données)
 - [Variables d'environnement](#variables-denvironnement)
 - [API — Endpoints principaux](#api--endpoints-principaux)
+- [Difficultés rencontrées](#difficultés-rencontrées)
 - [Équipe](#équipe)
 
 ---
@@ -217,6 +218,36 @@ Tous les endpoints sont préfixés par `/api`.
 | `PATCH` | `/api/delivery/courier/:courierId/location` | Position GPS du coursier |
 | `GET` | `/api/delivery/track/:orderId` | Tracking d'une commande |
 | `GET` | `/api/delivery/courier/:courierId/stats` | Statistiques du coursier |
+
+---
+
+## Difficultés rencontrées
+
+Ce projet a soulevé plusieurs défis techniques, principalement liés à la dimension **temps réel** et **géolocalisation** de la livraison.
+
+### 1. Suivi de livraison « temps réel »
+Le suivi de commande et la mise à jour des missions côté coursier devaient paraître instantanés. Plutôt que de mettre en place des WebSockets / Supabase Realtime (lourds à sécuriser et à maintenir dans le temps imparti), nous avons opté pour du **polling** côté client (`setInterval` dans `OrderTracking.jsx`). Le compromis : simplicité de mise en œuvre, mais latence et nombre de requêtes à calibrer pour ne pas surcharger l'API.
+
+### 2. Géolocalisation GPS du coursier
+L'envoi continu de la position du coursier (`navigator.geolocation.watchPosition`) a demandé de gérer :
+- les **permissions navigateur** et l'obligation d'un contexte **HTTPS** (la géolocalisation est bloquée en HTTP),
+- la **consommation batterie / fréquence** des envois de position (`PATCH /delivery/courier/:id/location`),
+- les cas où l'utilisateur refuse la localisation ou passe hors ligne.
+
+### 3. Géocodage des adresses de livraison
+La conversion d'une adresse texte en coordonnées (Google Maps Geocoding API, côté backend) échoue sur certaines adresses mal formées ou introuvables. Il a fallu prévoir un **fallback** (`buildFallbackDropoffFromShop`) qui estime un point de dépôt à partir de la boutique, ainsi qu'un **calcul de distance / ETA maison** (formule de Haversine + vitesse moyenne) faute d'API de routing dédiée.
+
+### 4. Gestion des rôles et authentification multi-espaces
+Faire cohabiter trois parcours d'authentification (client, coursier, commerçant) avec Supabase a posé un problème de **source de vérité du rôle** : le rôle existe à la fois dans `user_metadata` (Supabase Auth) et dans la table `profiles`. Un bug de synchronisation « rétrogradait » par erreur un coursier en client lors du rafraîchissement de session — corrigé en priorisant le rôle déjà connu (`AuthProvider.jsx`).
+
+### 5. Routing SPA en production
+React Router gère la navigation côté client, mais en production un rafraîchissement sur une URL profonde (ex. `/order-tracking/42`) renvoyait un **404**. Il a fallu configurer un **fallback SPA** à deux endroits selon l'hébergeur : `app.get('*')` côté Express (le backend sert le build du frontend) et un `vercel.json` dédié pour le déploiement sur Vercel.
+
+### 6. Sécurité des données (RLS Supabase)
+La mise en place des **politiques Row Level Security** a demandé de bien séparer les accès : clé `anon` côté frontend (accès restreint par l'utilisateur connecté) et `service_role` côté backend (accès élargi). Mal réglées, les policies bloquaient des lectures légitimes ou, à l'inverse, exposaient trop de données.
+
+### 7. Contrainte de périmètre
+Enfin, dans le temps imparti, l'**espace commerçant** a été architecturé (routes protégées, place dans le modèle de données) mais pas finalisé, afin de livrer des parcours client et coursier complets et fonctionnels.
 
 ---
 
